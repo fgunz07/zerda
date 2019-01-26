@@ -15,8 +15,13 @@
     <!-- lib css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/bower_components/Ionicons/css/ionicons.min.css') }}">
+    
+    @yield('custom_css')
+
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/dist/css/AdminLTE.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/plugins/iCheck/square/blue.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('lib/dist/css/skins/_all-skins.min.css') }}">
 
 </head>
 <body>

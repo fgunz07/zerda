@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -48,11 +50,28 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
-        ]);
+
+        $rules = [
+            'first_name' => 'required|string',
+            'last_name'  => 'required|string',
+            'email'      => 'required|email|string|unique:users',
+            'password'   => 'required|string|confirmed',
+            'country_id' => 'required|integer',
+        ];
+
+        $messages = [
+            'first_name.required'   => 'Firstname is required.',
+            'last_name.required'    => 'Lastname is required.',
+            'email.required'        => 'Email is required',
+            'email.unique'          => 'Email already in used.',
+            'email.email'           => 'Email Invalid format.',
+            'password.required'     => 'Password is required.',
+            'password.confirmed'    => 'Password does not match.',
+            'country_id.required'   => 'Please select a country.',
+            'country_id.integer'    => 'Country format is invalid.',
+        ];
+
+        return Validator::make($data, $rules, $messages);
     }
 
     /**
@@ -63,10 +82,43 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'first_name'    => $data['first_name'],
+            'last_name'     => $data['last_name'],
+            'middle_name'   => $data['middle_name'],
+            'email'         => $data['email'],
+            'country_id'    => $data['country_id'],
+            'password'      => Hash::make($data['password']),
         ]);
     }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        // $this->validator($request->all())->validate();
+
+        $validate = $this->validator($request->toArray());
+
+        if($validate->fails()) {
+
+            return response()->json(['status' => false , 'errors' => $validate->errors()], 422);
+
+        }
+
+        event(new Registered($user = $this->create($request->all())));
+
+        return response()->json(['status' => true, 'message' => 'User created.']);
+
+        // $this->guard()->login($user);
+
+        // return $this->registered($request, $user)
+        //                 ?: redirect($this->redirectPath());
+    }
+
 }

@@ -10,10 +10,5 @@ const http = options => {
 			.always(() => {
 				// will always execute
 			})
-			.fail(err => {
-				// if error
-				
-				swal('Error!', err.responseText, 'error')
-			})
 
 }

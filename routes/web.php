@@ -15,10 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/oauth-facebook', 'FacebookController@getFacebookInfo');
+Route::get('/oauth-facebook', 'FacebookController@getAuthFacebook')->name('facebook.auth');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/oauth-callback', 'FacebookController@fbOauth');
 
 Auth::routes();
 
-// Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
