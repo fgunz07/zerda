@@ -7,33 +7,63 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Google Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <title>{{ env('APP_NAME') }}</title>
 
     <!-- lib css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/bower_components/Ionicons/css/ionicons.min.css') }}">
-    
-    @yield('custom_css')
+    <link rel="stylesheet" type="text/css" href="{{ asset('lib/bower_components/font-awesome/css/font-awesome.min.css') }}">
 
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/dist/css/AdminLTE.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('lib/plugins/iCheck/square/blue.css') }}">
 
     <link rel="stylesheet" href="{{ asset('lib/dist/css/skins/_all-skins.min.css') }}">
 
+    @yield('custom_css')
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
 </head>
-<body>
-    <div id="app">
-        <main class="py-4">
-            @yield('content')
-        </main>
+<body class="hold-transition skin-purple-light sidebar-mini">
+    <!-- site wrapper -->
+    <div class="wrapper">
+        
+        @include('layouts.shared.header')
+
+        @include('layouts.shared.sidebar')
+
+        <div class="content-wrapper">
+            
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    Dashboard
+                    <small>Version 2.0</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active">Dashboard</li>
+                </ol>
+            </section>
+
+            <section class="content">
+                
+                @yield('content')
+
+            </section>
+
+        </div>
+
+        @include('layouts.shared.footer')
+
     </div>
 
     <!-- lib scripts -->
     <script type="text/javascript" src="{{ asset('lib/bower_components/jquery/dist/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('lib/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <script src="{{ asset('lib/bower_components/fastclick/lib/fastclick.js') }}"></script>
+    <script src="{{ asset('lib/dist/js/adminlte.min.js') }}"></script>
 
     <!-- CDN script's -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

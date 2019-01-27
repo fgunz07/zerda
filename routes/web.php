@@ -15,10 +15,24 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/oauth-facebook', 'FacebookController@getAuthFacebook')->name('facebook.auth');
+Route::get('oauth-facebook', 'FacebookController@getAuthFacebook')->name('facebook.auth');
 
-Route::get('/oauth-callback', 'FacebookController@fbOauth');
+Route::get('oauth-callback', 'FacebookController@fbOauth');
+
+Route::group(['prefix' => 'todo-app'] , function () {
+
+	Route::get('todos', 	'TodoController@index');
+
+	Route::get('todos-list', 'TodoController@listTodo');
+
+	Route::post('todos-list', 'TodoController@store');
+
+	Route::get('tasks-list', 'TaskController@listTask');
+
+	Route::post('tasks-list', 'TaskController@store');
+
+});
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('home', 'HomeController@index')->name('home');

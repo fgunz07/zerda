@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('custom_css')
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/bower_components/select2/dist/css/select2.min.css') }}">
