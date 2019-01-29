@@ -39,38 +39,6 @@
                         location.reload();
                     });
 
-                    // swal({
-                    //   title: "Are you sure?",
-                    //   text: "Once deleted, you will not be able to recover this imaginary file!",
-                    //   icon: "warning",
-                    //   buttons: true,
-                    //   dangerMode: true,
-                    // })
-                    // // .then((willDelete) => {
-                    //   // if (willDelete) {
-                    //   //   swal("Your imaginary file has been deleted!", {
-                    //   //     icon: "success",
-                    //   //   });
-                    //   //   location.reload();
-                    //   // } else  {
-                    //   //   swal("Your imaginary file is safe!");
-                    //   // }
-                    // // });
-                    // .then(function(result) {
-                    //   // handle confirm, result is needed for modals with input
-                    //   if (willDelete) {
-                    //     swal("Your imaginary file has been deleted!", {
-                    //       icon: "success",
-                    //     });
-                    //     location.reload();
-                    //   } 
-                    // }, function(dismiss) {
-                    //   // dismiss can be "cancel" | "close" | "outside"
-                    //   if (dismiss == 'cancel')  {
-                    //     swal("Your imaginary file is safe!");
-                    //   }
-                    // });
-
                     },
                     error: function(err){
                         swal('Error!','Please report this issue.', 'error');

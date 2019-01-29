@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/material-kit.min.css') }}">
 
 
     @yield('custom_css')
@@ -71,6 +72,8 @@
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
      <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('js/material-kit.min.js') }}"></script>
+   
 
     <!-- CDN script's -->
     {{-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}}
