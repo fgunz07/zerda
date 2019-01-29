@@ -48,3 +48,6 @@ Route::post('skills-store','SkillsController@store');
 Route::get('skills-edit/{id}','SkillsController@edit');
 Route::put('skills-update/{id}','SkillsController@update');
 Route::delete('skills-delete/{id}','SkillsController@destroy');
+
+//Profile
+Route::get('profile-show','ProfileController@show');
