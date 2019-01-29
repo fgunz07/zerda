@@ -11,6 +11,7 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/material-kit.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('lib/bower_components/font-awesome/css/font-awesome.min.css') }}">
       
     </head>
     <body>
@@ -31,16 +32,18 @@
                         <div class="card card-login">
                           <form class="form" method="" action="">
                             <div class="card-header card-header-primary text-center">
-                              <h4 class="card-title">Login</h4>
+                              <div>
+                                  <img src="{{url('/images/zerda2.png')}}" alt="Image"/>
+                              </div>
                               <div class="social-line">
                                 <a href="#pablo" class="btn btn-just-icon btn-link">
-                                  <i class="fa fa-facebook-square">facebook</i>
+                                  <i class="fa fa-facebook-square"></i>
                                 </a>
                                 <a href="#pablo" class="btn btn-just-icon btn-link">
-                                  <i class="fa fa-twitter">twitter</i>
+                                  <i class="fa fa-twitter"></i>
                                 </a>
                                 <a href="#pablo" class="btn btn-just-icon btn-link">
-                                  <i class="fa fa-google-plus">google</i>
+                                  <i class="fa fa-google-plus"></i>
                                 </a>
                               </div>
                             </div>
@@ -49,7 +52,7 @@
                               <div class="input-group">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">
-                                    <i class="material-icons">face</i>
+                                    <i class="fa fa-user"></i>
                                   </span>
                                 </div>
                                 <input type="text" class="form-control" placeholder="First Name...">
@@ -57,7 +60,7 @@
                               <div class="input-group">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">
-                                    <i class="material-icons">mail</i>
+                                    <i class="fa fa-envelope"></i>
                                   </span>
                                 </div>
                                 <input type="email" class="form-control" placeholder="Email...">
@@ -65,14 +68,14 @@
                               <div class="input-group">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">
-                                    <i class="material-icons">lock_outline</i>
+                                    <i class="fa fa-key"></i>
                                   </span>
                                 </div>
                                 <input type="password" class="form-control" placeholder="Password...">
                               </div>
                             </div>
                             <div class="footer text-center">
-                              <a href="#pablo" class="btn btn-primary btn-link btn-wd btn-lg">Get Started</a>
+                              <a href="#pablo" class="btn btn-primary btn-link btn-wd btn-lg">Register</a>
                             </div>
                           </form>
                         </div>
