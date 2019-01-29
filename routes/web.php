@@ -43,6 +43,10 @@ Route::group(['prefix' => 'todo-app'], function () {
 
 	Route::post('boards', 'BoardsController@store');
 
+	Route::delete('boards/{id}', 'BoardsController@delete');
+
+	Route::get('boards/{id}', 'BoardsController@show');
+
 });
 
 Route::get('home', 'HomeController@index')->name('home');

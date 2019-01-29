@@ -76,9 +76,44 @@
 @section('custom_script')
     <script type="text/javascript" src="{{ asset('js/http.js') }}"></script>
     <script type="text/javascript">
+        'use strict';
+
         (function() {
-            const arrayRadioBTN = document.querySelectorAll('.radio-class')
-            const arrayRadioLabel = document.querySelectorAll('.label')
+            const arrayRadioBTN     = document.querySelectorAll('.radio-class')
+            const arrayRadioLabel   = document.querySelectorAll('.label')
+            const deleteBoard       = null
+
+            window.addEventListener('click', function(e) {
+
+                let targetId = null
+                let options  = {} 
+
+                if(e.target.classList.contains('close')) {
+
+                    targetId = (e.target.id).split('-').pop()
+
+                    options = {
+                        url     : `/todo-app/boards/${targetId}`,
+                        method  : 'DELETE',
+                    }
+
+                    http(options)
+                        .done(res => {
+                            if(res.status) {
+                                swal('Success', res.message, 'success')
+
+                                loadBoard()
+
+                                return
+                            }
+                        })
+                        .fail(err => {
+
+                            swal('Error', err.responseJSON, 'error')
+
+                        })
+                }
+            })
 
             let currentSrcEl = null;
             let currentCheck = null;
