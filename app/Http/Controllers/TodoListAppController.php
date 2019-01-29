@@ -9,7 +9,7 @@ class TodoListAppController extends Controller
 
 	public function index() {
 
-		return view('apps.todolistApp.app');
+		return view('apps.todolistApp.pages.index');
 
 	}
 }

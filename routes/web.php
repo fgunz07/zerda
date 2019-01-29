@@ -39,6 +39,10 @@ Route::group(['prefix' => 'todo-app'], function () {
 
 	Route::get('boards', 'TodoListAppController@index')->name('todoboards');
 
+	Route::get('boards/list', 'BoardsController@index');
+
+	Route::post('boards', 'BoardsController@store');
+
 });
 
 Route::get('home', 'HomeController@index')->name('home');

@@ -35,7 +35,7 @@
       </li>
 
       <li class="">
-        <a href="{{ url('todos') }}">
+        <a href="{{ url('/todo-app/boards') }}">
           <i class="glyphicon glyphicon-tasks"></i> <span>Todo Task</span>
           <span class="pull-right-container">
           </span>

@@ -35,8 +35,24 @@
         <div class="content-wrapper">
 
             <div class="container">
+
+              <!-- Content Header (Page header) -->
+              <section class="content-header">
+                <h1>
+                  Boards
+                  <small>Zerda 1.0</small>
+                </h1>
+                <ol class="breadcrumb">
+                  <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                  <li><a href="#">Layout</a></li>
+                </ol>
+              </section>
               
-              @yield('content')
+              <section class="content">
+
+                  @yield('content')
+
+              </section>
 
             </div>
         
@@ -59,9 +75,6 @@
 
     <!-- Script for modules -->
     @yield('custom_script')
-    @yield('custom_js')
-
-    @yield('data_tables')
 
 </body>
 </html>
