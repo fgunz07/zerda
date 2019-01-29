@@ -21,7 +21,7 @@ Route::get('oauth-callback', 'FacebookController@fbOauth');
 
 Route::group(['prefix' => 'todo-app'] , function () {
 
-	Route::get('todos', 	'TodoController@index');
+	Route::get('todos','TodoController@index');
 
 	Route::get('todos-list', 'TodoController@listTodo');
 
@@ -36,3 +36,15 @@ Route::group(['prefix' => 'todo-app'] , function () {
 Auth::routes();
 
 Route::get('home', 'HomeController@index')->name('home');
+
+//Dashboard
+Route::get('dashboard','DashboardController@index');
+
+
+//Skills
+Route::get('skills-list','SkillsController@index');
+Route::get('skills-create','SkillsController@create');
+Route::post('skills-store','SkillsController@store');
+Route::get('skills-edit/{id}','SkillsController@edit');
+Route::put('skills-update/{id}','SkillsController@update');
+Route::delete('skills-delete/{id}','SkillsController@destroy');

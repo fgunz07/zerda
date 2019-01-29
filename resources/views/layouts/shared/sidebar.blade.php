@@ -26,30 +26,31 @@
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu" data-widget="tree">
       <li class="">
-        <a href="#">
+        <a href="{{ url('dashboard') }}">
           <i class="glyphicon glyphicon-dashboard"></i> <span>Dashboard</span>
           <span class="pull-right-container">
             {{-- <i class="fa fa-angle-left pull-right"></i> --}}
           </span>
         </a>
-        {{-- <ul class="treeview-menu">
-          <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-          <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-        </ul> --}}
       </li>
 
       <li class="">
-        <a href="#">
+        <a href="{{ url('todos') }}">
           <i class="glyphicon glyphicon-tasks"></i> <span>Todo Task</span>
           <span class="pull-right-container">
-            {{-- <i class="fa fa-angle-left pull-right"></i> --}}
           </span>
         </a>
-        {{-- <ul class="treeview-menu">
-          <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-          <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-        </ul> --}}
       </li>
+
+       <li class="">
+        <a href="{{ url('skills-list') }}">
+          <i class="glyphicon glyphicon-th-list"></i> <span>Skills</span>
+          <span class="pull-right-container">
+          </span>
+        </a>
+      </li>
+      
+
     </ul>
   </section>
   <!-- /.sidebar -->

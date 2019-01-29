@@ -35,4 +35,8 @@ class User extends Authenticatable {
 	protected $hidden = [
 		'password', 'remember_token',
 	];
+
+	public function child_user_skill(){
+		return $this->belongsTo('App\Skill','skill_id','id');
+	}
 }
