@@ -104,9 +104,12 @@
           </li>
           <!-- Control Sidebar Toggle Button -->
           <li>
-            <a href="javascript:void(0)"
-            onclick="alert('logout')"
-            ><i class="glyphicon glyphicon-off"></i></a>
+            <a href="javascript:void(0)" type="submit" onclick="document.querySelector('#logout').submit()">
+              <i class="glyphicon glyphicon-off"></i>
+            </a>
+            <form action="{{ route('logout') }}" method ="POST" id="logout">
+              @csrf
+            </form>
           </li>
         </ul>
       </div>
