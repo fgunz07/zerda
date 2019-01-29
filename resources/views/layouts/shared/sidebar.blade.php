@@ -49,6 +49,14 @@
           </span>
         </a>
       </li>
+
+      <li class="">
+        <a href="{{ url('profile-show') }}">
+          <i class="glyphicon glyphicon-user"></i> <span>Profile</span>
+          <span class="pull-right-container">
+          </span>
+        </a>
+      </li>
       
 
     </ul>
