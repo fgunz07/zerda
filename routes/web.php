@@ -19,21 +19,45 @@ Route::get('oauth-facebook', 'FacebookController@getAuthFacebook')->name('facebo
 
 Route::get('oauth-callback', 'FacebookController@fbOauth');
 
-Route::group(['prefix' => 'todo-app'] , function () {
+// Route::group(['prefix' => 'todo-app'] , function () {
 
-	Route::get('todos','TodoController@index');
+// 	Route::get('todos','TodoController@index');
 
-	Route::get('todos-list', 'TodoController@listTodo');
+// 	Route::get('todos-list', 'TodoController@listTodo');
 
-	Route::post('todos-list', 'TodoController@store');
+// 	Route::post('todos-list', 'TodoController@store');
 
-	Route::get('tasks-list', 'TaskController@listTask');
+// 	Route::get('tasks-list', 'TaskController@listTask');
 
-	Route::post('tasks-list', 'TaskController@store');
+// 	Route::post('tasks-list', 'TaskController@store');
 
-});
+// });
 
 Auth::routes();
+
+Route::group(['prefix' => 'todo-app'], function () {
+
+	Route::get('boards', 'TodoListAppController@index')->name('todoboards');
+
+	Route::get('boards/list', 'BoardsController@index');
+
+	Route::post('boards', 'BoardsController@store');
+
+	Route::delete('boards/{id}', 'BoardsController@delete');
+
+	Route::get('boards/{id}', 'BoardsController@show');
+
+	Route::get('todos', 'TodoController@listTodo');
+
+	Route::post('todos', 'TodoController@store');
+
+	Route::delete('todos/{id}', 'TodoController@delete');
+
+	Route::post('tasks', 'TaskController@store');
+
+	Route::post('todo-task', 'TodoController@UpdateTodoTask');
+
+});
 
 Route::get('home', 'HomeController@index')->name('home');
 
