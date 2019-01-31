@@ -15,5 +15,9 @@ class DashboardController extends Controller
 		return view('pages.dashboard.index')
 		->with('users', $users)
 		->with('skills', $skills);
+	}
+	
+	public function changeRate(){
+        
     }
 }

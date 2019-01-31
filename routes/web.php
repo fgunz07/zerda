@@ -39,6 +39,7 @@ Route::get('home', 'HomeController@index')->name('home');
 
 //Dashboard
 Route::get('dashboard','DashboardController@index');
+Route::post('user-rate','DashboardController@changeRate');
 
 
 //Skills
@@ -51,3 +52,8 @@ Route::delete('skills-delete/{id}','SkillsController@destroy');
 
 //Profile
 Route::get('profile-show','ProfileController@show');
+Route::get('profile-upload-pic/{id}','ProfileController@uploadProfile');
+Route::get('profile-location/{id}','ProfileController@updateLocation');
+Route::get('profile-education/{id}','ProfileController@updateEducation');
+Route::get('profile-skill/{id}','ProfileController@updateSkill');
+Route::get('profile-notes/{id}','ProfileController@updateNotes');
