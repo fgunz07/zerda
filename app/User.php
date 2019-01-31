@@ -39,4 +39,16 @@ class User extends Authenticatable {
 	public function child_user_skill(){
 		return $this->belongsTo('App\Skill','skill_id','id');
 	}
+
+	public function child_user_location(){
+		return $this->belongsTo('App\Location', 'user_id', 'id');
+	}
+
+	public function child_user_education(){
+		return $this->belongsTo('App\Education','user_id', 'id');
+	}
+
+	public function child_user_specilization(){
+		return $this->belongsTo('App\Specialization','user_id','id');
+	}
 }

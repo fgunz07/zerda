@@ -33,7 +33,15 @@
                     </div>
                     
                     <p class="text-muted">
-                    B.S. in Computer Science from the University of Tennessee at Knoxville
+                        <strong>Tertiary:</strong>
+                    </p>
+
+                    <p class="text-muted">
+                        <strong>Secondary:</strong>
+                    </p>
+
+                    <p class="text-muted">
+                        <strong>Primary:</strong>
                     </p>
 
                     <hr>
@@ -43,7 +51,7 @@
                         <a href="" class="editInlineLocation" data-toggle="modal" data-target="#change-location"><i class="glyphicon glyphicon-pencil"></i></a>
                     </div>
 
-                    <p class="text-muted">Malibu, California</p>
+                    <p class="text-muted"></p>
 
                     <hr>
 
@@ -53,11 +61,9 @@
                     </div>
 
                     <p>
-                    <span class="label label-danger">UI Design</span>
-                    <span class="label label-success">Coding</span>
-                    <span class="label label-info">Javascript</span>
-                    <span class="label label-warning">PHP</span>
-                    <span class="label label-primary">Node.js</span>
+                        @foreach($specializations as $skill)
+                         <span class="label label-success"><li>{{$skill->child_user_specilization->name}}</li></span>
+                        @endforeach
                     </p>
 
                     <hr>
@@ -79,34 +85,53 @@
             <div class="modal-dialog" style="width:500px">
                 <!-- Modal content-->
                 <div class="modal-content" >
-                    {!! Form::open(['url'=>'loansldeduc', 'method'=>'POST', 'id'=>'form-loansldeduc']) !!}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title"><b>Profile Settings</b></h4>
                     </div>
                     <div class="modal-body">
-                        <div class="an-content-body">
-                            <div class="row">
+                        @if (count($errors) > 0)
 
-                                <div class="col-md-12" align="center">
-                                    <div class="form-inline">
-                                        <div class="form-group">
-                                            <img  class="profile-user-img img-responsive img-circle "  src="{{url('/images/avatar.png')}}" alt="User profile picture"/>
-                                            <br>
-                                            <input type="file" name="fileToUpload" id="fileToUpload" class="form-control pull-left">
-                                            <button type="submit" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-upload">Upload</i></button>
+                        <div class="alert alert-danger">
+
+                            <strong>Whoops!</strong> There were some problems with your input.
+
+                            <ul>        
+
+                                @foreach ($errors->all() as $error)
+
+                                    <li>{{ $error }}</li>
+
+                                @endforeach
+
+                            </ul>
+
+                        </div>
+
+                        @endif
+                        <div class="an-content-body">
+                            <form action="{{ url('profile-upload-pic') }}" method="POST" enctype="multipart/form-data">
+
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-12" align="center">
+                                        <div class="form-inline">
+                                            <div class="form-group">
+                                                <img  class="profile-user-img img-responsive img-circle "  src="{{url('/images/avatar.png')}}" alt="User profile picture"/>
+                                                <br>
+                                                <input type="file" name="fileToUpload" id="fileToUpload" class="form-control pull-left">
+                                                <button type="submit" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-upload">Upload</i></button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                            </div>
+                                </div>
+                            </form>
                         </div> <!-- end .AN-COMPONENT-BODY -->
                     </div>
                     <div class="modal-footer">
-                        
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
-                    {!! Form::close() !!}
                 </div>
             </div>
         </div>
@@ -119,7 +144,7 @@
                 {{$errors}}
                 <!-- Modal content-->
                 <div class="modal-content" >
-                    {!! Form::open(['url'=>'loansldeduc', 'method'=>'POST', 'id'=>'form-loansldeduc']) !!}
+                    {!! Form::open(['url'=>'profile-education', 'method'=>'POST']) !!}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title"><b>Education Settings</b></h4>
@@ -170,7 +195,7 @@
                 {{$errors}}
                 <!-- Modal content-->
                 <div class="modal-content" >
-                    {!! Form::open(['url'=>'loansldeduc', 'method'=>'POST', 'id'=>'form-loansldeduc']) !!}
+                    {!! Form::open(['url'=>'profile-location', 'method'=>'POST']) !!}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title"><b>Location Settings</b></h4>
@@ -217,8 +242,6 @@
                                     {!!Form::text('country',old('country'),['class'=>'form-control'])!!}
                                 </div>
 
-
-
                             </div>
                         </div> <!-- end .AN-COMPONENT-BODY -->
                     </div>
@@ -239,7 +262,7 @@
                 {{$errors}}
                 <!-- Modal content-->
                 <div class="modal-content" >
-                    {!! Form::open(['url'=>'loansldeduc', 'method'=>'POST', 'id'=>'form-loansldeduc']) !!}
+                    {!! Form::open(['url'=>'profile-skill-delete/{$skills->id}', 'method'=>'POST']) !!}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title"><b>Skill Settings</b></h4>
@@ -250,6 +273,11 @@
                                 <div style="padding:10px">
                                      <button type="button" class="btn btn-primary pull-right"  data-toggle="modal" data-target="#add-skills"><i class="glyphicon glyphicon-plus">Skill</i></button>
                                 </div>
+                                <ul>
+                                    @foreach($specializations as $skill)
+                                    <li>{{$skill->child_user_specilization->name}}</li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div> <!-- end .AN-COMPONENT-BODY -->
                     </div>
@@ -281,11 +309,10 @@
                                 <label for="description" class="col-sm-2 control-label">Skill:</label>
 
                                 <div class="col-sm-10">
-                                    {!!Form::text('street',old('street'),['class'=>'form-control'])!!}
                                     <span>
-                                        <select class="form-control"  id="SLTypeBR_CODE" data-parsley-required="true" name="SLTypeBR_CODE" style="width: 100%;" required="required">
+                                        <select class="form-control"  id="" data-parsley-required="true" name="SLTypeBR_CODE" style="width: 100%;" required="required">
                                         @foreach($skills as $key => $val)
-                                            <option value="{{ $val->BranchesID }}">{{$val->}}</option>
+                                            <option value="{{ $val->id }}">{{$val->description}}</option>
                                         @endforeach
                                         </select>
                                     </span>
