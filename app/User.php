@@ -25,6 +25,7 @@ class User extends Authenticatable {
 		'provider_id',
 		'avatar_url',
 		'password',
+		'provider'
 	];
 
 	/**

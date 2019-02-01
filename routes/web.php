@@ -15,9 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('oauth-facebook', 'FacebookController@getAuthFacebook')->name('facebook.auth');
+Route::get('oauth-facebook', 'FacebookController@redirect')->name('facebook.auth');
 
-Route::get('oauth-callback', 'FacebookController@fbOauth');
+Route::get('oauth-callback', 'FacebookController@callback');
 
 // Route::group(['prefix' => 'todo-app'] , function () {
 
