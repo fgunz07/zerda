@@ -38,7 +38,7 @@ class SocialFacebookAccountService
                 $user = User::create([
                     'email'         => $providerUser->getEmail(),
                     'first_name'    => $providerUser->user['first_name'],
-                    'middle_name'   => (!!$providerUser->user['middle_name']) ? null : $providerUser->user['middle_name'],
+                    'middle_name'   => array_key_exist('middle_name', $providerUser->user) ? $providerUser->user['middle_name'] : null,
                     'last_name'     => $providerUser->user['last_name'],
                     'name'          => $providerUser->getName(),
                     'password'      => md5(rand(1,10000)),
