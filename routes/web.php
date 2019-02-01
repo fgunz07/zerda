@@ -76,6 +76,7 @@ Route::delete('skills-delete/{id}','SkillsController@destroy');
 
 //Profile
 Route::get('profile-show','ProfileController@show');
+Route::get('profile-data','ProfileController@dataProfile');
 Route::post('profile-upload-pic/{id}','ProfileController@uploadProfile');
 Route::post('profile-location','ProfileController@updateLocation');
 Route::post('profile-education','ProfileController@updateEducation');
