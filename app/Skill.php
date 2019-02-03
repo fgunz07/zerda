@@ -13,4 +13,8 @@ class Skill extends Model
     public function parent_user_skill(){
     	return $this->hasMany('App\User','skill_id','id');
     }
+
+    public function parent_skill(){
+        return $this->hasMany('App\Specialization','name','id');
+    }
 }

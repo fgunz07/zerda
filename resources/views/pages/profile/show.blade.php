@@ -32,17 +32,10 @@
                         <a href="" class="editInlineEdu" data-toggle="modal" data-target="#change-education"><i class="glyphicon glyphicon-pencil"></i></a>     
                     </div>
                     
-                    <p class="text-muted">
-                        <strong>Tertiary:</strong>
-                    </p>
-
-                    <p class="text-muted">
-                        <strong>Secondary:</strong>
-                    </p>
-
-                    <p class="text-muted">
-                        <strong>Primary:</strong>
-                    </p>
+                   
+                    <span><strong>Tertiary:</strong> <p class="text-muted" id="tertiary"></p></span>
+                    <span><strong>Secondary:</strong> <p class="text-muted" id="secondary"></p></span>
+                    <span><strong>Primary:</strong> <p class="text-muted" id="primary"></p></span>
 
                     <hr>
 
@@ -51,7 +44,7 @@
                         <a href="" class="editInlineLocation" data-toggle="modal" data-target="#change-location"><i class="glyphicon glyphicon-pencil"></i></a>
                     </div>
 
-                    <p class="text-muted"></p>
+                    <p class="text-muted" id="location-ni"></p>
 
                     <hr>
 
@@ -60,20 +53,12 @@
                         <a href="" class="editInlineSkills" data-toggle="modal" data-target="#change-skills"><i class="glyphicon glyphicon-pencil"></i></a>
                     </div>
 
-                    <p>
                         @foreach($specializations as $skill)
-                         <span class="label label-success"><li>{{$skill->child_user_specilization->name}}</li></span>
+                            <div> <span class="label label-success">{{$skill->sklill_desc->description}}</span></div>
                         @endforeach
-                    </p>
-
+                  
                     <hr>
 
-                    <div id="notes">
-                        <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
-                        <a href="" class="editInlineNotes" data-toggle="modal" data-target="#change-notes"><i class="glyphicon glyphicon-pencil"></i></a>
-                    </div>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
                 </div>
             </div>
 	    </div>
@@ -141,10 +126,9 @@
         <!-- Change Education Modal -->
         <div class="modal fade" id="change-education" role="dialog" style=" overflow-y:scroll;">
             <div class="modal-dialog" style="width:500px">
-                {{$errors}}
                 <!-- Modal content-->
                 <div class="modal-content" >
-                    {!! Form::open(['url'=>'profile-education', 'method'=>'POST']) !!}
+                    
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title"><b>Education Settings</b></h4>
@@ -156,7 +140,7 @@
                                 <label for="tertiary" class="col-sm-2 control-label">Tertiary:</label>
 
                                 <div class="col-sm-10">
-                                    {!!Form::text('tertiary',old('tertiary'),['class'=>'form-control'])!!}
+                                    {!!Form::text('tertiary',old('tertiary'),['class'=>'form-control','id'=>'tertiary'])!!}
                                 </div>
 
                                 <br><br>
@@ -164,7 +148,7 @@
                                 <label for="secondary" class="col-sm-2 control-label">Secondary:</label>
 
                                 <div class="col-sm-10">
-                                    {!!Form::text('secondary',old('secondary'),['class'=>'form-control'])!!}
+                                    {!!Form::text('secondary',old('secondary'),['class'=>'form-control','id'=>'secondary'])!!}
                                 </div>
 
                                 <br><br>
@@ -172,17 +156,17 @@
                                 <label for="primary" class="col-sm-2 control-label">Primary:</label>
 
                                 <div class="col-sm-10">
-                                    {!!Form::text('primary',old('primary'),['class'=>'form-control'])!!}
+                                    {!!Form::text('primary',old('primary'),['class'=>'form-control','id'=>'primary'])!!}
                                 </div>
 
                             </div>
                         </div> <!-- end .AN-COMPONENT-BODY -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Submit</button> 
+                        <button type="button" class="btn btn-primary pull-left" data-dismiss="modal" id="educ-save">Submit</button> 
                         <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
                     </div>
-                    {!! Form::close() !!}
+
                 </div>
             </div>
         </div>
@@ -192,10 +176,10 @@
         <!-- Change Location Modal -->
         <div class="modal fade" id="change-location" role="dialog" style=" overflow-y:scroll;">
             <div class="modal-dialog" style="width:500px">
-                {{$errors}}
+   
                 <!-- Modal content-->
                 <div class="modal-content" >
-                    {!! Form::open(['url'=>'profile-location', 'method'=>'POST']) !!}
+                    
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title"><b>Location Settings</b></h4>
@@ -207,7 +191,7 @@
                                 <label for="street" class="col-sm-2 control-label">Street:</label>
 
                                 <div class="col-sm-10">
-                                    {!!Form::text('street',old('street'),['class'=>'form-control'])!!}
+                                    {!!Form::text('street',old('street'),['class'=>'form-control','id'=>'street'])!!}
                                 </div>
 
                                 <br><br>
@@ -215,7 +199,7 @@
                                 <label for="brgy" class="col-sm-2 control-label">Barangay:</label>
 
                                 <div class="col-sm-10">
-                                    {!!Form::text('brgy',old('brgy'),['class'=>'form-control'])!!}
+                                    {!!Form::text('brgy',old('brgy'),['class'=>'form-control','id'=>'brgy'])!!}
                                 </div>
 
                                 <br><br>
@@ -223,7 +207,7 @@
                                 <label for="city" class="col-sm-2 control-label">City:</label>
 
                                 <div class="col-sm-10">
-                                    {!!Form::text('city',old('city'),['class'=>'form-control'])!!}
+                                    {!!Form::text('city',old('city'),['class'=>'form-control','id'=>'city'])!!}
                                 </div>
 
                                 <br><br>
@@ -231,7 +215,7 @@
                                 <label for="province" class="col-sm-2 control-label">Province:</label>
 
                                 <div class="col-sm-10">
-                                    {!!Form::text('province',old('province'),['class'=>'form-control'])!!}
+                                    {!!Form::text('province',old('province'),['class'=>'form-control','id'=>'province'])!!}
                                 </div>
 
                                 <br><br>
@@ -239,17 +223,16 @@
                                 <label for="country" class="col-sm-2 control-label">Country:</label>
 
                                 <div class="col-sm-10">
-                                    {!!Form::text('country',old('country'),['class'=>'form-control'])!!}
+                                    {!!Form::text('country',old('country'),['class'=>'form-control','id'=>'country'])!!}
                                 </div>
 
                             </div>
                         </div> <!-- end .AN-COMPONENT-BODY -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Submit</button> 
+                        <button type="button" class="btn btn-primary pull-left" id="location-save" >Submit</button> 
                         <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
                     </div>
-                    {!! Form::close() !!}
                 </div>
             </div>
         </div>
@@ -273,11 +256,14 @@
                                 <div style="padding:10px">
                                      <button type="button" class="btn btn-primary pull-right"  data-toggle="modal" data-target="#add-skills"><i class="glyphicon glyphicon-plus">Skill</i></button>
                                 </div>
-                                <ul>
+                                <div class="col-md-offset-2">
+                                <div class="col-md-8">
                                     @foreach($specializations as $skill)
-                                    <li>{{$skill->child_user_specilization->name}}</li>
-                                    @endforeach
-                                </ul>
+                                        <div> <span class="label label-success">{{$skill->sklill_desc->description}}</span></div>
+                                    @endforeach 
+                                </div>
+                                </div>
+                                
                             </div>
                         </div> <!-- end .AN-COMPONENT-BODY -->
                     </div>
@@ -295,10 +281,8 @@
         <!-- Add Skills Modal -->
         <div class="modal fade" id="add-skills" role="dialog" style=" overflow-y:scroll;">
             <div class="modal-dialog" style="width:400px">
-                {{$errors}}
                 <!-- Modal content-->
                 <div class="modal-content" >
-                    {!! Form::open(['url'=>'loansldeduc', 'method'=>'POST', 'id'=>'form-loansldeduc']) !!}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title"><b>Add New Skill</b></h4>
@@ -310,7 +294,7 @@
 
                                 <div class="col-sm-10">
                                     <span>
-                                        <select class="form-control"  id="" data-parsley-required="true" name="SLTypeBR_CODE" style="width: 100%;" required="required">
+                                        <select class="form-control"  id="" data-parsley-required="true" name="skill" style="width: 100%;" required="required">
                                         @foreach($skills as $key => $val)
                                             <option value="{{ $val->id }}">{{$val->description}}</option>
                                         @endforeach
@@ -321,10 +305,9 @@
                         </div> <!-- end .AN-COMPONENT-BODY -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary pull-left">Submit</button>
+                        <button type="button" class="btn btn-primary pull-left" id="skill-save">Submit</button>
                         <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
                     </div>
-                    {!! Form::close() !!}
                 </div>
             </div>
         </div>

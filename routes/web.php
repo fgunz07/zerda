@@ -66,7 +66,7 @@ Route::group(['middleware' => 'IfUserHasRole'] , function () {
 	});
 
 	Route::get('home', 'HomeController@index')->name('home');
-
+	
 	//Dashboard
 	Route::get('dashboard','DashboardController@index');
 	Route::post('user-rate','DashboardController@changeRate');

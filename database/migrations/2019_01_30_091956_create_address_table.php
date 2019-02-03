@@ -20,7 +20,7 @@ class CreateAddressTable extends Migration
             $table->string('brgy');
             $table->string('city');
             $table->string('province');
-            $table->string('coutry');
+            $table->string('country');
             $table->timestamps();
         });
     }

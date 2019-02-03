@@ -20,7 +20,6 @@ class CreateUsersTable extends Migration
             $table->string('middle_name')->nullable();
             $table->integer('achievement_id')->unsigned()->nullable();
             $table->integer('country_id')->unsigned()->nullable();
-            $table->integer('specialization_id')->unsigned()->nullable();
             $table->bigInteger('provider_id')->unsigned()->nullable();
             $table->string('avatar_url')->nullable();
             $table->string('email')->unique();

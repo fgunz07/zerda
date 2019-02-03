@@ -14,13 +14,22 @@ class ProfileController extends Controller
 {
     public function show(){
         $skills = Skill::all();
-        $specializations = Specialization::all();
-        $locations = Location::all();
-        // dd($locations); 
+        $specializations = Specialization::where('user_id',Auth::user()->id)->get();
+        // dd($specializations);
         return view('pages.profile.show')
-            ->with('skills',$skills)
-            ->with('specializations',$specializations)
-            ->with('locations',$locations);
+                ->with('skills',$skills)
+                ->with('specializations',$specializations);
+            
+    }
+
+    public function dataProfile(){
+        
+        $education = Education::where('user_id',Auth::user()->id)->get();
+        $locations = Location::where('user_id',Auth::user()->id)->get();
+       
+        // dd($specializations);
+
+        return response()->json(['education'=>$education,'locations'=>$locations]);
     }
 
     public function uploadProfile(){
@@ -51,16 +60,17 @@ class ProfileController extends Controller
 
     public function updateLocation(Request $request){
 
-        $locatoion = Location::updateOrCreate(
+        $location = Location::updateOrCreate(
             ['user_id'=>Auth::user()->id],
             [
-                'street'=>$request->street,
-                'brgy'=>$request->brgy,
-                'city'=>$request->city,
-                'province'=>$request->provice,
-                'country'=>$request->country
+                'street' =>$request->street,
+                'brgy' => $request->brgy,
+                'city' => $request->city,
+                'province' => $request->province,
+                'country' => $request->country
             ]
         );
+
     }
 
     public function updateEducation(Request $request){
@@ -68,20 +78,25 @@ class ProfileController extends Controller
         $education = Education::updateOrCreate(
             ['user_id'=>Auth::user()->id],
             [
-                'primary'=>$primary,
-                'secondary'=>$secondary,
-                'tertiary'=>$tertiary
+                'primary' =>$request->primary,
+                'secondary' => $request->secondary,
+                'tertiary' => $request->tertiary
             ]
         );
     }
 
     public function updateSkill(Request $request){
-        $skill = Specialization::updateOrCreate(
-            ['user_id' => Auth::user()->id],
-            [
-                'name'=>$request->name
-            ]
-        );
+        // $skill = Specialization::updateOrCreate(
+        //     ['user_id' => Auth::user()->id],
+        //     [
+        //         'name'=>$request->name
+        //     ]
+        // );
+        $skill = new Specialization;
+        $skill->user_id = Auth::user()->id;
+        $skill->name = $request->name;
+
+        $skill->save();
     }
 
     public function deleteSkill($id){
