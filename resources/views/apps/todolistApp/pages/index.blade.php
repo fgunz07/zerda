@@ -12,9 +12,11 @@
                 </div>
 
                 <div class="col-sm-3">
-                    <button class="btn btn-app" data-toggle="modal" data-target="#new-board">
-                        <i class="glyphicon glyphicon-plus"></i>
-                    </button>
+                    @hasrole('Client')
+                        <button class="btn btn-app" data-toggle="modal" data-target="#new-board">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </button>
+                    @endhasrole
                 </div>
             </div>
         </div>

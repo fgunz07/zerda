@@ -14,18 +14,16 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/bower_components/Ionicons/css/ionicons.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/bower_components/font-awesome/css/font-awesome.min.css') }}">
 
+    @yield('custom_css')
+
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/dist/css/AdminLTE.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('lib/dist/css/skins/_all-skins.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/ material-kit.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/ material-kit.min.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('css/star-rating.min.css') }}">
-    
-   
-
-    @yield('custom_css')
 
     <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -74,7 +72,7 @@
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
      <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
-    <script src="{{ asset('js/material-kit.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/material-kit.min.js') }}"></script> --}}
     <script src="{{ asset('js/star-rating.min.js') }}"></script>
    
 
