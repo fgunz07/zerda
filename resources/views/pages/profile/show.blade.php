@@ -10,10 +10,11 @@
                     <div class="pull-right">
                         <a href="" class="editInline"  data-toggle="modal" data-target="#change-profile"><i class="glyphicon glyphicon-pencil"></i></a>
                     </div>
-                    <img  class="profile-user-img img-responsive img-circle "  src="{{url('/images/user4-128x128.jpg')}}" alt="User profile picture"/>
                     
-                    <h3 class="profile-username text-center">Nina Mcintire</h3>
-                   
+                    <img class="profile-user-img img-responsive img-circle " src="/uploads/avatars/{{ $user->avatar }}" alt="User profile picture">
+                    @foreach($userName as $user)
+                    <h3 class="profile-username text-center">{{$user->last_name}},{{$user->first_name}},{{$user->middle_name}}</h3>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -53,9 +54,18 @@
                         <a href="" class="editInlineSkills" data-toggle="modal" data-target="#change-skills"><i class="glyphicon glyphicon-pencil"></i></a>
                     </div>
 
-                        @foreach($specializations as $skill)
-                            <div> <span class="label label-success">{{$skill->sklill_desc->description}}</span></div>
-                        @endforeach
+    
+                        <p id="skill"></p>
+                  
+                    <hr>
+
+                    <div id="achievement">
+                        <strong><i class="fa fa-trophy margin-r-5"></i>Achievemet</strong>
+                        <a href="" class="editInlineAchievement" data-toggle="modal" data-target="#change-achievement"><i class="glyphicon glyphicon-pencil"></i></a>
+                    </div>
+
+    
+                        <p id="achievementList"></p>
                   
                     <hr>
 
@@ -75,25 +85,7 @@
                         <h4 class="modal-title"><b>Profile Settings</b></h4>
                     </div>
                     <div class="modal-body">
-                        @if (count($errors) > 0)
-
-                        <div class="alert alert-danger">
-
-                            <strong>Whoops!</strong> There were some problems with your input.
-
-                            <ul>        
-
-                                @foreach ($errors->all() as $error)
-
-                                    <li>{{ $error }}</li>
-
-                                @endforeach
-
-                            </ul>
-
-                        </div>
-
-                        @endif
+                   
                         <div class="an-content-body">
                             <form action="{{ url('profile-upload-pic') }}" method="POST" enctype="multipart/form-data">
 
@@ -104,8 +96,8 @@
                                             <div class="form-group">
                                                 <img  class="profile-user-img img-responsive img-circle "  src="{{url('/images/avatar.png')}}" alt="User profile picture"/>
                                                 <br>
-                                                <input type="file" name="fileToUpload" id="fileToUpload" class="form-control pull-left">
-                                                <button type="submit" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-upload">Upload</i></button>
+                                                <input type="file" name="avatar" id="file" class="form-control pull-left">
+                                                <button type="submit" class="btn btn-primary pull-right" id="save-profile"><i class="glyphicon glyphicon-upload">Upload</i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -245,7 +237,7 @@
                 {{$errors}}
                 <!-- Modal content-->
                 <div class="modal-content" >
-                    {!! Form::open(['url'=>'profile-skill-delete/{$skills->id}', 'method'=>'POST']) !!}
+                   
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title"><b>Skill Settings</b></h4>
@@ -257,11 +249,19 @@
                                      <button type="button" class="btn btn-primary pull-right"  data-toggle="modal" data-target="#add-skills"><i class="glyphicon glyphicon-plus">Skill</i></button>
                                 </div>
                                 <div class="col-md-offset-2">
-                                <div class="col-md-8">
-                                    @foreach($specializations as $skill)
-                                        <div> <span class="label label-success">{{$skill->sklill_desc->description}}</span></div>
-                                    @endforeach 
-                                </div>
+                                    <div class="col-md-8">
+                                        <table class="table table-hover" style="border:1px gray" id="SkillTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>List of Skills</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="skillList">
+                                                
+                                                </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 
                             </div>
@@ -271,7 +271,6 @@
                         
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
-                    {!! Form::close() !!}
                 </div>
             </div>
         </div>
@@ -312,36 +311,41 @@
             </div>
         </div>
     </div>
-
     <div>
-        <!-- Change Notes Modal -->
-        <div class="modal fade" id="change-notes" role="dialog" style=" overflow-y:scroll;">
+        <!-- Change Achievement Modal -->
+        <div class="modal fade" id="change-achievement" role="dialog" style=" overflow-y:scroll;">
             <div class="modal-dialog" style="width:500px">
                 {{$errors}}
                 <!-- Modal content-->
                 <div class="modal-content" >
-                    {!! Form::open(['url'=>'loansldeduc', 'method'=>'POST', 'id'=>'form-loansldeduc']) !!}
+                    
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"><b>SLType Loan Deduction Items</b></h4>
+                        <h4 class="modal-title"><b>Achievement Settings</b></h4>
                     </div>
                     <div class="modal-body">
                         <div class="an-content-body">
                             <div class="row">
-
-                                <div class="col-md-12" align="center">
-                                    <div class="form-inline">
-                                        <div class="form-group">
-                                            <h3 id="deducfor"> </h3>
-                                            <form action="upload.php" method="post" enctype="multipart/form-data" class="form-control">
-                                            <img  class="profile-user-img img-responsive img-circle "  src="{{url('/images/user4-128x128.jpg')}}" alt="User profile picture"/>
-                                            <input type="file" name="fileToUpload" id="fileToUpload">
-                                            <input type="submit" value="Upload Image" name="submit">
-                                        </form>
-                                        </div>
+                                <div style="padding:10px">
+                                     <button type="button" class="btn btn-primary pull-right"  data-toggle="modal" data-target="#add-achievement"><i class="glyphicon glyphicon-plus">Achievement</i></button>
+                                </div>
+                                <div class="col-md-offset-2">
+                                    <div class="col-md-8">
+                                        <!-- <p id="achievementChange"></p> -->
+                                        <table class="table table-hover" style="border:1px gray">
+                                                <thead>
+                                                    <tr>
+                                                        <th>List of Achievement</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="achievementChange">
+                                                
+                                                </tbody>
+                                        </table>
                                     </div>
                                 </div>
-
+                                
                             </div>
                         </div> <!-- end .AN-COMPONENT-BODY -->
                     </div>
@@ -349,7 +353,68 @@
                         
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
-                    {!! Form::close() !!}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <!-- Add Achievement Modal -->
+        <div class="modal fade" id="add-achievement" role="dialog" style=" overflow-y:scroll;">
+            <div class="modal-dialog" style="width:500px">
+                {{$errors}}
+                <!-- Modal content-->
+                <div class="modal-content" >
+                    
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><b>Add Achievement</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="an-content-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <label for="achievement" class="col-sm-2 control-label">Achivement:</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="name" class="form-control" id="achievement" placeholder="Achievement">
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <label for="description" class="col-sm-2 control-label">Description:</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="description" class="form-control" id="description" placeholder="Description">
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <label for="year_started" class="col-sm-2 control-label">Year Started:</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="date" name="year_start" class="form-control" id="year_started" placeholder="Year Started">
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <label for="year_end" class="col-sm-2 control-label">Year End:</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="date" name="year_end" class="form-control" id="year_end" placeholder="Year End">
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- end .AN-COMPONENT-BODY -->
+                    </div>
+                    <div class="modal-footer">
+                        
+                        <button type="button" class="btn btn-primary pull-left" id="achievement-save" >Submit</button> 
+                        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>

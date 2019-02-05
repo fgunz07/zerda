@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableEducation extends Migration
+class CreateRatingTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateTableEducation extends Migration
      */
     public function up()
     {
-        Schema::create('table_education', function (Blueprint $table) {
+        Schema::create('rating', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->string('primary');
-            $table->string('secodary');
-            $table->string('tertiary');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('rating');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateTableEducation extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_education');
+        Schema::dropIfExists('rating');
     }
 }

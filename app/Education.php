@@ -12,6 +12,6 @@ class Education extends Model
 
 
     public function parent_user_educ(){
-        return $this->hasOne('App\User','user_id','id');
+        return $this->belongsTo('App\User','user_id','id');
     }
 }

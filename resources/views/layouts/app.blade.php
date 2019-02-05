@@ -20,8 +20,9 @@
     <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/ material-kit.min.css') }}">
+    <!-- <link rel="stylesheet" href="{{ asset('css/ material-kit.min.css') }}"> -->
     <link rel="stylesheet" href="{{ asset('css/star-rating.min.css') }}">
+    <!-- <link rel="stylesheet" href="{{ asset('css/star-rating.minbootstrap-datepicker.min.css') }}"> -->
     
    
 
@@ -74,7 +75,7 @@
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
      <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
-    <script src="{{ asset('js/material-kit.min.js') }}"></script>
+    <!-- <script src="{{ asset('js/material-kit.min.js') }}"></script> -->
     <script src="{{ asset('js/star-rating.min.js') }}"></script>
    
 

@@ -75,11 +75,12 @@ Route::put('skills-update/{id}','SkillsController@update');
 Route::delete('skills-delete/{id}','SkillsController@destroy');
 
 //Profile
-Route::get('profile-show','ProfileController@show');
-Route::get('profile-data','ProfileController@dataProfile');
-Route::post('profile-upload-pic/{id}','ProfileController@uploadProfile');
-Route::post('profile-location','ProfileController@updateLocation');
-Route::post('profile-education','ProfileController@updateEducation');
-Route::post('profile-skill','ProfileController@updateSkill');
-Route::post('profile-skill-delete/{id}','ProfileController@deleteSkill');
-Route::post('profile-notes','ProfileController@updateNotes');
+Route::get('profile-show','UserController@show');
+Route::get('profile-data','UserController@dataProfile');
+Route::post('profile-upload-pic', 'UserController@uploadProfile');
+Route::post('profile-location','UserController@updateLocation');
+Route::post('profile-education','UserController@updateEducation');
+Route::post('profile-skill','UserController@updateSkill');
+Route::post('profile-skill-delete/{id}','UserController@deleteSkill');
+Route::post('profile-achievement','UserController@updateAchievement');
+Route::post('profile-achievement-delete/{id}','UserController@deleteAchievement');
