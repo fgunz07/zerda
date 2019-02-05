@@ -8,7 +8,7 @@
         <img src="{{ asset('lib/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
-        <p>Alexander Pierce</p>
+        <p>{{ auth()->user()->first_name }} {{ auth()->user()->middle_name }} {{ auth()->user()->last_name }}</p>
         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
       </div>
     </div>
@@ -34,21 +34,29 @@
         </a>
       </li>
 
-      <li class="">
-        <a href="{{ url('/todo-app/boards') }}">
-          <i class="glyphicon glyphicon-tasks"></i> <span>Todo Task</span>
-          <span class="pull-right-container">
-          </span>
-        </a>
-      </li>
+      @hasanyrole('Client|Sinior Developer|Developer')
 
-       <li class="">
-        <a href="{{ url('skills-list') }}">
-          <i class="glyphicon glyphicon-th-list"></i> <span>Skills</span>
-          <span class="pull-right-container">
-          </span>
-        </a>
-      </li>
+        <li class="">
+          <a href="{{ url('/todo-app/boards') }}">
+            <i class="glyphicon glyphicon-tasks"></i> <span>Todo Task</span>
+            <span class="pull-right-container">
+            </span>
+          </a>
+        </li>
+
+      @endhasanyrole
+
+      @hasanyrole('Sinior Developer|Developer')
+
+        <li class="">
+          <a href="{{ url('skills-list') }}">
+            <i class="glyphicon glyphicon-th-list"></i> <span>Skills</span>
+            <span class="pull-right-container">
+            </span>
+          </a>
+        </li>
+
+      @endhasanyrole
 
       <li class="">
         <a href="{{ url('profile-show') }}">

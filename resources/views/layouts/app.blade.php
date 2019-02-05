@@ -14,6 +14,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/bower_components/Ionicons/css/ionicons.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/bower_components/font-awesome/css/font-awesome.min.css') }}">
 
+    @yield('custom_css')
+
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/dist/css/AdminLTE.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('lib/dist/css/skins/_all-skins.min.css') }}">
@@ -75,7 +77,11 @@
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
      <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
+<<<<<<< HEAD
     <!-- <script src="{{ asset('js/material-kit.min.js') }}"></script> -->
+=======
+    {{-- <script src="{{ asset('js/material-kit.min.js') }}"></script> --}}
+>>>>>>> 3df482622760ed73eb1edfc421e38d45e901b0e8
     <script src="{{ asset('js/star-rating.min.js') }}"></script>
    
 

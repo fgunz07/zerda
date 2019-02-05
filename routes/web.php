@@ -19,6 +19,10 @@ Route::get('oauth-facebook', 'FacebookController@redirect')->name('facebook.auth
 
 Route::get('oauth-callback', 'FacebookController@callback');
 
+Route::get('select-role', 'RoleUserController@index');
+
+Route::post('select-role', 'RoleUserController@saveRole');
+
 // Route::group(['prefix' => 'todo-app'] , function () {
 
 // 	Route::get('todos','TodoController@index');
@@ -35,52 +39,57 @@ Route::get('oauth-callback', 'FacebookController@callback');
 
 Auth::routes();
 
-Route::group(['prefix' => 'todo-app'], function () {
+Route::group(['middleware' => 'IfUserHasRole'] , function () {
 
-	Route::get('boards', 'TodoListAppController@index')->name('todoboards');
+	Route::group(['prefix' => 'todo-app'], function () {
 
-	Route::get('boards/list', 'BoardsController@index');
+		Route::get('boards', 'TodoListAppController@index')->name('todoboards');
 
-	Route::post('boards', 'BoardsController@store');
+		Route::get('boards/list', 'BoardsController@index');
 
-	Route::delete('boards/{id}', 'BoardsController@delete');
+		Route::post('boards', 'BoardsController@store');
 
-	Route::get('boards/{id}', 'BoardsController@show');
+		Route::delete('boards/{id}', 'BoardsController@delete');
 
-	Route::get('todos', 'TodoController@listTodo');
+		Route::get('boards/{id}', 'BoardsController@show');
 
-	Route::post('todos', 'TodoController@store');
+		Route::get('todos', 'TodoController@listTodo');
 
-	Route::delete('todos/{id}', 'TodoController@delete');
+		Route::post('todos', 'TodoController@store');
 
-	Route::post('tasks', 'TaskController@store');
+		Route::delete('todos/{id}', 'TodoController@delete');
 
-	Route::post('todo-task', 'TodoController@UpdateTodoTask');
+		Route::post('tasks', 'TaskController@store');
+
+		Route::post('todo-task', 'TodoController@UpdateTodoTask');
+
+	});
+
+	Route::get('/users', 'UserController@availableUsers');
+
+	Route::get('home', 'HomeController@index')->name('home');
+	
+	//Dashboard
+	Route::get('dashboard','DashboardController@index');
+	Route::post('user-rate','DashboardController@changeRate');
+
+
+	//Skills
+	Route::get('skills-list','SkillsController@index');
+	Route::get('skills-create','SkillsController@create');
+	Route::post('skills-store','SkillsController@store');
+	Route::get('skills-edit/{id}','SkillsController@edit');
+	Route::put('skills-update/{id}','SkillsController@update');
+	Route::delete('skills-delete/{id}','SkillsController@destroy');
+
+	//Profile
+	Route::get('profile-show','ProfileController@show');
+	Route::post('profile-upload-pic/{id}','ProfileController@uploadProfile');
+	Route::post('profile-location','ProfileController@updateLocation');
+	Route::post('profile-education','ProfileController@updateEducation');
+	Route::post('profile-skill','ProfileController@updateSkill');
+	Route::post('profile-skill-delete/{id}','ProfileController@deleteSkill');
+	Route::post('profile-achievement','UserController@updateAchievement');
+	Route::post('profile-achievement-delete/{id}','UserController@deleteAchievement');
 
 });
-
-Route::get('home', 'HomeController@index')->name('home');
-
-//Dashboard
-Route::get('dashboard','DashboardController@index');
-Route::post('user-rate','DashboardController@changeRate');
-
-
-//Skills
-Route::get('skills-list','SkillsController@index');
-Route::get('skills-create','SkillsController@create');
-Route::post('skills-store','SkillsController@store');
-Route::get('skills-edit/{id}','SkillsController@edit');
-Route::put('skills-update/{id}','SkillsController@update');
-Route::delete('skills-delete/{id}','SkillsController@destroy');
-
-//Profile
-Route::get('profile-show','UserController@show');
-Route::get('profile-data','UserController@dataProfile');
-Route::post('profile-upload-pic', 'UserController@uploadProfile');
-Route::post('profile-location','UserController@updateLocation');
-Route::post('profile-education','UserController@updateEducation');
-Route::post('profile-skill','UserController@updateSkill');
-Route::post('profile-skill-delete/{id}','UserController@deleteSkill');
-Route::post('profile-achievement','UserController@updateAchievement');
-Route::post('profile-achievement-delete/{id}','UserController@deleteAchievement');

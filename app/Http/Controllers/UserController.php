@@ -107,4 +107,14 @@ class UserController extends Controller
 
         return redirect('profile-show');
     }
+
+    public function availableUsers(Request $request) {
+
+        $users = User::role('Sinior Developer','Developer')
+                    ->where('status', 0)
+                    ->get();
+
+        return response()->json($users);
+
+    }
 }
