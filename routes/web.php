@@ -83,12 +83,12 @@ Route::group(['middleware' => 'IfUserHasRole'] , function () {
 	Route::delete('skills-delete/{id}','SkillsController@destroy');
 
 	//Profile
-	Route::get('profile-show','ProfileController@show');
-	Route::post('profile-upload-pic/{id}','ProfileController@uploadProfile');
-	Route::post('profile-location','ProfileController@updateLocation');
-	Route::post('profile-education','ProfileController@updateEducation');
-	Route::post('profile-skill','ProfileController@updateSkill');
-	Route::post('profile-skill-delete/{id}','ProfileController@deleteSkill');
+	Route::get('profile-show','UserController@show');
+	Route::post('profile-upload-pic/{id}','UserController@uploadProfile');
+	Route::post('profile-location','UserController@updateLocation');
+	Route::post('profile-education','UserController@updateEducation');
+	Route::post('profile-skill','UserController@updateSkill');
+	Route::post('profile-skill-delete/{id}','UserController@deleteSkill');
 	Route::post('profile-achievement','UserController@updateAchievement');
 	Route::post('profile-achievement-delete/{id}','UserController@deleteAchievement');
 
