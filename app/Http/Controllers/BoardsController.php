@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Board;
+use Illuminate\Support\Facades\DB;
 
 class BoardsController extends Controller
 {
     public function index() {
 
-        $boards = Board::all();
+        $boards = auth()->user()->boards;
 
         return response()->json(['status' => true , 'data' => $boards]);
 
@@ -19,7 +20,13 @@ class BoardsController extends Controller
 
         try {
 
-            Board::create($request->all());
+            $board = Board::create($request->all());
+
+            DB::table('user_board')
+                ->insert([
+                    'user_id' => auth()->user()->id,
+                    'board_id'=> $board->id
+                ]);
 
         } catch (Exception $e) {
 

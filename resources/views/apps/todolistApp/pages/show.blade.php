@@ -246,6 +246,12 @@
 
 				}
 
+				if(e.target.classList.contains('glyphicon-user')) {
+
+					console.log(e.target.id)
+
+				}
+
 			}
 
 			sortables.forEach(item => {

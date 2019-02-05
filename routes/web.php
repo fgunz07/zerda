@@ -65,6 +65,8 @@ Route::group(['middleware' => 'IfUserHasRole'] , function () {
 
 	});
 
+	Route::get('/users', 'UserController@availableUsers');
+
 	Route::get('home', 'HomeController@index')->name('home');
 	
 	//Dashboard

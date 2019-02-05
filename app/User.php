@@ -38,6 +38,12 @@ class User extends Authenticatable {
 		'password', 'remember_token',
 	];
 
+	public function boards() {
+
+		return $this->belongsToMany('App\Board', 'user_board');
+
+	}
+
 	public function child_user_skill(){
 		return $this->belongsTo('App\Skill','skill_id','id');
 	}

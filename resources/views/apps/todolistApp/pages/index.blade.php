@@ -1,5 +1,9 @@
 @extends('apps.todolistApp.app')
 
+@section('custom_css')
+    <link rel="stylesheet" href="{{ asset('lib/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
+@endsection
+
 @section('content')
     <div class="box box-default">
         <div class="box-header with-border">
@@ -23,6 +27,40 @@
         <!-- /.box-body -->
     </div>
 
+    <div class="modal fade in" id="devs-list">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">List of Developers</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped dataTable">
+                    <thead>
+                    <tr role="row">
+                        <th>Dev Name</th>
+                        <th>Skills</th>
+                        <th>Option</th>
+                        {{--  <th>Engine version</th>
+                        <th>CSS grade</th>  --}}
+                    </tr>
+                    </thead>
+                    <tbody id="table-display-devs">
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+              {{--  <button type="button" class="btn btn-primary" id="saveBoard">Save</button>  --}}
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+
     <div class="modal fade in" id="new-board">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -34,10 +72,10 @@
           <div class="modal-body">
                 <div class="form-horizontal">
                     <div class="form-group">
-                    <label for="board-t" class="col-sm-2 control-label">Email</label>
+                    <label for="board-t" class="col-sm-2 control-label">Project:</label>
     
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="title" id="board-t" placeholder="Board Title">
+                            <input type="text" class="form-control" name="title" id="board-t" placeholder="Project name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -76,6 +114,8 @@
 @endsection
 
 @section('custom_script')
+    <script type="text/javascript" src="{{ asset('lib/bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/http.js') }}"></script>
     <script type="text/javascript">
         'use strict';
@@ -147,13 +187,44 @@
                 
                 display.innerHTML = ''
 
-                elements.forEach(item => {
+                if(elements) {
 
-                    display.insertAdjacentHTML('afterbegin', item.html_code)
+                    elements.forEach(item => {
 
-                })
+                        display.insertAdjacentHTML('afterbegin', item.html_code)
+    
+                    })
+
+                }
 
             } 
+
+            function renderDevs(users) {
+
+                if(users) {
+
+                    users.forEach(item => {
+
+                        document.querySelector('#table-display-devs')
+                                .innerHTML = `
+                                <tr>
+                                    <td>${item.first_name} ${item.middle_name} ${item.last_name}</td>
+                                    <td>
+                                        <small class="label pull-right bg-green">CSS</small><br>
+                                        <small class="label pull-right bg-red">HTML5</small><br>
+                                        <small class="label pull-right bg-yellow">Javascript</small>
+                                    </td>
+                                    <td class="text-right">
+                                        <button class="btn btn-success" id="user-details-${item.id}">Invite</button>
+                                    </td>
+                                </tr>
+                                `;
+
+                    })
+
+                }
+
+            }
 
             function loadBoard() {
 
@@ -168,6 +239,25 @@
                     })
                     .fail(err => {
                         swal('Error', err.message, 'error')
+                    })
+
+            }
+
+            function loadAvailableUsers() {
+
+                let options = {
+                    url     : '/users',
+                    method  : 'GET'
+                }
+
+                http(options)
+                    .done(res => {
+                        renderDevs(res)
+
+                        $('.dataTable').dataTable()
+                    })
+                    .fail(err => {
+                        console.log(err)
                     })
 
             }
@@ -206,6 +296,8 @@
             
             // load boards
             loadBoard()
+            // load users
+            loadAvailableUsers()
 
         })()
     </script>

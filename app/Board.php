@@ -16,6 +16,12 @@ class Board extends Model
 
     protected $appends = ['html_code'];
 
+    public function users() {
+
+        return $this->belongsTo('App\User');
+
+    }
+
     public function todos() {
 
         return $this->belongsToMany('App\Todo');
@@ -30,6 +36,8 @@ class Board extends Model
                         <h4><a href='/todo-app/boards/{$this->id}'>{$this->title}</a></h4>
 
                         <p>{$this->description}</p>
+
+                        <button class='btn btn-default btn-xs' data-toggle='modal' data-target='#devs-list'>Invite Devs</button>
                     </div>
                 </div>";
 
