@@ -9,6 +9,8 @@
             <div class="row">
                 <div id="display-boards">
                     <!-- content will load here automatically -->
+
+                    {!! $board->html_code_accept !!}
                 </div>
             </div>
         </div>
@@ -27,4 +29,4 @@
 
         })()
     </script>
-@endscript
+@endsection
