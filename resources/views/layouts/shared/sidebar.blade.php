@@ -34,7 +34,7 @@
         </a>
       </li>
 
-      @hasanyrole('Client|Sinior Developer|Developer')
+      @hasanyrole('Client|Senior Developer|Developer')
 
         <li class="">
           <a href="{{ url('/todo-app/boards') }}">
@@ -46,7 +46,7 @@
 
       @endhasanyrole
 
-      @hasanyrole('Sinior Developer|Developer')
+      @hasanyrole('Senior Developer|Developer')
 
         <li class="">
           <a href="{{ url('skills-list') }}">

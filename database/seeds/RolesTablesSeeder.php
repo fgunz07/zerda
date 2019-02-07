@@ -22,7 +22,7 @@ class RolesTablesSeeder extends Seeder
         	],
 
         	[
-        		'name' 		=> 'Sinior Developer',
+        		'name' 		=> 'Senior Developer',
         		'guard_name'=> 'web'
         	],
 

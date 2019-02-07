@@ -224,12 +224,16 @@
 
          //click delete skill
 
-        $('body').on('click','delSkillButton',function(){
-            var id = $('#SkillTable tbody tr.selected').find('input.skillID').val();
+        // $('body').on('click','delSkillButton',function(){
+        //     var id = $('#SkillTable tbody tr.selected').find('input.skillID').val();
+        //     alert('click');
+        //     console.log(id);
+        //     deleteSkill(id);
+        //     showData();
+        // });
+
+        $('#SkillTable').on('click', '.delSkillButton', function(){
             alert('click');
-            console.log(id);
-            deleteSkill(id);
-            showData();
         });
 
         //delete Skill
