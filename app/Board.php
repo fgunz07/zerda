@@ -37,7 +37,7 @@ class Board extends Model
 
                         <p>{$this->description}</p>
 
-                        <button class='btn btn-default btn-xs' data-toggle='modal' data-target='#devs-list'>Invite Devs</button>
+                        <button class='btn btn-default btn-xs board-invite' data-toggle='modal' data-target='#devs-list' id='invite-board-{$this->id}'>Invite Devs</button>
                     </div>
                 </div>";
 

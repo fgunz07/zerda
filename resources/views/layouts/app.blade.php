@@ -82,7 +82,7 @@
     <!-- <script src="{{ asset('js/material-kit.min.js') }}"></script> -->
     <script src="{{ asset('js/star-rating.min.js') }}"></script>
     <script src="{{ asset('js/message.js') }}"></script>
-   
+    <script src="{{ asset('js/notifications.js') }}"></script>
 
     <!-- CDN script's -->
     {{-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}}

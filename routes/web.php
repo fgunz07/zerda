@@ -11,17 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => 'web'], function () {
+
+	Route::get('/', function () {
+		return view('welcome');
+	});
+	
+	Route::get('oauth-facebook', 'FacebookController@redirect')->name('facebook.auth');
+	
+	Route::get('oauth-callback', 'FacebookController@callback');
+	
+	Route::get('select-role', 'RoleUserController@index');
+	
+	Route::post('select-role', 'RoleUserController@saveRole');
+
 });
-
-Route::get('oauth-facebook', 'FacebookController@redirect')->name('facebook.auth');
-
-Route::get('oauth-callback', 'FacebookController@callback');
-
-Route::get('select-role', 'RoleUserController@index');
-
-Route::post('select-role', 'RoleUserController@saveRole');
 
 // Route::group(['prefix' => 'todo-app'] , function () {
 
@@ -63,11 +67,17 @@ Route::group(['middleware' => 'IfUserHasRole'] , function () {
 
 		Route::post('todo-task', 'TodoController@UpdateTodoTask');
 
+		Route::get('board-details/{id}', 'BoardsController@boardDetails');
+
 	});
 
 	Route::group(['prefix' => 'notification'], function () {
 
-		Route::get('/invite', 'InviteNotificationController@inviteDev');
+		Route::post('/invite', 'InviteNotificationController@inviteDev');
+
+		Route::get('/invite', 'InviteNotificationController@getInviteNotifications');
+
+		Route::get('/message' , 'MessageNotificationController@message');
 
 	});
 

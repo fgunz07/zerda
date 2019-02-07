@@ -52,6 +52,8 @@
 
                   @yield('content')
 
+                  @include('layouts.shared.message')
+
               </section>
 
             </div>
@@ -70,6 +72,7 @@
     <script src="{{ asset('lib/dist/js/adminlte.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('js/message.js') }}"></script>
+    <script src="{{ asset('js/notifications.js') }}"></script>
 
     <!-- CDN script's -->
     {{-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}}
