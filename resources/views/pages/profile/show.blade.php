@@ -332,7 +332,7 @@
                                 <div class="col-md-offset-2">
                                     <div class="col-md-8">
                                         <!-- <p id="achievementChange"></p> -->
-                                        <table class="table table-hover" style="border:1px gray">
+                                        <table id="achivementTable"class="table table-hover" style="border:1px gray">
                                                 <thead>
                                                     <tr>
                                                         <th>List of Achievement</th>

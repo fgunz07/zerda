@@ -93,7 +93,9 @@ class UserController extends Controller
     }
 
     public function deleteSkill($id){
-        Skill::find($id)->delete();
+        // dd($id);
+        Specialization::find($id)->delete();
+        // return redirect('profile-show');
     }
 
     public function updateAchievement(Request $request){
@@ -108,9 +110,15 @@ class UserController extends Controller
         return redirect('profile-show');
     }
 
+    public function deleteAchievement($id){
+        // dd($id);
+        Achievement::find($id)->delete();
+        // return redirect('profile-show');
+    }
+
     public function availableUsers(Request $request) {
 
-        $users = User::role('Sinior Developer','Developer')
+        $users = User::role('Senior Developer','Developer')
                     ->where('status', 0)
                     ->get();
 

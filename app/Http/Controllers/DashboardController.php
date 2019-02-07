@@ -39,14 +39,7 @@ class DashboardController extends Controller
 		return view('pages.dashboard.viewProfile')->with('users',$users);
     }
 
-	public function inviteDev($id){
-		$invite = User::where('id',$id)
-				->update([
-					'availability'=>'1',
-
-					]);
-		event(new InviteDeveloper($invite));
-	}
+	
 
 
 	public function changeRate(){
