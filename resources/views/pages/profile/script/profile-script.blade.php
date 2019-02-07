@@ -234,6 +234,8 @@
 
         $('#SkillTable').on('click', '.delSkillButton', function(){
             alert('click');
+
+            deleteSkill(id)
         });
 
         //delete Skill

@@ -6,8 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
-class InviteDeveloper extends Notification
+class InviteDev extends Notification
 {
     use Queueable;
 
@@ -16,9 +17,9 @@ class InviteDeveloper extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($event)
     {
-        //
+        $this->event = $event;
     }
 
     /**
@@ -29,15 +30,29 @@ class InviteDeveloper extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail','broadcast'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
+    public function toDatabase($notifiable)
+    {
+        return [
+            'id' => $this->event->id,
+            'last_name' => $this->event->last_name,
+            'first_name' => $this->event->first_name,
+            'middle_name' => $this->event->middle_name,
+        ];
+    }
+
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'id' => $this->event->id,
+            'last_name' => $this->event->last_name,
+            'first_name' => $this->event->first_name,
+            'middle_name' => $this->event->middle_name,
+        ]);
+    }
+
     public function toMail($notifiable)
     {
         return (new MailMessage)

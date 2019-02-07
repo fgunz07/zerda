@@ -9,6 +9,7 @@ use App\Skill;
 use App\Education;
 use App\Location;
 use App\Specialization;
+use App\Events\InviteDeveloper;
 
 class DashboardController extends Controller
 {
@@ -33,10 +34,20 @@ class DashboardController extends Controller
 				->with('child_user_specilization')
 				->with('child_user_achievement')
 				->get();
-		// dd($users);
+		// dd($users);	
 		// return response()->json(['users'=>$user]);
 		return view('pages.dashboard.viewProfile')->with('users',$users);
     }
+
+	public function inviteDev($id){
+		$invite = User::where('id',$id)
+				->update([
+					'availability'=>'1',
+
+					]);
+		event(new InviteDeveloper($invite));
+	}
+
 
 	public function changeRate(){
         
