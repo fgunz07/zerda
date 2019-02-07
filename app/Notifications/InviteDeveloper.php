@@ -11,14 +11,16 @@ class InviteDeveloper extends Notification
 {
     use Queueable;
 
+    private $inviteDetails;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($d)
     {
-        //
+        $this->inviteDetails = $d;
     }
 
     /**
@@ -29,7 +31,7 @@ class InviteDeveloper extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -52,10 +54,8 @@ class InviteDeveloper extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
+    public function toDatabase($notifiable)
+    {   
+        return $this->inviteDetails;
     }
 }

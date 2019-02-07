@@ -65,6 +65,12 @@ Route::group(['middleware' => 'IfUserHasRole'] , function () {
 
 	});
 
+	Route::group(['prefix' => 'notification'], function () {
+
+		Route::get('/invite', 'InviteNotificationController@inviteDev');
+
+	});
+
 	Route::get('/users', 'UserController@availableUsers');
 
 	Route::get('home', 'HomeController@index')->name('home');

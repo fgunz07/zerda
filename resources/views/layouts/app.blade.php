@@ -81,6 +81,7 @@
     <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
     <!-- <script src="{{ asset('js/material-kit.min.js') }}"></script> -->
     <script src="{{ asset('js/star-rating.min.js') }}"></script>
+    <script src="{{ asset('js/message.js') }}"></script>
    
 
     <!-- CDN script's -->

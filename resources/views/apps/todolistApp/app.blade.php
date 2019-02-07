@@ -69,6 +69,7 @@
     <script src="{{ asset('lib/bower_components/fastclick/lib/fastclick.js') }}"></script>
     <script src="{{ asset('lib/dist/js/adminlte.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('js/message.js') }}"></script>
 
     <!-- CDN script's -->
     {{-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}}
