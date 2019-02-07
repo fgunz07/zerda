@@ -60,6 +60,8 @@
 
                 @yield('content')
 
+                @include('layouts.shared.message')
+
             </section>
 
         </div>

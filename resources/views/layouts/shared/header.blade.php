@@ -26,11 +26,11 @@
               <span class="label label-success">0</span>
             </a>
             <ul class="dropdown-menu">
-              <li class="header">You have 4 messages</li>
+              <li class="header">You have 0 messages</li>
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
-                  <li><!-- start message -->
+                  {{--  <li><!-- start message -->
                     <a href="#">
                       <div class="pull-left">
                         <img src="/images/user2-160x160.jpg" class="img-circle" alt="User Image">
@@ -41,7 +41,7 @@
                       </h4>
                       <p>Why not buy a new awesome theme?</p>
                     </a>
-                  </li>
+                  </li>  --}}
                   <!-- end message -->
                 </ul>
               </li>

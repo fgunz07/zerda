@@ -215,6 +215,7 @@
                                         <small class="label pull-right bg-yellow">Javascript</small>
                                     </td>
                                     <td class="text-right">
+                                        <button class="btn btn-warning" id="user-message-${item.id}">Message</button>
                                         <button class="btn btn-success" id="user-details-${item.id}">Invite</button>
                                     </td>
                                 </tr>

@@ -54,10 +54,7 @@
 													<hr>
 
 													<strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
-
-													
-													<p class="text-muted">{{$dev->child_user_location[0]->street}},{{$dev->child_user_location[0]->brgy}},{{$dev->child_user_location[0]->city}},{{$dev->child_user_location[0]->province}},{{$dev->child_user_location[0]->country}}</p>
-													
+													<p class="text-muted">{{count($dev->child_user_location) > 0 ? $dev->child_user_location[0]->street : 'Not Set'}},{{count($dev->child_user_location) > 0 ? $dev->child_user_location[0]->brgy : 'Not Set'}},{{count($dev->child_user_location) > 0 ? $dev->child_user_location[0]->city : 'Not Set'}},{{count($dev->child_user_location) > 0 ? $dev->child_user_location[0]->province : 'Not Set'}},{{count($dev->child_user_location) > 0 ? $dev->child_user_location[0]->country : 'Not Set'}}</p>													
 													
 												</div>
 											</div>
