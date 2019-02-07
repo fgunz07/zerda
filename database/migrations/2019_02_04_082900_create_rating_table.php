@@ -15,10 +15,18 @@ class CreateRatingTable extends Migration
     {
         Schema::create('rating', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('user_id')->unsigned();
             $table->string('rating');
             $table->timestamps();
+        });
+
+        Schema::table('rating', function (Blueprint $table) {
+
+            $table->foreign('user_id')
+                    ->references('id')
+                    ->on('users')
+                    ->onDelete('cascade');
+
         });
     }
 
@@ -29,6 +37,13 @@ class CreateRatingTable extends Migration
      */
     public function down()
     {
+
+        Schema::table('rating', function (Blueprint $table) {
+
+            $table->dropForeign('rating_user_id_foreign');
+
+        });
+
         Schema::dropIfExists('rating');
     }
 }

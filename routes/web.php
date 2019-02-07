@@ -94,8 +94,4 @@ Route::group(['middleware' => 'IfUserHasRole'] , function () {
 	Route::post('profile-achievement','UserController@updateAchievement');
 	Route::post('profile-achievement-delete/{id}','UserController@deleteAchievement');
 
-	Route::get('test-broadcast', function(){
-		broadcast(new \App\Events\InviteDeveloper);
-	});
-
 });

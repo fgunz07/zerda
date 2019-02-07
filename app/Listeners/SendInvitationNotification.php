@@ -15,9 +15,9 @@ class SendInvitationNotification
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct()
     {
-        $this->user = $user;
+        
     }
 
     /**
@@ -26,9 +26,10 @@ class SendInvitationNotification
      * @param  InviteDeveloper  $event
      * @return void
      */
-    public function handle(InviteDeveloper $event, $user)
+    public function handle(InviteDeveloper $event)
     {
         \Log::info($event);
-        $user->notify(new InviteDev($event));
+        $event->invite;
+        // $user->notify(new InviteDev($event));
     }
 }

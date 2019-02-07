@@ -19,10 +19,13 @@ class InviteDeveloper implements ShouldBroadcast
      * Create a new event instance.
      *
      * @return void
+
      */
-    public function __construct(User $user)
+    public $invite;
+
+    public function __construct($invite)
     {
-        $this->user = $user;
+        $this->invite = $invite;
     }
 
     /**
@@ -35,10 +38,4 @@ class InviteDeveloper implements ShouldBroadcast
         return new PrivateChannel('invitation-notif');
     }
 
-    public function broadcastWith()
-    {
-        return [
-            'data' => 'key'
-        ];
-    }
 }
