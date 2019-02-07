@@ -14,11 +14,17 @@ class AddColumnUserIdOnUsers extends Migration
     public function up()
     {
         Schema::table('achievements', function (Blueprint $table) {
-            $table->integer('user_id')->after('id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('user_id')
+                    ->unsigned()
+                    ->after('id');
+
             $table->date('year_start')->after('description');
             $table->date('year_end')->after('year_start');
 
+            $table->foreign('user_id')
+                    ->references('id')
+                    ->on('users')
+                    ->onDelete('cascade');
         });
     }
 

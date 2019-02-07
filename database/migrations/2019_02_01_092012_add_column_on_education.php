@@ -14,9 +14,14 @@ class AddColumnOnEducation extends Migration
     public function up()
     {
         Schema::table('education', function (Blueprint $table) {
-            $table->integer('user_id')->after('id');
+            $table->integer('user_id')
+                    ->unsigned()
+                    ->after('id');
         
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')
+                    ->references('id')
+                    ->on('users')
+                    ->onDelete('cascade');
         });
     }
 
@@ -27,6 +32,12 @@ class AddColumnOnEducation extends Migration
      */
     public function down()
     {
-        //
+
+        Schema::table('education', function (Blueprint $table) {
+
+            $table->dropForeign('education_user_id_foreign');
+
+        });
+
     }
 }
