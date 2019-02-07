@@ -77,11 +77,7 @@
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
      <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
-<<<<<<< HEAD
     <!-- <script src="{{ asset('js/material-kit.min.js') }}"></script> -->
-=======
-    {{-- <script src="{{ asset('js/material-kit.min.js') }}"></script> --}}
->>>>>>> 3df482622760ed73eb1edfc421e38d45e901b0e8
     <script src="{{ asset('js/star-rating.min.js') }}"></script>
    
 

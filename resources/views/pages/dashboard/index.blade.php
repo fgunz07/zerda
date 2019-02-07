@@ -43,6 +43,7 @@
 														{{$dev->last_name}},{{$dev->first_name}}, {{$dev->middle_name}}.
 													</a>
 												</h4>
+												<input type="hidden" class="devID" value="{{$dev->id}}">
 											</div>
 											<div id="collapseOne" class="panel-collapse collapse in">
 												<div class="box-body">
@@ -118,7 +119,7 @@
 										</select>
 									</div>	
 									<div class="pull-right">
-										<a href="#" class="btn btn-primary btn-block"><i class="glyphicon glyphicon-user"></i><b>View Profile</b></a>
+										<a href="{{url('profile-view', $dev->id)}}" class="btn btn-primary btn-block viewProfile"><i class="glyphicon glyphicon-user "></i><b>View Profile</b></a>
 									</div>	
 								</div>
 							</div>

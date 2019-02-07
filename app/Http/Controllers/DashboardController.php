@@ -24,7 +24,20 @@ class DashboardController extends Controller
 			->with('users', $users)
 			->with('skills', $skills);
 	}
-	
+
+	public function viewProfile($id){
+        
+		$users = User::where('id', $id)
+				->with('child_user_education')
+				->with('child_user_location')
+				->with('child_user_specilization')
+				->with('child_user_achievement')
+				->get();
+		// dd($users);
+		// return response()->json(['users'=>$user]);
+		return view('pages.dashboard.viewProfile')->with('users',$users);
+    }
+
 	public function changeRate(){
         
     }

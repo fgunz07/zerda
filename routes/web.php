@@ -71,6 +71,7 @@ Route::group(['middleware' => 'IfUserHasRole'] , function () {
 	
 	//Dashboard
 	Route::get('dashboard','DashboardController@index');
+	Route::get('profile-view/{id}','DashboardController@viewProfile');
 	Route::post('user-rate','DashboardController@changeRate');
 
 
@@ -84,6 +85,7 @@ Route::group(['middleware' => 'IfUserHasRole'] , function () {
 
 	//Profile
 	Route::get('profile-show','UserController@show');
+	Route::get('profile-data','UserController@dataProfile');
 	Route::post('profile-upload-pic/{id}','UserController@uploadProfile');
 	Route::post('profile-location','UserController@updateLocation');
 	Route::post('profile-education','UserController@updateEducation');
