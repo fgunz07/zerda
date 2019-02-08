@@ -11,17 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => 'web'], function () {
+
+	Route::get('/', function () {
+		return view('welcome');
+	});
+	
+	Route::get('oauth-facebook', 'FacebookController@redirect')->name('facebook.auth');
+	
+	Route::get('oauth-callback', 'FacebookController@callback');
+	
+	Route::get('select-role', 'RoleUserController@index');
+	
+	Route::post('select-role', 'RoleUserController@saveRole');
+
 });
-
-Route::get('oauth-facebook', 'FacebookController@redirect')->name('facebook.auth');
-
-Route::get('oauth-callback', 'FacebookController@callback');
-
-Route::get('select-role', 'RoleUserController@index');
-
-Route::post('select-role', 'RoleUserController@saveRole');
 
 // Route::group(['prefix' => 'todo-app'] , function () {
 
@@ -63,12 +67,27 @@ Route::group(['middleware' => 'IfUserHasRole'] , function () {
 
 		Route::post('todo-task', 'TodoController@UpdateTodoTask');
 
+		Route::get('board-details/{id}', 'BoardsController@boardDetails');
+
 	});
+
+	Route::group(['prefix' => 'notification'], function () {
+
+		Route::post('/invite', 'InviteNotificationController@inviteDev');
+
+		Route::get('/invite', 'InviteNotificationController@getInviteNotifications');
+
+		Route::get('/message' , 'MessageNotificationController@message');
+
+	});
+
+	Route::get('/users', 'UserController@availableUsers');
 
 	Route::get('home', 'HomeController@index')->name('home');
 	
 	//Dashboard
 	Route::get('dashboard','DashboardController@index');
+	Route::get('profile-view/{id}','DashboardController@viewProfile');
 	Route::post('user-rate','DashboardController@changeRate');
 
 
@@ -81,12 +100,14 @@ Route::group(['middleware' => 'IfUserHasRole'] , function () {
 	Route::delete('skills-delete/{id}','SkillsController@destroy');
 
 	//Profile
-	Route::get('profile-show','ProfileController@show');
-	Route::post('profile-upload-pic/{id}','ProfileController@uploadProfile');
-	Route::post('profile-location','ProfileController@updateLocation');
-	Route::post('profile-education','ProfileController@updateEducation');
-	Route::post('profile-skill','ProfileController@updateSkill');
-	Route::post('profile-skill-delete/{id}','ProfileController@deleteSkill');
-	Route::post('profile-notes','ProfileController@updateNotes');
+	Route::get('profile-show','UserController@show');
+	Route::get('profile-data','UserController@dataProfile');
+	Route::post('profile-upload-pic/{id}','UserController@uploadProfile');
+	Route::post('profile-location','UserController@updateLocation');
+	Route::post('profile-education','UserController@updateEducation');
+	Route::post('profile-skill','UserController@updateSkill');
+	Route::post('profile-skill-delete/{id}','UserController@deleteSkill');
+	Route::post('profile-achievement','UserController@updateAchievement');
+	Route::post('profile-achievement-delete/{id}','UserController@deleteAchievement');
 
 });

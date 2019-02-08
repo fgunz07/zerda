@@ -38,19 +38,33 @@ class User extends Authenticatable {
 		'password', 'remember_token',
 	];
 
+	public function boards() {
+
+		return $this->belongsToMany('App\Board', 'user_board');
+
+	}
+
 	public function child_user_skill(){
 		return $this->belongsTo('App\Skill','skill_id','id');
 	}
 
 	public function child_user_location(){
-		return $this->belongsTo('App\Location', 'user_id', 'id');
+		return $this->hasMany('App\Location', 'user_id', 'id');
 	}
 
 	public function child_user_education(){
-		return $this->belongsTo('App\Education','user_id', 'id');
+		return $this->hasMany('App\Education','user_id', 'id');
 	}
 
 	public function child_user_specilization(){
-		return $this->belongsTo('App\Specialization','user_id','id');
+		return $this->hasMany('App\Specialization','user_id','id');
+	}
+
+	public function child_user_rating(){
+		return $this->hasMany('App\Rating','user_id','id');
+	}
+
+	public function child_user_achievement(){
+		return $this->hasMany('App\Achievement','user_id','id');
 	}
 }

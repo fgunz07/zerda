@@ -43,21 +43,18 @@
 														{{$dev->last_name}},{{$dev->first_name}}, {{$dev->middle_name}}.
 													</a>
 												</h4>
+												<input type="hidden" class="devID" value="{{$dev->id}}">
 											</div>
 											<div id="collapseOne" class="panel-collapse collapse in">
 												<div class="box-body">
-													<strong><i class="fa fa-book margin-r-5"></i> Education</strong>
+													<strong><i class="glyphicon glyphicon-envelope margin-r-5"></i> Email Address</strong>
 
-													<p class="text-muted">
-													B.S. in Computer Science from the University of Tennessee at Knoxville
-													</p>
+													<p class="text-muted">{{$dev->email}}</p>
 
 													<hr>
 
 													<strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
-
-													<p class="text-muted">Malibu, California</p>
-
+													<p class="text-muted">{{count($dev->child_user_location) > 0 ? $dev->child_user_location[0]->street : 'Not Set'}},{{count($dev->child_user_location) > 0 ? $dev->child_user_location[0]->brgy : 'Not Set'}},{{count($dev->child_user_location) > 0 ? $dev->child_user_location[0]->city : 'Not Set'}},{{count($dev->child_user_location) > 0 ? $dev->child_user_location[0]->province : 'Not Set'}},{{count($dev->child_user_location) > 0 ? $dev->child_user_location[0]->country : 'Not Set'}}</p>													
 													
 												</div>
 											</div>
@@ -76,11 +73,9 @@
 												<strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
 
 												<p>
-												<span class="label label-danger">UI Design</span>
-												<span class="label label-success">Coding</span>
-												<span class="label label-info">Javascript</span>
-												<span class="label label-warning">PHP</span>
-												<span class="label label-primary">Node.js</span>
+													@foreach($dev->child_user_specilization as $skill)
+													<span class="label label-success">{{$skill->sklill_desc->description}}</span>
+													@endforeach
 												</p>
 											</div>
 										</div>
@@ -97,7 +92,11 @@
 
 													<strong><i class="fa fa-file-text-o margin-r-5"></i> Achievements</strong>
 
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+													<p>
+														@foreach($dev->child_user_achievement as $achievement)
+														<span class="label label-success">{{$achievement->name}}</span>
+														@endforeach
+													</p>
 
 												</div>
 											</div>
@@ -117,7 +116,7 @@
 										</select>
 									</div>	
 									<div class="pull-right">
-										<a href="#" class="btn btn-primary btn-block"><b>Hire Me</b></a>
+										<a href="{{url('profile-view', $dev->id)}}" class="btn btn-primary btn-block viewProfile"><i class="glyphicon glyphicon-user "></i><b>View Profile</b></a>
 									</div>	
 								</div>
 							</div>

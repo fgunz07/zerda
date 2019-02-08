@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddColumnOnSpecializations extends Migration
+class AlterTableUsersAddColumnStatus extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddColumnOnSpecializations extends Migration
      */
     public function up()
     {
-        Schema::table('specializations', function(Blueprint $table){
-            $table->integer('user_id')->after('id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->smallInteger('status')
+                    ->default(0)
+                    ->after('email');
         });
     }
 
@@ -25,6 +27,10 @@ class AddColumnOnSpecializations extends Migration
      */
     public function down()
     {
-        
+        Schema::table('users', function (Blueprint $table) {
+
+            $table->dropColumn('status');
+
+        });
     }
 }

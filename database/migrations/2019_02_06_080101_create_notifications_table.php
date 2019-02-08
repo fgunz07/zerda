@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableEducation extends Migration
+class CreateNotificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateTableEducation extends Migration
      */
     public function up()
     {
-        Schema::create('table_education', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id');
-            $table->string('primary');
-            $table->string('secodary');
-            $table->string('tertiary');
+        Schema::create('notifications', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('type');
+            $table->morphs('notifiable');
+            $table->text('data');
+            $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateTableEducation extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_education');
+        Schema::dropIfExists('notifications');
     }
 }

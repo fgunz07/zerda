@@ -11,7 +11,7 @@ class Specialization extends Model
     protected $fillable = ['user_id','name','description'];
 
     public function parent_user_specialization(){
-        return $this->hasMany('App\User','user_id','id');
+        return $this->belongsTo('App\User','user_id','id');
     }
 
     public function sklill_desc(){

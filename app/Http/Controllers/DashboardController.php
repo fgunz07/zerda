@@ -3,20 +3,52 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Skill;
+use App\Education;
+use App\Location;
+use App\Specialization;
+use App\Events\InviteDeveloper;
 
 class DashboardController extends Controller
 {
     public function index(){
-		$users = User::all();
+		// $users = User::all();
+		$users = User::with('child_user_location')
+				->with('child_user_specilization')
+				->with('child_user_achievement')
+				->get();
 		$skills = Skill::all();
     	// dd($users);
 		return view('pages.dashboard.index')
-		->with('users', $users)
-		->with('skills', $skills);
+			->with('users', $users)
+			->with('skills', $skills);
 	}
-	
+
+	public function viewProfile($id){
+        
+		$users = User::where('id', $id)
+				->with('child_user_education')
+				->with('child_user_location')
+				->with('child_user_specilization')
+				->with('child_user_achievement')
+				->get();
+		// dd($users);	
+		// return response()->json(['users'=>$user]);
+		return view('pages.dashboard.viewProfile')->with('users',$users);
+    }
+
+	public function inviteDev($id){
+		$invite = User::where('id',$id)
+				->update([
+					'availability'=>'1',
+
+					]);
+		event(new InviteDeveloper($invite));
+	}
+
+
 	public function changeRate(){
         
     }

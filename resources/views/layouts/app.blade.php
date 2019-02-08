@@ -22,8 +22,13 @@
     <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
-    {{-- <link rel="stylesheet" href="{{ asset('css/ material-kit.min.css') }}"> --}}
+    <!-- <link rel="stylesheet" href="{{ asset('css/ material-kit.min.css') }}"> -->
     <link rel="stylesheet" href="{{ asset('css/star-rating.min.css') }}">
+    <!-- <link rel="stylesheet" href="{{ asset('css/star-rating.minbootstrap-datepicker.min.css') }}"> -->
+    
+   
+
+    @yield('custom_css')
 
     <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -55,6 +60,8 @@
 
                 @yield('content')
 
+                @include('layouts.shared.message')
+
             </section>
 
         </div>
@@ -72,9 +79,10 @@
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
      <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
-    {{-- <script src="{{ asset('js/material-kit.min.js') }}"></script> --}}
+    <!-- <script src="{{ asset('js/material-kit.min.js') }}"></script> -->
     <script src="{{ asset('js/star-rating.min.js') }}"></script>
-   
+    <script src="{{ asset('js/message.js') }}"></script>
+    <script src="{{ asset('js/notifications.js') }}"></script>
 
     <!-- CDN script's -->
     {{-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}}
