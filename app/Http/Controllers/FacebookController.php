@@ -36,7 +36,8 @@ class FacebookController extends Controller
 			                    'email',
 			                    'gender', 
 			                    'verified'
-			                ]);
+			                ])
+                            ->stateless();
 
         $user = $service->createOrGetUser($fields->user());
 
