@@ -55,12 +55,15 @@ class BoardsController extends Controller
 
     }
 
-    public function boardDetails($id) {
+    public function boardDetails(Request $request, $id) {
 
         $board = Board::findOrFail($id);
 
+        // auth()->user()->unreadNotifications->find($request->notf_id)->markAsRead();
+
         return view('apps.todolistApp.pages.details')
-                ->with('board', $board);
+                ->with('board', $board)
+                ->with('notf_id', $request->notf_id);
 
     }
 }

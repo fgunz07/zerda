@@ -16,14 +16,16 @@
 
 			@endforeach
 		</div>
-		<div class="col-sm-3">
-			<div class="input-group">
-				<input type="text" class="form-control" name="todo_name" placeholder="Todo name">
-				<span class="input-group-addon">
-					<a href="javascript:void(0);" id="add_todo"><i class="fa fa-check"></i></a>
-				</span>
+		@if(auth()->user()->hasAnyRole(['Senior Developer','Client']))
+			<div class="col-sm-3">
+				<div class="input-group">
+					<input type="text" class="form-control" name="todo_name" placeholder="Todo name">
+					<span class="input-group-addon">
+						<a href="javascript:void(0);" id="add_todo"><i class="fa fa-check"></i></a>
+					</span>
+				</div>
 			</div>
-		</div>
+		@endif
 	</div>
 
 	<div class="modal fade in" id="new-task">
@@ -69,23 +71,95 @@
 		<!-- /.modal-dialog -->
 	</div>
 
+	<div class="modal fade in" id="devs">
+		<div class="modal-dialog modal-sm">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">×</span></button>
+			  <h4 class="modal-title">Assign</h4>
+			</div>
+			<div class="modal-body">
+				<table class="table table-bordered table-striped dataTable">
+                    <thead>
+                    <tr role="row">
+                        <th>Select</th>
+                        <th>Developer</th>
+                    </tr>
+                    </thead>
+                    <tbody id="table-display-devs">
+                    	@foreach($board->users as $dev)
+                    		<tr>
+	                        	<td>
+	                        		<input type="radio" name="dev" class="radio-devs" id="dev-{{ $dev->id }}" value="{{ $dev->first_name }} {{ $dev->middle_name }} {{ $dev->last_name }}">
+	                        	</td>
+	                        	<td>
+	                        		<label for="dev-{{ $dev->id }}">
+	                        			{{ $dev->first_name }} {{ $dev->middle_name }} {{ $dev->last_name }}
+	                        		</label>
+				                </td>
+	                        </tr>
+                    	@endforeach
+                    </tbody>
+                </table>
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+			</div>
+		  </div>
+		  <!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
 @endsection
 
 @section('custom_script')
+	<script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
 	<script src="{{ asset('lib/sortablejs/sortable.min.js') }}"></script>
 	<script src="{{ asset('js/http.js') }}"></script>
 	<script type="text/javascript">
 		'use strict';
+
+		$('.datepicker').datepicker()
 
 		(function(){
 
 			const arrayRadioBTN     = document.querySelectorAll('.radio-class')
 			const arrayRadioLabel   = document.querySelectorAll('.label')
 			const sortables 		= document.querySelectorAll('.sortable')
+			const radioBtn 			= document.querySelectorAll('.radio-devs')
 
-			let todoId 		 = null;
-			let currentSrcEl = null;
-            let currentCheck = null;
+			let todoId 		 = null
+			let currentSrcEl = null
+            let currentCheck = null
+            let selectUserName= null
+            let selectedTodo = 0
+
+            radioBtn.forEach(item => {
+
+            	item.addEventListener('change', e => {
+
+            		let options = {
+            			url		: '/todo-app/todo/assign',
+            			method 	: 'POST',
+            			data 	: {
+            				task_id : selectedTodo,
+            				dev 	: e.target.value
+            			}
+            		}
+
+            		http(options)
+            			.done(res => {
+            				// do nothing .
+
+            				window.location.reload()
+            			})
+            			.fail(err => swal('Error', err.message, 'error'))
+
+            	})
+
+            })
 
             arrayRadioLabel.forEach(item => {
                 item.addEventListener('click', function(e) {
@@ -248,7 +322,7 @@
 
 				if(e.target.classList.contains('glyphicon-user')) {
 
-					console.log(e.target.id)
+					selectedTodo = e.target.id.split('-').pop()
 
 				}
 

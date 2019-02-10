@@ -23,6 +23,7 @@ class AlterTableUserTodo extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
+                
             $table->foreign('board_id')
                 ->references('id')
                 ->on('boards')

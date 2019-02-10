@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class RegisterController extends Controller
 {
@@ -40,6 +41,20 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm()
+    {
+
+        $roles = Role::all();
+
+        return view('auth.register')
+                ->with('roles', $roles);
     }
 
     /**
@@ -83,7 +98,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
-        return User::create([
+        $user = User::create([
             'first_name'    => $data['first_name'],
             'last_name'     => $data['last_name'],
             'middle_name'   => $data['middle_name'],
@@ -91,6 +106,10 @@ class RegisterController extends Controller
             'country_id'    => $data['country_id'],
             'password'      => Hash::make($data['password']),
         ]);
+
+        $user->assignRole($data['role_name']);
+
+        return $user;
     }
 
     /**

@@ -174,7 +174,7 @@
                     users.forEach(item => {
 
                         document.querySelector('#table-display-devs')
-                                .innerHTML = `
+                                .innerHTML += `
                                 <tr>
                                     <td>${item.first_name} ${item.middle_name} ${item.last_name}</td>
                                     <td>
