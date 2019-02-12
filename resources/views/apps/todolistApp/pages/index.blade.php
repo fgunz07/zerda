@@ -125,40 +125,8 @@
             const arrayRadioLabel   = document.querySelectorAll('.label')
             const deleteBoard       = null
 
-            window.addEventListener('click', function(e) {
-
-                let targetId = null
-                let options  = {} 
-
-                if(e.target.classList.contains('close')) {
-
-                    targetId = (e.target.id).split('-').pop()
-
-                    options = {
-                        url     : `/todo-app/boards/${targetId}`,
-                        method  : 'DELETE',
-                    }
-
-                    http(options)
-                        .done(res => {
-                            if(res.status) {
-                                swal('Success', res.message, 'success')
-
-                                loadBoard()
-
-                                return
-                            }
-                        })
-                        .fail(err => {
-
-                            swal('Error', err.responseJSON, 'error')
-
-                        })
-                }
-            })
-
-            let currentSrcEl = null;
-            let currentCheck = null;
+            let currentSrcEl = null
+            let currentCheck = null
 
             arrayRadioLabel.forEach(item => {
                 item.addEventListener('click', function(e) {
@@ -215,8 +183,7 @@
                                         <small class="label pull-right bg-yellow">Javascript</small>
                                     </td>
                                     <td class="text-right">
-                                        <button class="btn btn-warning" id="user-message-${item.id}">Message</button>
-                                        <button class="btn btn-success" id="user-details-${item.id}">Invite</button>
+                                        <button class="btn btn-success invite" id="user-details-${item.id}">Invite</button>
                                     </td>
                                 </tr>
                                 `;
@@ -263,6 +230,74 @@
 
             }
 
+            let strId;
+
+            function globalEvents(e) {
+
+                if(e.target.classList.contains('invite')) {
+
+                    let id = e.target.id.split('-').pop()
+
+                    const options = {
+                        url     : '/notification/invite',
+                        method  : 'POST',
+                        data    : {
+                            target_user: id,
+                            target_board: strId
+                        }
+                    }
+
+                    http(options)
+                        .done(res => {
+
+                            swal('Success', res.message , 'success')
+
+                        })
+                        .fail(err => {
+
+                            swal('Error', err.responseText, 'error')
+
+                        })
+
+                }
+
+                if(e.target.classList.contains('board-invite')) {
+
+                    strId = e.target.id.split('-').pop()
+
+                }
+
+                let targetId = null
+                let options  = {} 
+
+                if(e.target.classList.contains('close')) {
+
+                    targetId = (e.target.id).split('-').pop()
+
+                    options = {
+                        url     : `/todo-app/boards/${targetId}`,
+                        method  : 'DELETE',
+                    }
+
+                    http(options)
+                        .done(res => {
+                            if(res.status) {
+                                swal('Success', res.message, 'success')
+
+                                loadBoard()
+
+                                return
+                            }
+                        })
+                        .fail(err => {
+
+                            swal('Error', err.responseJSON, 'error')
+
+                        })
+                }
+
+            }
+
             document.getElementById('saveBoard')
                     .addEventListener('click', function(e) {
 
@@ -299,6 +334,9 @@
             loadBoard()
             // load users
             loadAvailableUsers()
+
+            // add window event for event delegation on elements
+            window.addEventListener('click', globalEvents)
 
         })()
     </script>

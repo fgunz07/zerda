@@ -11,7 +11,18 @@
                      <img class="profile-user-img img-responsive img-circle " src="/uploads/avatars/{{ $user->avatar }}" alt="User profile picture">
                    
                     <h3 class="profile-username text-center" id="nameDev">{{$user->last_name}},{{$user->first_name}},{{$user->middle_name}}</h3>
-                   
+                    <input type="hidden" value="{{$user->id}}" id="devID">
+                    <div class="pull-left">
+                        <select class="star-rating" id="dev-rate" name="rating"  >
+                            <option value="">Select a rating</option>
+                            <option value="5">Excellent</option>
+                            <option value="4">Very Good</option>
+                            <option value="3">Average</option>
+                            <option value="2">Poor</option>
+                            <option value="1">Terrible</option>
+                            
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
@@ -86,5 +97,5 @@
 @endsection
 
 @section('custom_js')
-  @include('pages.profile.script.profile-script')
+    @include('pages.dashboard.script.devlist-script')
 @endsection

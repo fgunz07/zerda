@@ -54,4 +54,13 @@ class BoardsController extends Controller
         return response()->json(['status' => true , 'message' => 'Board has been deleted.']);
 
     }
+
+    public function boardDetails($id) {
+
+        $board = Board::findOrFail($id);
+
+        return view('apps.todolistApp.pages.details')
+                ->with('board', $board);
+
+    }
 }

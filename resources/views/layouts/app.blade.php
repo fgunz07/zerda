@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
     <!-- <link rel="stylesheet" href="{{ asset('css/ material-kit.min.css') }}"> -->
     <link rel="stylesheet" href="{{ asset('css/star-rating.min.css') }}">
-    <!-- <link rel="stylesheet" href="{{ asset('css/star-rating.minbootstrap-datepicker.min.css') }}"> -->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker.min.css') }}">
     
    
 
@@ -81,7 +81,8 @@
     <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
     <!-- <script src="{{ asset('js/material-kit.min.js') }}"></script> -->
     <script src="{{ asset('js/star-rating.min.js') }}"></script>
-   
+    <script src="{{ asset('js/message.js') }}"></script>
+    <script src="{{ asset('js/notifications.js') }}"></script>
 
     <!-- CDN script's -->
     {{-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}}

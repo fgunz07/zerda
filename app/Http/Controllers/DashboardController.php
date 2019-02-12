@@ -9,6 +9,8 @@ use App\Skill;
 use App\Education;
 use App\Location;
 use App\Specialization;
+use App\Rating;
+use App\Ratingdesc;
 use App\Events\InviteDeveloper;
 
 class DashboardController extends Controller
@@ -18,6 +20,7 @@ class DashboardController extends Controller
 		$users = User::with('child_user_location')
 				->with('child_user_specilization')
 				->with('child_user_achievement')
+				->with('child_user_rating')
 				->get();
 		$skills = Skill::all();
     	// dd($users);
@@ -39,10 +42,10 @@ class DashboardController extends Controller
 		return view('pages.dashboard.viewProfile')->with('users',$users);
     }
 
-	
-
-
-	public function changeRate(){
-        
+	public function changeRate(Request $request){
+		$rate = new Rating();
+		$rate->user_id = Auth::user()->id;
+		$rate->rating = $request->rating;
+		$rate->save();
     }
 }

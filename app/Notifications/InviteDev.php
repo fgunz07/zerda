@@ -12,14 +12,16 @@ class InviteDev extends Notification
 {
     use Queueable;
 
+    private $inviteDetails;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($event)
+    public function __construct($d)
     {
-        $this->event = $event;
+        $this->inviteDetails = $d;
     }
 
     /**
@@ -30,27 +32,7 @@ class InviteDev extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail','broadcast'];
-    }
-
-    public function toDatabase($notifiable)
-    {
-        return [
-            'id' => $this->event->id,
-            'last_name' => $this->event->last_name,
-            'first_name' => $this->event->first_name,
-            'middle_name' => $this->event->middle_name,
-        ];
-    }
-
-    public function toBroadcast($notifiable)
-    {
-        return new BroadcastMessage([
-            'id' => $this->event->id,
-            'last_name' => $this->event->last_name,
-            'first_name' => $this->event->first_name,
-            'middle_name' => $this->event->middle_name,
-        ]);
+        return ['database'];
     }
 
     public function toMail($notifiable)
@@ -67,10 +49,8 @@ class InviteDev extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
+    public function toDatabase($notifiable)
+    {   
+        return $this->inviteDetails;
     }
 }

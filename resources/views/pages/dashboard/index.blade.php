@@ -32,8 +32,9 @@
 								<div class="box-header">
 									<h2 class="box-title">List of Availabe Developers</h2>
 								</div>
-								<div class="box-body">
-									@foreach($users as $dev)
+								@foreach($users as $dev)
+								<div class="box-body" sytle="padding:20px">
+									
 									<div class="box-group" id="accordion">
 										<!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
 										<div class="panel box box-info">
@@ -43,6 +44,16 @@
 														{{$dev->last_name}},{{$dev->first_name}}, {{$dev->middle_name}}.
 													</a>
 												</h4>
+
+												<div>
+													<select class="star-rating">
+														@foreach($dev->child_user_rating as $rate)
+														<option value="$rate->rating">{{count($rate->parent_user_rating_desc) > 0 ? $rate->parent_user_rating_desc[0]->description : 'Not Set'}},</option>
+														@endforeach
+													</select>
+													
+												</div>	
+												
 												<input type="hidden" class="devID" value="{{$dev->id}}">
 											</div>
 											<div id="collapseOne" class="panel-collapse collapse in">
@@ -102,23 +113,16 @@
 											</div>
 										</div>
 									</div>
-									@endforeach
+
 								</div>
-								<div class="box-footer">
-									<div class="pull-left">
-										<select class="star-rating" id="star-rating">
-											<option value="">rate</option>
-											<option value="5">Excellent</option>
-											<option value="4">Very Good</option>
-											<option value="3">Average</option>
-											<option value="2">Poor</option>
-											<option value="1">Terrible</option>
-										</select>
-									</div>	
+								<div class="box-footer">	
 									<div class="pull-right">
 										<a href="{{url('profile-view', $dev->id)}}" class="btn btn-primary btn-block viewProfile"><i class="glyphicon glyphicon-user "></i><b>View Profile</b></a>
 									</div>	
 								</div>
+								@endforeach
+								<br>
+								<br>
 							</div>
 						</div>
 					</div>

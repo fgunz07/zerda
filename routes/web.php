@@ -11,17 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => 'web'], function () {
+
+	Route::get('/', function () {
+		return view('welcome');
+	});
+	
+	Route::get('oauth-facebook', 'FacebookController@redirect')->name('facebook.auth');
+	
+	Route::get('oauth-callback', 'FacebookController@callback');
+	
+	Route::get('select-role', 'RoleUserController@index');
+	
+	Route::post('select-role', 'RoleUserController@saveRole');
+
 });
-
-Route::get('oauth-facebook', 'FacebookController@redirect')->name('facebook.auth');
-
-Route::get('oauth-callback', 'FacebookController@callback');
-
-Route::get('select-role', 'RoleUserController@index');
-
-Route::post('select-role', 'RoleUserController@saveRole');
 
 // Route::group(['prefix' => 'todo-app'] , function () {
 
@@ -63,6 +67,18 @@ Route::group(['middleware' => 'IfUserHasRole'] , function () {
 
 		Route::post('todo-task', 'TodoController@UpdateTodoTask');
 
+		Route::get('board-details/{id}', 'BoardsController@boardDetails');
+
+	});
+
+	Route::group(['prefix' => 'notification'], function () {
+
+		Route::post('/invite', 'InviteNotificationController@inviteDev');
+
+		Route::get('/invite', 'InviteNotificationController@getInviteNotifications');
+
+		Route::get('/message' , 'MessageNotificationController@message');
+
 	});
 
 	Route::get('/users', 'UserController@availableUsers');
@@ -72,7 +88,7 @@ Route::group(['middleware' => 'IfUserHasRole'] , function () {
 	//Dashboard
 	Route::get('dashboard','DashboardController@index');
 	Route::get('profile-view/{id}','DashboardController@viewProfile');
-	Route::post('user-rate','DashboardController@changeRate');
+	Route::post('user-rate/{id}','DashboardController@changeRate');
 
 
 	//Skills
@@ -93,5 +109,14 @@ Route::group(['middleware' => 'IfUserHasRole'] , function () {
 	Route::post('profile-skill-delete/{id}','UserController@deleteSkill');
 	Route::post('profile-achievement','UserController@updateAchievement');
 	Route::post('profile-achievement-delete/{id}','UserController@deleteAchievement');
+
+
+	//Rating Description
+	Route::get('ratingdesc-list','RatingsdescController@index');
+	Route::get('ratingdesc-create','RatingsdescController@create');
+	Route::post('ratingdesc-store','RatingsdescController@store');
+	Route::get('ratingdesc-edit/{id}','RatingsdescController@edit');
+	Route::put('ratingdesc-update/{id}','RatingsdescController@update');
+	Route::delete('ratingdesc-delete/{id}','RatingsdescController@destroy');
 
 });

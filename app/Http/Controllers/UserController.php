@@ -118,7 +118,7 @@ class UserController extends Controller
 
     public function availableUsers(Request $request) {
 
-        $users = User::role('Senior Developer','Developer')
+        $users = User::role(['Senior Developer','Developer'])
                     ->where('status', 0)
                     ->get();
 
