@@ -8,7 +8,9 @@ class Task extends Model
 {
     protected $fillable = [
         'tasks',
-        'class_name'
+        'class_name',
+        'developer',
+        'end_date'
     ];
 
     public function todos() {

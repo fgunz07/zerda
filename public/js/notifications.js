@@ -1,4 +1,4 @@
-const http = options => {
+const httpN = options => {
 
 	$.ajaxSetup({
 		headers: {
@@ -23,7 +23,7 @@ function getNotifications(e) {
 		method	: 'GET'
 	}
 
-	http(options)
+	httpN(options)
 		.done(res => {
 
 			notifCount.forEach(item => item.innerHTML = res.length)
@@ -32,7 +32,7 @@ function getNotifications(e) {
 
 				let html = `
 					<li>
-						<a href="${item.data.board_url}">${item.data.message}</a>
+						<a href="${item.data.board_url}?notf_id=${item.id}">${item.data.message}</a>
 					</li>
 				`
 

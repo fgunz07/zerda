@@ -32,8 +32,13 @@ class Todo extends Model
 
             $tasks .= "<li class='callout {$task->class_name}' style='cursor: pointer;' id='task-list-{$task->id}'>
                             <h4>{$task->tasks}</h4>
-                            <i class='glyphicon glyphicon-user' id='task-should-{$task->id}'></i> Sample <br>
-                            <i class='glyphicon glyphicon-calendar' id='task-enddate-{$task->id}'></i> 2019-02-05 06:00:00
+                            <a href='#' data-toggle='modal' data-target='#devs' id='task-should-{$task->id}'>
+                                <i class='glyphicon glyphicon-user' id='icon-{$task->id}'></i> {$task->developer}
+                            </a> <br>
+                            <input type='hidden' id='end_date' class='datepicker' name='{$task->tasks}'>
+                            <label for='#end_date'>
+                                <i class='glyphicon glyphicon-calendar' id='task-enddate-{$task->id}'></i> {$task->end_date}
+                            </label>
                         </li>";
 
         }

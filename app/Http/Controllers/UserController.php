@@ -118,9 +118,23 @@ class UserController extends Controller
 
     public function availableUsers(Request $request) {
 
-        $users = User::role(['Senior Developer','Developer'])
-                    ->where('status', 0)
+        $users = User::where('status', 0)
+                    ->role(['Senior Developer','Developer'])
                     ->get();
+
+        foreach($users as $user) {
+
+            if(!is_null($user->child_user_skill)) {
+
+                foreach($user->child_user_skill as $skill) {
+
+                    $user['skill'] += $skill;
+
+                }
+
+            };
+
+        }
 
         return response()->json($users);
 

@@ -18,7 +18,7 @@ class Board extends Model
 
     public function users() {
 
-        return $this->belongsTo('App\User');
+        return $this->belongsToMany('App\User', 'user_board');
 
     }
 
@@ -30,35 +30,60 @@ class Board extends Model
 
     function getHtmlCodeAttribute() {
 
-        $html = "<div class='col-sm-3'>
-                    <div class='callout {$this->class_name}'>
-                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true' id='btn-delete-{$this->id}'>×</button>
-                        <h4><a href='/todo-app/boards/{$this->id}'>{$this->title}</a></h4>
+        $btnInvite = "<button class='btn btn-default btn-xs board-invite' data-toggle='modal' data-target='#devs-list' id='invite-board-{$this->id}'>Invite Devs</button>";
 
-                        <p>{$this->description}</p>
+        $btnDelete = "<button type='button' class='close' data-dismiss='alert' aria-hidden='true' id='btn-delete-{$this->id}'>×</button>";
 
-                        <button class='btn btn-default btn-xs board-invite' data-toggle='modal' data-target='#devs-list' id='invite-board-{$this->id}'>Invite Devs</button>
-                    </div>
+        $html1 = "<div class='col-sm-3'>
+                    <div class='callout {$this->class_name}'>";
+                        
+        $html2 = "<h4><a href='/todo-app/boards/{$this->id}'>{$this->title}</a></h4>
+
+                        <p>{$this->description}</p>";
+
+        $html3 =    "</div>
                 </div>";
+                        
+        if(auth()->user()->hasRole('Client')) {
 
-        return $html;
+            $html1 .= $btnDelete;
+            $html2 .= $btnInvite;
+
+        }
+
+        $html2 .= $html3;
+        $html1 .= $html2;
+
+        return $html1;
 
     }
 
     function getHtmlCodeAcceptAttribute() {
 
+        $btnDelete = "<button type='button' class='close' data-dismiss='alert' aria-hidden='true' id='btn-delete-{$this->id}'>×</button>";
+
         $html = "<div class='col-sm-3'>
                     <div class='callout {$this->class_name}'>
-                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true' id='btn-delete-{$this->id}'>×</button>
-                        <h4><a href='/todo-app/boards/{$this->id}'>{$this->title}</a></h4>
+                        ";
+
+
+        $html2 =            "<h4><a href='/todo-app/boards/{$this->id}'>{$this->title}</a></h4>
 
                         <p>{$this->description}</p>
 
-                        <button class='btn btn-default btn-xs board-invite' data-toggle='modal' data-target='#devs-list' id='invite-accept-{$this->id}'>Accept</button>
-                        <button class='btn btn-default btn-xs board-invite' data-toggle='modal' data-target='#devs-list' id='invite-cancel-{$this->id}'>Reject</button>
+                        <button class='btn btn-default btn-xs board-invite-accept' data-toggle='modal' data-target='#devs-list' id='invite-accept-{$this->id}'>Accept</button>
+                        <button class='btn btn-default btn-xs board-invite-reject' data-toggle='modal' data-target='#devs-list' id='invite-cancel-{$this->id}'>Reject</button>
                     </div>
                 </div>";
-        
+
+        if(auth()->user()->hasRole('Client')) {
+
+            $html .= $btnDelete;
+
+        }
+
+        $html .= $html2;
+
         return $html;
 
     }

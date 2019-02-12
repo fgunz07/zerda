@@ -42,6 +42,9 @@
             <div class="form-group" id="country">
                 {!! Form::select('country_id', ['1'=>'Philippines','2'=>'USA'], old('country_id', 1), ['class' => 'form-control select2']) !!}
             </div>
+            <div class="form-group" id="role">
+                {!! Form::select('role', $roles->pluck('name', 'name'), old('role', 1), ['class' => 'form-control select2']) !!}
+            </div>
             <div class="row">
                 <div class="col-xs-8">
                     <div class="checkbox icheck">
@@ -132,7 +135,8 @@
                 email       : $('input[name=email]').val(),
                 password    : $('input[name=password]').val(),
                 password_confirmation: $('input[name=confirm_password]').val(),
-                country_id  : $('select[name=country_id]').val()
+                country_id  : $('select[name=country_id]').val(),
+                role_name   : $('select[name=role]').val()
             }
 
             const options = {

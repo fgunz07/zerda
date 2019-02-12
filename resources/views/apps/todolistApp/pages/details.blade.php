@@ -20,12 +20,64 @@
 @endsection
 
 @section('custom_script')
+    <script src="{{ asset('js/http.js') }}"></script>
     <script type="text/javascript">
         'use strict';
 
         (function() {
 
-            
+            function globalEvent(e) {
+
+                e.preventDefault()
+
+                if(e.target.classList.contains('board-invite-accept')) {
+
+                    const options = {
+                        url     : '/invitation/accept',
+                        method  : 'POST',
+                        data    : {
+                            board_id    : e.target.id.split('-').pop(),
+                            notf_id     : '{{ $notf_id }}'
+                        }
+                    }
+
+                    http(options)
+                        .done(res => {
+
+                            swal('Success', res.message , 'success')
+                        
+                            window.location.href = '/todo-app/boards'
+
+                        })
+                        .fail(err => swal('Error', res.message , 'error'))
+
+                }
+
+                if(e.target.classList.contains('board-invite-reject')) {
+
+                    const options = {
+                        url     : '/invitation/reject',
+                        method  : 'POST',
+                        data    : {
+                            notf_id     : '{{ $notf_id }}'
+                        }
+                    }
+
+                    http(options)
+                        .done(res => {
+
+                            // swal('Success', res.message , 'success')
+                        
+                            window.location.href = '/todo-app/boards'
+
+                        })
+                        .fail(err => swal('Error', res.message , 'error'))
+
+                }
+
+            }
+
+            window.addEventListener('click', globalEvent)
 
         })()
     </script>
