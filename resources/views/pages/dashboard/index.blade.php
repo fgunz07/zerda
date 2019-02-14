@@ -2,7 +2,7 @@
 
 @section('content')
 	<div class="row">
-		  <div class="col-md-4">
+		  {{--  <div class="col-md-4">
 	          	 <div class="row">
 			        <div class="col-md-12">
 
@@ -12,11 +12,11 @@
 			            </div>
 			            <div class="box-body">
 			              <div class="form-group">
-											<ul>
-												@foreach($skills as $skill)
-													<li><span class="label label-info">{{$skill->description}}</span></li>
-												@endforeach
-											</ul>
+							<ul>
+								@foreach($skills as $skill)
+									<li><span class="label label-info">{{$skill->description}}</span></li>
+								@endforeach
+							</ul>
 			              </div>
 			            </div>
 			            <!-- /.box-body -->
@@ -24,8 +24,8 @@
 			          <!-- /.box -->
 			        </div>
 			      </div>
-	      </div>
-				<div class="col-md-8">
+	      </div>  --}}
+				<div class="col-md-10">
 					<div class="row">
 						<div class="col-md-12">
 							<div class="box box-primary">
@@ -39,6 +39,10 @@
 												</button>
 											</span>
 										</div>
+
+										<div class="form-group" style="margin: 5px 0 0 0;">
+											{!! Form::select('skill', ['1' => 'all'], old('skill'), ['class' => 'form-control']) !!}
+										</div>
 									</form>
 									
 									<br>
@@ -46,7 +50,7 @@
 									<h2 class="box-title">List of Availabe Developers</h2>
 									
 								</div>
-								@foreach($users as $dev)
+								{{--  @foreach($users as $dev)
 								<div class="box-body" sytle="padding:20px">
 									
 									<div class="box-group" id="accordion">
@@ -134,7 +138,7 @@
 										<a href="{{url('profile-view', $dev->id)}}" class="btn btn-primary btn-block viewProfile"><i class="glyphicon glyphicon-user "></i><b>View Profile</b></a>
 									</div>	
 								</div>
-								@endforeach
+								@endforeach  --}}
 								<br>
 								<br>
 							</div>
