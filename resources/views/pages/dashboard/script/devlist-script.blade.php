@@ -23,31 +23,58 @@
         
         $('#dev-rate').on('change', function() {
             
-        var id = $('#devID').val();
+            var id = $('#devID').val();
 
-        Rate.rating = $('[name="rating"]').val();
+            Rate.rating = $('[name="rating"]').val();
 
-                alert('click');
-                $.ajax({
-                type: 'POST',
-                url: `/user-rate/${id}`,
-                data: {
-                    rating: Rate.rating,
-                    _token: '{{ csrf_token() }}'
-                },
-                    success: function(data){ 
-                        swal('Done!','Rate successfully saved.', 'success')
-                        starRatingControls.rebuild();
-                    }, 
-                    error: function(err){
-                        swal({
-                        title: "Oops!",
-                        text: `sorry for this will fixed this soon.`,
-                        icon: "error",
-                        });
-                    }       
-                });
+                    alert('click');
+                    $.ajax({
+                        type: 'POST',
+                        url: `/user-rate/${id}`,
+                        data: {
+                            rating: Rate.rating,
+                            _token: '{{ csrf_token() }}'
+                        },
+                            success: function(data){ 
+                                swal('Done!','Rate successfully saved.', 'success')
+                                starRatingControls.rebuild();
+                            }, 
+                            error: function(err){
+                                swal({
+                                title: "Oops!",
+                                text: `sorry for this will fixed this soon.`,
+                                icon: "error",
+                                });
+                            }       
+                    });
         });
+
+        //Search Developers
+
+        function searchDev(){
+            $('#search-dev').on('click',function (){
+
+                $.ajax({
+                        type: 'GET',
+                        url: `/search-like`,
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                            success: function(data){ 
+                                swal('Done!','Rate successfully saved.', 'success')
+                               
+                            }, 
+                            error: function(err){
+                                swal({
+                                title: "Oops!",
+                                text: `sorry for this will fixed this soon.`,
+                                icon: "error",
+                                });
+                            }       
+                    });
+
+            });
+        }
 
     });//end of document ready
 </script>

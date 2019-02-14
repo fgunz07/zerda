@@ -129,3 +129,6 @@ Route::get('ratingdesc-edit/{id}','RatingsdescController@edit');
 Route::put('ratingdesc-update/{id}','RatingsdescController@update');
 Route::delete('ratingdesc-delete/{id}','RatingsdescController@destroy');
 
+
+//Search Developer
+Route::get('search-like','DashboardController@scopeSearchByKeyword');

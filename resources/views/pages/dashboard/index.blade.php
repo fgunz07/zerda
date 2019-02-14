@@ -30,7 +30,21 @@
 						<div class="col-md-12">
 							<div class="box box-primary">
 								<div class="box-header">
+
+									<form action="#" method="get" class="form">
+										<div class="input-group">
+										<input type="text" name="keyword" class="form-control" placeholder="Search...">
+											<span class="input-group-btn">
+												<button type="submit" name="search" id="search-dev" class="btn btn-flat primary"><i class="fa fa-search"></i>
+												</button>
+											</span>
+										</div>
+									</form>
+									
+									<br>
+
 									<h2 class="box-title">List of Availabe Developers</h2>
+									
 								</div>
 								@foreach($users as $dev)
 								<div class="box-body" sytle="padding:20px">

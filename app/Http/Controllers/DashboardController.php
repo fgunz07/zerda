@@ -17,15 +17,11 @@ class DashboardController extends Controller
 {
     public function index(){
 		// $users = User::all();
-		$users = User::with('child_user_location')
-				->with('child_user_specilization')
-				->with('child_user_achievement')
-				->with('child_user_rating')
-				->get();
-		$skills = Skill::all();
+		$skills = Skill::get()->pluck('id','description');
+
+
     	// dd($users);
 		return view('pages.dashboard.index')
-			->with('users', $users)
 			->with('skills', $skills);
 	}
 
@@ -37,15 +33,29 @@ class DashboardController extends Controller
 				->with('child_user_specilization')
 				->with('child_user_achievement')
 				->get();
-		// dd($users);	
-		// return response()->json(['users'=>$user]);
 		return view('pages.dashboard.viewProfile')->with('users',$users);
-    }
+		}
+		
+	public function filterUser(){
+		$users = User::with('child_user_location')
+				->with('child_user_specilization')
+				->with('child_user_achievement')
+				->with('child_user_rating')
+				->get();
+
+		
+	}
+
 
 	public function changeRate(Request $request){
 		$rate = new Rating();
 		$rate->user_id = Auth::user()->id;
 		$rate->rating = $request->rating;
 		$rate->save();
-    }
+	}
+	
+	public function scopeSearchByKeyword(Request $request){
+		return response()->json('request',$request);
+	}
+	
 }
