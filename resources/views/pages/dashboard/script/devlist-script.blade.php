@@ -76,6 +76,12 @@
             });
         }
 
+        //FILTER DISPLAY BASED ON VALUE OF SELECT BOX
+
+        function basedOnSkill(){
+            var skill = $().val();
+        }
+
     });//end of document ready
 </script>
 @stop
