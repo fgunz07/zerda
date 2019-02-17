@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 use Auth;
 use App\Skill;
 use App\Location;
@@ -17,118 +19,206 @@ use Image;
 
 class UserController extends Controller
 {
-    public function show(){
+
+    public function profile() 
+    {
+
         $skills = Skill::all();
-        $specializations = Specialization::where('user_id',Auth::user()->id)->get();
-        $userName = User::where('id',Auth::user()->id)->get(['last_name','first_name','middle_name']);
-        // dd($userName);
-        return view('pages.profile.show', array('user' => Auth::user()))
-                ->with('skills',$skills)
-                ->with('specializations',$specializations)
-                ->with('userName',$userName);
-            
-    }
+        $roles  = Role::all();
 
-    public function dataProfile(){
-        
-        $education = Education::where('user_id',Auth::user()->id)->get();
-        $locations = Location::where('user_id',Auth::user()->id)->get();
-        $skills = Specialization::where('user_id',Auth::user()->id)->with('sklill_desc')->get();
-        $achievement = Achievement::where('user_id',Auth::user()->id)->get();
-       
-        // dd($specializations);
-
-        return response()->json(['education'=>$education,'locations'=>$locations,'skills'=>$skills,'achievement'=>$achievement]);
-    }
-
-    public function uploadProfile(Request $request){
-
-        // Logic for user upload of avatar
-        if($request->hasFile('avatar')){
-            $avatar = $request->file('avatar');
-            $filename = time() . '.' . $avatar->getClientOriginalExtension();
-            Image::make($avatar)->resize(128, 128)->save( public_path('/uploads/avatars/' . $filename ) );
-            $user = Auth::user();
-            $user->avatar = $filename;
-            $user->save();
-        }
-        return redirect('profile-show');
+        return view('pages.profile.profile')
+                    ->with('skills', $skills)
+                    ->with('roles', $roles);
 
     }
 
-    public function updateLocation(Request $request){
+    public function addSkill(Request $request) 
+    {
 
-        $location = Location::updateOrCreate(
-            ['user_id'=>Auth::user()->id],
-            [
-                'street' =>$request->street,
-                'brgy' => $request->brgy,
-                'city' => $request->city,
-                'province' => $request->province,
-                'country' => $request->country
-            ]
-        );
+        // $data   = $request->toArray();
 
-    }
+        // $rules  = [
 
-    public function updateEducation(Request $request){
-        
-        $education = Education::updateOrCreate(
-            ['user_id'=>Auth::user()->id],
-            [
-                'primary' =>$request->primary,
-                'secondary' => $request->secondary,
-                'tertiary' => $request->tertiary
-            ]
-        );
-    }
+        //     'skills' => ''
+        // ]; 
 
-    public function updateSkill(Request $request){
-     
-        $skill = new Specialization;
-        $skill->user_id = Auth::user()->id;
-        $skill->name = $request->name;
+        // Validator::make($data , $rules , $messages);
 
-        $skill->save();
-    }
+        try {
 
-    public function deleteSkill($id){
-        Skill::find($id)->delete();
-    }
+            if(!is_null($request->skills)) {
 
-    public function updateAchievement(Request $request){
-        $achievement = new Achievement();
-        $achievement->user_id = Auth::user()->id;
-        $achievement->name = $request->name;
-        $achievement->description = $request->description;
-        $achievement->year_start = $request->year_start;
-        $achievement->year_end = $request->year_end;
-        $achievement->save();
+                DB::table('user_skill')->where('user_id', auth()->user()->id)->delete();
 
-        return redirect('profile-show');
-    }
+                foreach($request->skills as $skill) {
 
-    public function availableUsers(Request $request) {
-
-        $users = User::where('status', 0)
-                    ->role(['Senior Developer','Developer'])
-                    ->get();
-
-        foreach($users as $user) {
-
-            if(!is_null($user->child_user_skill)) {
-
-                foreach($user->child_user_skill as $skill) {
-
-                    $user['skill'] += $skill;
+                    DB::table('user_skill')->insert(['user_id' => auth()->user()->id, 'skill_id' => $skill]);
 
                 }
 
-            };
+            }
+
+        } catch (Exception $e) {
+
+            return response()->json(['status' => false , 'message' => $e->getMessage()], 500);
 
         }
 
-        return response()->json($users);
+        return response()->json(['status' => true , 'message' => auth()->user()->skills]);
+
+    }
+
+    public function addRole(Request $request)
+    {
+
+        try {
+
+            auth()->user()->assignRole($request->role);
+
+        } catch (Exception $e) {
+
+            return response()->json(['status' => false, 'message' => $getMessage()], 500);
+
+        }
+
+        return response()->json(['status' => true , 'message' => 'Role assigned.']);
+
+
+    }
+
+    public function updateEducation(Request $request)
+    {
+        
+        try {
+
+            $user                                   = User::find(auth()->user()->id);
+            $user->primary_edication_full_details   = $request->primary;
+            $user->secondary_edication_full_details = $request->secondary;
+            $user->teriary_edication_full_details   = $request->tertiary;
+            $user->save();
+
+        } catch(Exception $e) {
+
+            return response()->json(['status' => false , 'message' => $e->getMessage()], 500);
+
+        }
+
+        return response()->json(['status' => true , 'message' => 'Updated.']);
+        
+    }
+
+    public function updateLocation(Request $request)
+    {
+
+        try {
+
+            $user            = User::find(auth()->user()->id);
+            $user->address   = $request->street.', '.$request->brgy.', '.$request->city.', '.$request->province.', '.$request->country;
+            $user->save();
+
+        } catch(Exception $e) {
+
+            return response()->json(['status' => false , 'message' => $e->getMessage()], 500);
+
+        }
+
+        return response()->json(['status' => true , 'message' => 'Updated.']);
+
+    }
+
+    public function updatePortfolio(Request $request) 
+    {
+
+        try {
+
+            $user            = User::find(auth()->user()->id);
+            $user->portfolio = $request->portfolio;
+            $user->save();
+
+        } catch(Exception $e) {
+
+            return response()->json(['status' => false , 'message' => $e->getMessage()], 500);
+
+        }
+
+        return response()->json(['status' => true , 'message' => 'Updated.']);
+
+    }
+
+    public function updateAchievement(Request $request) 
+    {
+
+        try {
+
+            $achievement            = new Achievement;
+            $achievement->name      = $request->name;
+            $achievement->user_id   = auth()->user()->id;
+            $achievement->year_Start= $request->start;
+            $achievement->year_end  = $request->end;
+            $achievement->description= $request->description;
+            $achievement->save();
+
+        } catch(Exception $e) {
+
+            return response()->json(['status' => false , 'message' => $e->getMessage()], 500);
+
+        }
+
+        return response()->json(['status' => true , 'message' => 'Achievement save.']);
+
+    }
+
+    public function getAchievement($id) 
+    {
+
+        $achievement = Achievement::find($id);
+
+        return response()->json($achievement);
+
+    }
+
+    public function putAchievement(Request $request, $id)
+    {
+
+        try {
+
+            $achievement = Achievement::find($id);
+            $achievement->name      = $request->name;
+            $achievement->year_Start= $request->start;
+            $achievement->year_end  = $request->end;
+            $achievement->description= $request->description;
+            $achievement->save();
+
+        } catch(Exception $e) {
+
+            return response()->json(['status' => false , 'message' => $e->getMessage()], 500);
+
+        }
+
+        return response()->json(['status' => true]);
+
+    }
+
+    public function uploadImg(Request $request)
+    {
+
+        $filename   = str_random(40);
+
+        $ext        = $request->img->getClientOriginalExtension(); 
+
+        if($request->hasFile('img')) {
+
+            $user = User::find(auth()->user()->id);
+            $user->avatar_url = "images/{$filename}.{$ext}";
+            $user->save();
+
+            $request->img->move(public_path('images'), $filename.'.'.$ext);
+
+            return response()->json(['messge' => url("images/{$filename}.{$ext}")]);
+
+        }
+
+        return response()->json(['message'=>'no file'], 404);
 
     }
 }

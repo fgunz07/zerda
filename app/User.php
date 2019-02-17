@@ -26,7 +26,10 @@ class User extends Authenticatable {
 		'provider_id',
 		'avatar_url',
 		'password',
-		'provider'
+		'provider',
+		'primary_edication_full_details',
+		'secondary_edication_full_details',
+		'teriary_edication_full_details'
 	];
 
 	/**
@@ -38,33 +41,83 @@ class User extends Authenticatable {
 		'password', 'remember_token',
 	];
 
+	protected $appends = ['street', 'brgy', 'city', 'province', 'country'];
+
 	public function boards() {
 
 		return $this->belongsToMany('App\Board', 'user_board');
 
 	}
 
-	public function child_user_skill(){
-		return $this->belongsTo('App\Skill','skill_id','id');
+	public function skills(){
+
+		return $this->belongsToMany('App\Skill','user_skill');
+
 	}
 
-	public function child_user_location(){
-		return $this->hasMany('App\Location', 'user_id', 'id');
+	public function achievements() {
+
+		return $this->hasMany('App\Achievement', 'user_id', 'id');
+
 	}
 
-	public function child_user_education(){
-		return $this->hasMany('App\Education','user_id', 'id');
+	public function getStreetAttribute() {
+
+		if(!is_null($this->address)) {
+
+			return explode(',', $this->address)[0];
+
+		}
+
+		return null;
+
 	}
 
-	public function child_user_specilization(){
-		return $this->hasMany('App\Specialization','user_id','id');
+	public function getBrgyAttribute() {
+
+		if(!is_null($this->address)) {
+
+			return explode(',', $this->address)[1];
+
+		}
+
+		return null;
+
 	}
 
-	public function child_user_rating(){
-		return $this->hasMany('App\Rating','user_id','id');
+	public function getCityAttribute() {
+
+		if(!is_null($this->address)) {
+
+			return explode(',', $this->address)[2];
+
+		}
+
+		return null;
+
 	}
 
-	public function child_user_achievement(){
-		return $this->hasMany('App\Achievement','user_id','id');
+	public function getProvinceAttribute() {
+
+		if(!is_null($this->address)) {
+
+			return explode(',', $this->address)[3];
+
+		}
+
+		return null;
+
+	}
+
+	public function getCountryAttribute() {
+
+		if(!is_null($this->address)) {
+
+			return explode(',', $this->address)[4];
+
+		}
+
+		return null;
+
 	}
 }
