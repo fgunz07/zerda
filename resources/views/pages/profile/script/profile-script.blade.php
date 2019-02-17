@@ -9,6 +9,13 @@
         var Skill = new Object();
         var Achievement = new Object();
 
+        //Add class selected in table tr
+        
+        $("td").click(function () {
+            $('.selected').removeClass('selected')
+            $(this).parents('tr').addClass('selected');
+        });
+
         //Display Profile data auto-refresh
         showData();
 
@@ -59,7 +66,7 @@
                 url: `/profile-data`,
                 method: 'GET',
                 success:function(data){
-                    // console.log(data);
+                    console.log(data);
 
                     //Show Education
                     data.education.forEach(item => {
@@ -76,32 +83,21 @@
                     })
 
                     //Show Skill
-                    var itemsSkill = [];
-                    var changeSkill = [];
-                    $.each( data.skills, function(i, item) {
-                        // console.log(item);
 
-                    itemsSkill.push('<li>' + item.sklill_desc.description + '</li>');
-                    changeSkill.push('<tr><td><input type="hidden" value="'+ item.id +'" class="skillID"><strong><li>'+ item.sklill_desc.description +'</li></strong></td><td><button class="btn btn-danger btn-sm delSkillButton"><i class="glyphicon glyphicon-remove"></i></button></td></tr>');
-
-                    }); // close each()
-
-                    $('#skill').append(itemsSkill.join(''));
-                    $('#skillList').append(changeSkill.join(''));
+                    data.skills.forEach(item => {
+                     console.log(item); 
+                            $('#skill').append('<li>' + $.trim(item.sklill_desc.description) + '</li>');
+                            $('#skillList').append('<tr><td><input type="hidden" value="'+ item.id +'" class="skillID"><strong><li>'+ item.sklill_desc.description +'</li></strong></td><td><button class="btn btn-danger btn-sm delSkillButton"><i class="glyphicon glyphicon-remove"></i></button></td></tr>');
+                    })
 
                     //Show Achievement
-                    var itemAchievement = [];
-                    var changeAchievement = [];
-                    $.each( data.achievement, function(i, item) {
-                        // console.log(item);
 
-                        itemAchievement.push('<div>' + item.name +'</div>');
-                        changeAchievement.push('<tr><td><input type="hidden" value="'+ item.id +'" class="achievementID"><strong><li>'+ item.name +'</li></strong></td><td><button class="btn btn-danger btn-sm delAchieveButton"><i class="glyphicon glyphicon-remove"></i></button></td></tr>');
-
-                    }); // close each()
-
-                    $('#achievementList').append(itemAchievement.join(''));
-                    $('#achievementChange').append(changeAchievement.join(''));
+                    data.achievement.forEach(item => {
+                    //  console.log(item); 
+                        $('#achievementList').append('<div>' + item.name +'</div>');
+                        $('#achievementChange').append('<tr><td><input type="hidden" value="'+ item.id +'" class="achievementID"><strong><li>'+ item.name +'</li></strong></td><td><button class="btn btn-danger btn-sm delAchieveButton"><i class="glyphicon glyphicon-remove"></i></button></td></tr>');
+                    })
+                    
         
                 },
                 error:function(error){
@@ -149,7 +145,7 @@
 
         //click save location
         $('#location-save').on('click',function(){
-            alert('click');
+            // alert('click');
             save_location();
             showData();
         });
@@ -194,6 +190,7 @@
             // alert('click');
             save_skil();
             showData();
+            
         });
 
         //store skill
@@ -211,6 +208,10 @@
                 },
                 success: function(data){
                     swal('Done!','Record successfully saved.', 'success')
+                    $('#skill').empty();
+                    $('#skillList').empty();
+                    $('#change-skills').modal('toggle');
+                    $('#add-skills').modal('toggle');
                 },
                 error: function(err){
                     swal({
@@ -222,20 +223,14 @@
             });
         }
 
-         //click delete skill
-
-        // $('body').on('click','delSkillButton',function(){
-        //     var id = $('#SkillTable tbody tr.selected').find('input.skillID').val();
-        //     alert('click');
-        //     console.log(id);
-        //     deleteSkill(id);
-        //     showData();
-        // });
+        //click delete skill
 
         $('#SkillTable').on('click', '.delSkillButton', function(){
-            alert('click');
-
-            deleteSkill(id)
+            // alert('click');
+            id = $(this).closest('tr').find('td input:first').val();
+            // console.log(id);
+            deleteSkill(id);
+            showData();
         });
 
         //delete Skill
@@ -247,7 +242,8 @@
             method: 'POST',
             data: {_token: '{{ csrf_token() }}'},
                 success: function(data){
-                    swal('Done!','Record successfully saved.', 'success')
+                    swal('Done!','Record successfully saved.', 'success');
+                    $('#change-skills').modal('toggle');
                 },
                 error: function(err){
                     swal({
@@ -287,6 +283,45 @@
                 },
                 success: function(data){
                     swal('Done!','Record successfully saved.', 'success')
+                    $('#achievementList').empty();
+                    $('#achievementChange').empty();
+                    $('#change-achievement').modal('toggle');
+                    $('#add-achievement').modal('toggle');
+                },
+                error: function(err){
+                    swal({
+                    title: "Oops!",
+                    text: `sorry for this will fixed this soon.`,
+                    icon: "error",
+                    });
+                }
+            });
+        }
+
+        
+        //click delete Achievement
+
+        $('#achivementTable').on('click', '.delAchieveButton', function(){
+            // alert('click');
+            id = $(this).closest('tr').find('td input:first').val();
+            // console.log(id);
+
+            deleteAchievement(id);
+            showData();
+        });
+
+
+        //delete Achievement
+        function deleteAchievement(id){
+
+            // var id = $('.skillID').val();
+            $.ajax({
+            url: `/profile-achievement-delete/${id}`,
+            method: 'POST',
+            data: {_token: '{{ csrf_token() }}'},
+                success: function(data){
+                    swal('Done!','Record successfully saved.', 'success');
+                    $('#change-achievement').modal('toggle');
                 },
                 error: function(err){
                     swal({

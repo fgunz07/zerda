@@ -2,7 +2,7 @@
 
 @section('content')
 	<div class="row">
-		  <div class="col-md-4">
+		  {{--  <div class="col-md-4">
 	          	 <div class="row">
 			        <div class="col-md-12">
 
@@ -12,11 +12,11 @@
 			            </div>
 			            <div class="box-body">
 			              <div class="form-group">
-											<ul>
-												@foreach($skills as $skill)
-													<li><span class="label label-info">{{$skill->description}}</span></li>
-												@endforeach
-											</ul>
+							<ul>
+								@foreach($skills as $skill)
+									<li><span class="label label-info">{{$skill->description}}</span></li>
+								@endforeach
+							</ul>
 			              </div>
 			            </div>
 			            <!-- /.box-body -->
@@ -24,16 +24,35 @@
 			          <!-- /.box -->
 			        </div>
 			      </div>
-	      </div>
-				<div class="col-md-8">
+	      </div>  --}}
+				<div class="col-md-10">
 					<div class="row">
 						<div class="col-md-12">
 							<div class="box box-primary">
 								<div class="box-header">
+
+									<form action="#" method="get" class="form">
+										<div class="input-group">
+										<input type="text" name="keyword" class="form-control" placeholder="Search...">
+											<span class="input-group-btn">
+												<button type="submit" name="search" id="search-dev" class="btn btn-flat primary"><i class="fa fa-search"></i>
+												</button>
+											</span>
+										</div>
+
+										<div class="form-group" style="margin: 5px 0 0 0;">
+											{!! Form::select('skill', ['1' => 'all'], old('skill'), ['class' => 'form-control']) !!}
+										</div>
+									</form>
+									
+									<br>
+
 									<h2 class="box-title">List of Availabe Developers</h2>
+									
 								</div>
-								<div class="box-body">
-									@foreach($users as $dev)
+								{{--  @foreach($users as $dev)
+								<div class="box-body" sytle="padding:20px">
+									
 									<div class="box-group" id="accordion">
 										<!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
 										<div class="panel box box-info">
@@ -43,6 +62,16 @@
 														{{$dev->last_name}},{{$dev->first_name}}, {{$dev->middle_name}}.
 													</a>
 												</h4>
+
+												<div>
+													<select class="star-rating">
+														@foreach($dev->child_user_rating as $rate)
+														<option value="$rate->rating">{{count($rate->parent_user_rating_desc) > 0 ? $rate->parent_user_rating_desc[0]->description : 'Not Set'}},</option>
+														@endforeach
+													</select>
+													
+												</div>	
+												
 												<input type="hidden" class="devID" value="{{$dev->id}}">
 											</div>
 											<div id="collapseOne" class="panel-collapse collapse in">
@@ -102,23 +131,16 @@
 											</div>
 										</div>
 									</div>
-									@endforeach
+
 								</div>
-								<div class="box-footer">
-									<div class="pull-left">
-										<select class="star-rating" id="star-rating">
-											<option value="">rate</option>
-											<option value="5">Excellent</option>
-											<option value="4">Very Good</option>
-											<option value="3">Average</option>
-											<option value="2">Poor</option>
-											<option value="1">Terrible</option>
-										</select>
-									</div>	
+								<div class="box-footer">	
 									<div class="pull-right">
 										<a href="{{url('profile-view', $dev->id)}}" class="btn btn-primary btn-block viewProfile"><i class="glyphicon glyphicon-user "></i><b>View Profile</b></a>
 									</div>	
 								</div>
+								@endforeach  --}}
+								<br>
+								<br>
 							</div>
 						</div>
 					</div>

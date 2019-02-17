@@ -18,6 +18,12 @@ class Rating extends Model
         
     }
 
+    public function parent_user_rating_desc()
+    {
+        return $this->belongsTo('App\Ratingdesc','name' ,'id');
+        
+    }
+
     public function getRating()
     {
         return User::join('rating', 'rating.user_id', '=', 'user.id')

@@ -9,20 +9,19 @@ use App\Skill;
 use App\Education;
 use App\Location;
 use App\Specialization;
+use App\Rating;
+use App\Ratingdesc;
 use App\Events\InviteDeveloper;
 
 class DashboardController extends Controller
 {
     public function index(){
 		// $users = User::all();
-		$users = User::with('child_user_location')
-				->with('child_user_specilization')
-				->with('child_user_achievement')
-				->get();
-		$skills = Skill::all();
+		$skills = Skill::get()->pluck('id','description');
+
+
     	// dd($users);
 		return view('pages.dashboard.index')
-			->with('users', $users)
 			->with('skills', $skills);
 	}
 
@@ -34,22 +33,29 @@ class DashboardController extends Controller
 				->with('child_user_specilization')
 				->with('child_user_achievement')
 				->get();
-		// dd($users);	
-		// return response()->json(['users'=>$user]);
 		return view('pages.dashboard.viewProfile')->with('users',$users);
-    }
+		}
+		
+	public function filterUser(){
+		$users = User::with('child_user_location')
+				->with('child_user_specilization')
+				->with('child_user_achievement')
+				->with('child_user_rating')
+				->get();
 
-	public function inviteDev($id){
-		$invite = User::where('id',$id)
-				->update([
-					'availability'=>'1',
-
-					]);
-		event(new InviteDeveloper($invite));
+		
 	}
 
 
-	public function changeRate(){
-        
-    }
+	public function changeRate(Request $request){
+		$rate = new Rating();
+		$rate->user_id = Auth::user()->id;
+		$rate->rating = $request->rating;
+		$rate->save();
+	}
+	
+	public function scopeSearchByKeyword(Request $request){
+		return response()->json('request',$request);
+	}
+	
 }

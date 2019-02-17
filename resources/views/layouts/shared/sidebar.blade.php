@@ -40,7 +40,6 @@
           </span>
         </a>
       </li>
-
       {{-- @hasanyrole('Senior Developer|Developer')
 
         <li class="">
@@ -50,8 +49,26 @@
             </span>
           </a>
         </li>
-
       @endhasanyrole --}}
+      
+      <li class="">
+          <a href="{{ url('ratingdesc-list') }}">
+            <i class="glyphicon glyphicon-list"></i> <span>Ratings</span>
+            <span class="pull-right-container">
+            </span>
+          </a>
+        </li>
+
+      @hasanyrole('Senior Developer|Developer') 
+      <li class="">
+        <a href="{{ url('profile-show') }}">
+          <i class="glyphicon glyphicon-user"></i> <span>Profile</span>
+          <span class="pull-right-container">
+          </span>
+        </a>
+      </li>
+      @endhasanyrole
+>>>>>>> 92e529ac5aca70259da1df0a16204d59aa8da285
       
 
     </ul>

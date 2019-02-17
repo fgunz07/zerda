@@ -165,7 +165,6 @@ class UserController extends Controller
         }
 
         return response()->json(['status' => true , 'message' => 'Achievement save.']);
-
     }
 
     public function getAchievement($id) 
