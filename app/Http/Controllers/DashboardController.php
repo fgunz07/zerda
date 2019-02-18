@@ -17,31 +17,35 @@ class DashboardController extends Controller
 {
     public function index(){
 		// $users = User::all();
-		$skills = Skill::get()->pluck('id','description');
-
-
-    	// dd($users);
-		return view('pages.dashboard.index')
-			->with('skills', $skills);
-	}
-
-	public function viewProfile($id){
-        
-		$users = User::where('id', $id)
-				->with('child_user_education')
-				->with('child_user_location')
-				->with('child_user_specilization')
-				->with('child_user_achievement')
-				->get();
-		return view('pages.dashboard.viewProfile')->with('users',$users);
-		}
-		
-	public function filterUser(){
 		$users = User::with('child_user_location')
 				->with('child_user_specilization')
 				->with('child_user_achievement')
 				->with('child_user_rating')
 				->get();
+		$skills = Skill::get()->pluck('id','description');
+
+
+    	// dd($users);
+		return view('pages.dashboard.index')
+			->with('users', $users)
+			->with('skills', $skills);
+	}
+
+	public function viewProfile($id){
+        
+		$user = User::where('id', $id)
+				->with('child_user_education')
+				->with('child_user_location')
+				->with('child_user_specilization')
+				->with('child_user_achievement')
+				->first();
+				// dd($users); 	
+		
+		return view('pages.dashboard.viewProfile')->with('user',$user);
+		}
+		
+	public function filterUser(Request $request, $skill){
+		
 
 		
 	}

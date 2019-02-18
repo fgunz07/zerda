@@ -78,9 +78,28 @@
 
         //FILTER DISPLAY BASED ON VALUE OF SELECT BOX
 
-        function basedOnSkill(){
-            var skill = $().val();
-        }
+        // $(document).ready(function($) {
+        //     $('table').hide();
+            
+        //     $('#mySelector').change( function(){
+        //     var selection = $(this).val();
+        //     $('table')[selection? 'show' : 'hide']();
+            
+        //     if (selection) {
+        //         $.each($('#myTable tbody tr'), function(index, item) {
+        //         $(item)[$(item).is(':contains('+ selection  +')')? 'show' : 'hide']();
+        //         });
+        //     }
+                
+        //     });
+        // });
+
+        //TOGGLE ACCORDION ON SELECTED ROW
+        $('tr.devs').click(function(){
+            $(this).nextUntil('tr.devs').css('display', function(i,v){
+                return this.style.display === 'table-row' ? 'none' : 'table-row';
+            });
+        });
 
     });//end of document ready
 </script>

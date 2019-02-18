@@ -3,7 +3,7 @@
 <div class="row">
 
     <div class="col-md-12">
-        @foreach($users as $user)
+         
         <div class="col-md-4">
             <div class="box box-primary">
                 <div class="box-body box-profile">
@@ -41,9 +41,9 @@
                     </div>
                     
                    
-                    <span><strong>Tertiary:</strong> <p class="text-muted" id="tertiaryDev"></p>{{$user->child_user_education[0]->tertiary}}</span>
-                    <span><strong>Secondary:</strong> <p class="text-muted" id="secondaryDev">{{$user->child_user_education[0]->secondary}}</p></span>
-                    <span><strong>Primary:</strong> <p class="text-muted" id="primaryDev"></p>{{$user->child_user_education[0]->primary}}</span>
+                    <span><strong>Tertiary:</strong> <p class="text-muted" id="tertiaryDev"></p>{{$user->child_user_education->tertiary}}</span>
+                    <span><strong>Secondary:</strong> <p class="text-muted" id="secondaryDev">{{$user->child_user_education->secondary}}</p></span>
+                    <span><strong>Primary:</strong> <p class="text-muted" id="primaryDev"></p>{{$user->child_user_education->primary}}</span>
 
                     <hr>
 
@@ -51,7 +51,7 @@
                         <strong><i class="fa fa-map-marker margin-r-5"></i>Location</strong>
                     </div>
 
-                    <p class="text-muted" id="locationDev">{{$user->child_user_location[0]->street}},{{$user->child_user_location[0]->brgy}},{{$user->child_user_location[0]->city}},{{$user->child_user_location[0]->province}},{{$user->child_user_location[0]->country}}</p>
+                    <p class="text-muted" id="locationDev">{{$user->child_user_location->street}},{{$user->child_user_location->brgy}},{{$user->child_user_location->city}},{{$user->child_user_location->province}},{{$user->child_user_location->country}}</p>
 
                     <hr>
 
@@ -86,7 +86,7 @@
                 
             </div>
 	    </div>
-        @endforeach
+        
     </div>
 
     <div>
