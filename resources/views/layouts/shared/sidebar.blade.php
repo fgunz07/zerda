@@ -67,7 +67,7 @@
           </a>
         </li>
 
-      @hasanyrole('Senior Developer|Developer') 
+      {{-- @hasanyrole('Senior Developer|Developer') 
       <li class="">
         <a href="{{ url('profile-show') }}">
           <i class="glyphicon glyphicon-user"></i> <span>Profile</span>
@@ -75,7 +75,7 @@
           </span>
         </a>
       </li>
-      @endhasanyrole
+      @endhasanyrole --}}
       
 
     </ul>
