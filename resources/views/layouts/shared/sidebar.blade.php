@@ -61,7 +61,7 @@
 
       @hasanyrole('Senior Developer|Developer') 
       <li class="">
-        <a href="{{ url('profile-show') }}">
+        <a href="{{ url('profile') }}">
           <i class="glyphicon glyphicon-user"></i> <span>Profile</span>
           <span class="pull-right-container">
           </span>

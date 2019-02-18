@@ -17,11 +17,9 @@ class DashboardController extends Controller
 {
     public function index(){
 		// $users = User::all();
-		$users = User::with('child_user_location')
-				->with('child_user_specilization')
-				->with('child_user_achievement')
-				->with('child_user_rating')
-				->get();
+		$users = User::with('skills')
+						->with('achievements')
+						->get();
 		$skills = Skill::get()->pluck('id','description');
 
 
@@ -33,12 +31,7 @@ class DashboardController extends Controller
 
 	public function viewProfile($id){
         
-		$user = User::where('id', $id)
-				->with('child_user_education')
-				->with('child_user_location')
-				->with('child_user_specilization')
-				->with('child_user_achievement')
-				->first();
+		$user = User::where('id', $id)->first();
 				// dd($users); 	
 		
 		return view('pages.dashboard.viewProfile')->with('user',$user);

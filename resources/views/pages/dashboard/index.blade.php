@@ -68,9 +68,9 @@
 
 															<div>
 																<select class="star-rating">
-																	@foreach($dev->child_user_rating as $rate)
-																	<option value="$rate->rating">{{count($rate->parent_user_rating_desc) > 0 ? $rate->parent_user_rating_desc[0]->description : 'Not Set'}},</option>
-																	@endforeach
+																	
+																	<option value="$rate->rating"></option>
+																
 																</select>
 																
 															</div>	
@@ -86,7 +86,7 @@
 																<hr>
 
 																<strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
-																<p class="text-muted">{{count($dev->child_user_location) > 0 ? $dev->child_user_location[0]->street : 'Not Set'}},{{count($dev->child_user_location) > 0 ? $dev->child_user_location[0]->brgy : 'Not Set'}},{{count($dev->child_user_location) > 0 ? $dev->child_user_location[0]->city : 'Not Set'}},{{count($dev->child_user_location) > 0 ? $dev->child_user_location[0]->province : 'Not Set'}},{{count($dev->child_user_location) > 0 ? $dev->child_user_location[0]->country : 'Not Set'}}</p>													
+																<p class="text-muted">{{$dev->street}},{{$dev->brgy}},{{$dev->city}},{{$dev->province}},{{$dev->country}}</p>													
 																
 															</div>
 														</div>
@@ -105,9 +105,9 @@
 															<strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
 
 															<p>
-																@foreach($dev->child_user_specilization as $skill)
-																<span class="label label-success">{{$skill->sklill_desc->description}}</span>
-																@endforeach
+																
+																<span class="label label-success"></span>
+																
 															</p>
 														</div>
 													</div>
@@ -125,9 +125,9 @@
 																<strong><i class="fa fa-file-text-o margin-r-5"></i> Achievements</strong>
 
 																<p>
-																	@foreach($dev->child_user_achievement as $achievement)
-																	<span class="label label-success">{{$achievement->name}}</span>
-																	@endforeach
+																	
+																	<span class="label label-success"></span>
+																
 																</p>
 
 															</div>

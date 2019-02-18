@@ -41,9 +41,9 @@
                     </div>
                     
                    
-                    <span><strong>Tertiary:</strong> <p class="text-muted" id="tertiaryDev"></p>{{$user->child_user_education->tertiary}}</span>
-                    <span><strong>Secondary:</strong> <p class="text-muted" id="secondaryDev">{{$user->child_user_education->secondary}}</p></span>
-                    <span><strong>Primary:</strong> <p class="text-muted" id="primaryDev"></p>{{$user->child_user_education->primary}}</span>
+                    <span><strong>Tertiary:</strong> <p class="text-muted" id="tertiaryDev"></p>{{$user->primary_edication_full_details}}</span>
+                    <span><strong>Secondary:</strong> <p class="text-muted" id="secondaryDev">{{$user->secondary_edication_full_details}}</p></span>
+                    <span><strong>Primary:</strong> <p class="text-muted" id="primaryDev"></p>{{$user->teriary_edication_full_details}}</span>
 
                     <hr>
 
