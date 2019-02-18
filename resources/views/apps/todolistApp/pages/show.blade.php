@@ -1,5 +1,8 @@
 @extends('apps.todolistApp.app')
 
+@section('custom_css')
+	<link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker.min.css') }}">
+@endsection
 
 @section('content')
 	<input type="hidden" name="board_id" value="{{ $board->id }}">
@@ -16,7 +19,7 @@
 
 			@endforeach
 		</div>
-		@if(auth()->user()->hasAnyRole(['Senior Developer','Client']))
+		@hasanyrole('Senior Developer|Client')
 			<div class="col-sm-3">
 				<div class="input-group">
 					<input type="text" class="form-control" name="todo_name" placeholder="Todo name">
@@ -25,7 +28,7 @@
 					</span>
 				</div>
 			</div>
-		@endif
+		@endhasanyrole
 	</div>
 
 	<div class="modal fade in" id="new-task">
@@ -112,6 +115,26 @@
 		<!-- /.modal-dialog -->
 	</div>
 
+	<div class="modal fade in" id="end">
+		<div class="modal-dialog modal-sm">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">×</span></button>
+			  <h4 class="modal-title">Date End</h4>
+			</div>
+			<div class="modal-body">
+				<input type="text" class="datepicker form-control" name="end_date">
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+			</div>
+		  </div>
+		  <!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
 @endsection
 
 @section('custom_script')
@@ -121,9 +144,27 @@
 	<script type="text/javascript">
 		'use strict';
 
-		$('.datepicker').datepicker()
-
 		(function(){
+
+			$('.datepicker').datepicker({
+				format: 'yyyy-mm-dd'
+			})
+			.on('changeDate', function(e) {
+
+				const options = {
+					url 	: '/todo-app/todo/end_date',
+					method 	: 'POST',
+					data 	: {
+						task_id : selectedTodo,
+						date 	: this.value
+					}
+				}
+
+				http(options)
+					.done(res => window.location.reload())
+					.fail(err => swal('Error', err.responseJson.message , 'error'))
+
+			})
 
 			const arrayRadioBTN     = document.querySelectorAll('.radio-class')
 			const arrayRadioLabel   = document.querySelectorAll('.label')
@@ -134,7 +175,8 @@
 			let currentSrcEl = null
             let currentCheck = null
             let selectUserName= null
-            let selectedTodo = 0
+			let selectedTodo = 0
+			let status 		 = {{ auth()->user()->hasAnyRole('Senior Developer|Client') ? true : false }}
 
             radioBtn.forEach(item => {
 
@@ -326,6 +368,12 @@
 
 				}
 
+				if(e.target.classList.contains('glyphicon-calendar')) {
+
+					selectedTodo = e.target.id.split('-').pop()
+
+				}
+
 			}
 
 			sortables.forEach(item => {
@@ -383,7 +431,11 @@
 
 			})
 
-			document.querySelector('#add_todo').addEventListener('click', addTodos)
+			if(status) {
+
+				document.querySelector('#add_todo').addEventListener('click', addTodos)
+
+			}
 
 			document.querySelector('#saveTask').addEventListener('click', addTask)
 

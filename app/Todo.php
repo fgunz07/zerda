@@ -35,10 +35,9 @@ class Todo extends Model
                             <a href='#' data-toggle='modal' data-target='#devs' id='task-should-{$task->id}'>
                                 <i class='glyphicon glyphicon-user' id='icon-{$task->id}'></i> {$task->developer}
                             </a> <br>
-                            <input type='hidden' id='end_date' class='datepicker' name='{$task->tasks}'>
-                            <label for='#end_date'>
+                            <a for='end_date' href='#' data-toggle='modal' data-target='#end'>
                                 <i class='glyphicon glyphicon-calendar' id='task-enddate-{$task->id}'></i> {$task->end_date}
-                            </label>
+                            </a>
                         </li>";
 
         }
