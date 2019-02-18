@@ -220,4 +220,23 @@ class UserController extends Controller
         return response()->json(['message'=>'no file'], 404);
 
     }
+
+    public function availableUsers(Request $request) {
+        $users = User::where('status', 0)
+                    ->role(['Senior Developer','Developer'])
+                    ->get();
+    
+        foreach($users as $user) {
+            if(!is_null($user)) {
+                
+                foreach($user->skills as $skill) {
+
+                    $user['skill'] .= "<small class='{$skill->class}'>{$skill->name}</small>&nbsp;";
+                
+                }
+            };
+        }
+
+        return response()->json($users);
+    }
 }
