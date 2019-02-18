@@ -53,9 +53,12 @@ class Board extends Model
                     <div class='callout {$this->class_name}'>";
                         
         $html2 = "<h4><a href='/todo-app/boards/{$this->id}'>{$this->title}</a></h4>
-
+                        <small>End Date: {$this->end_date}</small>
+                        <br>
+                        <small>Budget: {$this->budget}</small>
+                        <br>
+                        <br>
                         <p>{$this->description}</p>
-                        <br/>
                         <br/>
                         <div>{$skills}</div>
                         <br/>";

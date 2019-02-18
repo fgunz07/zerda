@@ -237,11 +237,15 @@ class UserController extends Controller
 
                         // }
 
+                        $t = [];
+
                         foreach ($board->tags as $tag) {
 
-                                $query->orWhere('name', 'like', '%'.strtolower($tag->name).'%');
+                            $t[] = $tag->name;
 
-                            }
+                        }
+
+                        $query->whereIn('name', $t);
 
                     })
                     ->get();
