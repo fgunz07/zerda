@@ -15,9 +15,12 @@ class CreateMessageTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->increments('id');
-            $table->longText('message');
+            $table->longText('message_html');
+            $table->longText('message_text');
+            $table->string('subject');
             $table->unsignedInteger('from');
             $table->unsignedInteger('to');
+            $table->smallInteger('read')->default(0);
             $table->timestamps();
         });
 
@@ -44,6 +47,6 @@ class CreateMessageTable extends Migration
             $table->dropForeign('messages_to_foreign');
         });
 
-        Schema::dropIfExists('message');
+        Schema::dropIfExists('messages');
     }
 }
