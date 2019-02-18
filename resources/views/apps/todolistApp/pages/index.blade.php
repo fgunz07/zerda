@@ -84,7 +84,7 @@
                         <label for="board-t" class="col-sm-2 control-label">Budget:</label>
     
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="budget">
+                            <input type="number" class="form-control" name="budget">
                         </div>
                     </div>
                     <div class="form-group">
@@ -106,7 +106,7 @@
                         <label for="board-t" class="col-sm-2 control-label">Tags:</label>
     
                         <div class="col-sm-10">
-                            {!! Form::select('tags[]', $skills->pluck('name', 'id'), old('tags[]'), ['class' => 'form-control', 'multiple' => 'multiple']) !!}
+                            {!! Form::select('tags[]', $skills->pluck('name', 'id'), old('tags[]'), ['class' => 'form-control', 'multiple' => 'multiple', 'name' => 'tags[]', 'style' => 'width: 100%;']) !!}
                         </div>
                     </div>
 
@@ -140,6 +140,7 @@
 @section('custom_script')
     <script type="text/javascript" src="{{ asset('lib/bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/select2.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/http.js') }}"></script>
     <script type="text/javascript">
@@ -147,7 +148,11 @@
 
         (function() {
 
-            $('select[name="tasg"]').select2()
+            $('select[name="tags[]"]').select2()
+
+            $('input[name=end_date]').datepicker({
+                format: 'yyyy-mm-dd'
+            })
 
             const arrayRadioBTN     = document.querySelectorAll('.radio-class')
             const arrayRadioLabel   = document.querySelectorAll('.label')
@@ -237,11 +242,12 @@
 
             }
 
-            function loadAvailableUsers() {
+            function loadAvailableUsers(id) {
 
                 let options = {
                     url     : '/users',
-                    method  : 'GET'
+                    method  : 'GET',
+                    data    : { board : id }
                 }
 
                 http(options)
@@ -291,6 +297,8 @@
 
                     strId = e.target.id.split('-').pop()
 
+                    loadAvailableUsers(strId)
+
                 }
 
                 let targetId = null
@@ -330,7 +338,10 @@
                         let data = {
                             title       : document.querySelector('input[name=title]').value,
                             description : document.querySelector('textarea[name=description]').value,
-                            class_name  : document.querySelector('input[checked=checked]').value
+                            class_name  : document.querySelector('input[checked=checked]').value,
+                            budget      : document.querySelector('input[name=budget]').value,
+                            end_date    : document.querySelector('input[name=end_date]').value,
+                            tags        : $('select[name="tags[]"]').val()
                         }
 
                         let options = {
@@ -351,6 +362,8 @@
                             })
                             .fail(err => {
 
+                                console.log(err)
+
                                 swal('Error', err.message, 'error')
 
                             })
@@ -358,8 +371,6 @@
             
             // load boards
             loadBoard()
-            // load users
-            loadAvailableUsers()
 
             // add window event for event delegation on elements
             window.addEventListener('click', globalEvents)

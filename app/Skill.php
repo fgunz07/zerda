@@ -10,6 +10,8 @@ class Skill extends Model
 
     protected $fillable = ['description'];
 
+    protected $hidden = ['pivot'];
+
     public function parent_user_skill(){
     	return $this->hasMany('App\User','skill_id','id');
     }

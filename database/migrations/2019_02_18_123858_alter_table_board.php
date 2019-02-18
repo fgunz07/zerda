@@ -25,13 +25,13 @@ class AlterTableBoard extends Migration
 
         Schema::create('board_skill', function (Blueprint $table) {
             $table->unsignedInteger('board_id');
-            $table->usignedInteger('skill_id');
+            $table->unsignedInteger('skill_id');
         });
 
         Schema::table('board_skill', function (Blueprint $table) {
             $table->foreign('board_id')
                     ->references('id')
-                    ->on('users')
+                    ->on('boards')
                     ->onDelete('cascade');
 
             $table->foreign('skill_id')
