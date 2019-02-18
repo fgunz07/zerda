@@ -30,10 +30,10 @@
 							<i class="glyphicon glyphicon-user"></i>
 							Current Role
 						</strong>
-						@if(is_null(auth()->user()->roles))
-						<a href="" class="editInlineSkills" data-toggle="modal" data-target="#add-role">
-							<i class="glyphicon glyphicon-pencil"></i>
-						</a>
+						@if(count(auth()->user()->roles) < 1)
+							<a href="" class="editInlineSkills" data-toggle="modal" data-target="#add-role">
+								<i class="glyphicon glyphicon-pencil"></i>
+							</a>
 						@endif
 
 						@foreach(auth()->user()->roles as $role)
@@ -47,26 +47,30 @@
 
 				</div>
 
-				<div class="box box-primary">
+				@hasanyrole('Senior Developer|Developer')
+					<div class="box box-primary">
 
-					<div class="box-header" id="">
+						<div class="box-header" id="">
 
-						<div id="skills">
-							<strong>
-								<i class="glyphicon glyphicon-list"></i>&nbsp;Skills
-							</strong>
-							<a href="" class="editInlineSkills" data-toggle="modal" data-target="#add-skills">
-								<i class="glyphicon glyphicon-pencil"></i>
-							</a>
+							<div id="skills">
+								<strong>
+									<i class="glyphicon glyphicon-list"></i>&nbsp;Skills
+								</strong>
+								<a href="" class="editInlineSkills" data-toggle="modal" data-target="#add-skills">
+									<i class="glyphicon glyphicon-pencil"></i>
+								</a>
+							</div>
+
+						</div>
+						
+						<div class="box-body" id="skills-view">
+							@foreach(auth()->user()->skills as $skill)
+								<span class="{{ $skill->class }}">{{ $skill->name }}</span>
+							@endforeach
 						</div>
 
 					</div>
-					<div class="box-body" id="skills-view">
-						@foreach(auth()->user()->skills as $skill)
-						<span class="{{ $skill->class }}">{{ $skill->name }}</span>
-						@endforeach
-					</div>
-				</div>
+				@endhasrole
 
 			</div>
 			<div class="col-md-8">
