@@ -169,6 +169,8 @@
 
             function renderDevs(users) {
 
+                console.log(users[0].skill)
+
                 if(users) {
 
                     users.forEach(item => {
@@ -178,9 +180,7 @@
                                 <tr>
                                     <td>${item.first_name} ${item.middle_name} ${item.last_name}</td>
                                     <td>
-                                        <small class="label pull-right bg-green">CSS</small><br>
-                                        <small class="label pull-right bg-red">HTML5</small><br>
-                                        <small class="label pull-right bg-yellow">Javascript</small>
+                                        ${item.skill}
                                     </td>
                                     <td class="text-right">
                                         <button class="btn btn-success invite" id="user-details-${item.id}">Invite</button>

@@ -24,11 +24,7 @@
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
     <!-- <link rel="stylesheet" href="{{ asset('css/ material-kit.min.css') }}"> -->
     <link rel="stylesheet" href="{{ asset('css/star-rating.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker.min.css') }}">
-    
-   
-
-    @yield('custom_css')
+    <!-- <link rel="stylesheet" href="{{ asset('css/star-rating.minbootstrap-datepicker.min.css') }}"> -->
 
     <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">

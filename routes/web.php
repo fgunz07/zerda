@@ -44,82 +44,110 @@ Route::group(['middleware' => 'web'], function () {
 Auth::routes();
 
 
-Route::group(['prefix' => 'todo-app'], function () {
+Route::group(['middleware' => 'auth'], function () {
 
-	Route::get('boards', 'TodoListAppController@index')->name('todoboards');
+	Route::group(['prefix' => 'todo-app'], function () {
 
-	Route::get('boards/list', 'BoardsController@index');
+		Route::get('boards', 'TodoListAppController@index')->name('todoboards');
 
-	Route::post('boards', 'BoardsController@store');
+		Route::get('boards/list', 'BoardsController@index');
 
-	Route::delete('boards/{id}', 'BoardsController@delete');
+		Route::post('boards', 'BoardsController@store');
 
-	Route::get('boards/{id}', 'BoardsController@show');
+		Route::delete('boards/{id}', 'BoardsController@delete');
 
-	Route::get('todos', 'TodoController@listTodo');
+		Route::get('boards/{id}', 'BoardsController@show');
 
-	Route::post('todos', 'TodoController@store');
+		Route::get('todos', 'TodoController@listTodo');
 
-	Route::post('todo/assign', 'TaskController@assign');
+		Route::post('todos', 'TodoController@store');
 
-	Route::post('todo/end_date', 'TaskController@endDate');
+		Route::post('todo/assign', 'TaskController@assign');
 
-	Route::delete('todos/{id}', 'TodoController@delete');
+		Route::post('todo/end_date', 'TaskController@endDate');
 
-	Route::post('tasks', 'TaskController@store');
+		Route::delete('todos/{id}', 'TodoController@delete');
 
-	Route::post('todo-task', 'TodoController@UpdateTodoTask');
+		Route::post('tasks', 'TaskController@store');
 
-	Route::get('board-details/{id}', 'BoardsController@boardDetails');
+		Route::post('todo-task', 'TodoController@UpdateTodoTask');
 
-});
+		Route::get('board-details/{id}', 'BoardsController@boardDetails');
 
-Route::group(['prefix' => 'notification'], function () {
+	});
 
-	Route::post('invite', 'InviteNotificationController@inviteDev');
+	Route::group(['prefix' => 'notification'], function () {
 
-	Route::get('invite', 'InviteNotificationController@getInviteNotifications');
+		Route::post('invite', 'InviteNotificationController@inviteDev');
 
-	Route::get('message' , 'MessageNotificationController@message');
+		Route::get('invite', 'InviteNotificationController@getInviteNotifications');
 
-});
+		Route::get('message' , 'MessageNotificationController@message');
 
-Route::group(['prefix' => 'invitation'], function () {
+	});
 
-	Route::post('accept', 'InviteController@accept');
+	Route::group(['prefix' => 'invitation'], function () {
 
-	Route::post('reject', 'InviteController@reject');
+		Route::post('accept', 'InviteController@accept');
 
-});
+		Route::post('reject', 'InviteController@reject');
 
-Route::get('/users', 'UserController@availableUsers');
+	});
 
-Route::get('home', 'HomeController@index')->name('home');
+	Route::group(['prefix' => 'user'], function () {
+
+		Route::get('profile', 'UserController@profile');
+
+		Route::post('skill', 'UserController@addSkill');
+
+		Route::post('role', 'UserController@addRole');
+
+		Route::post('education', 'UserController@updateEducation');
+
+		Route::post('location', 'UserController@updateLocation');
+
+		Route::post('portfolio', 'UserController@updatePortfolio');
+
+		Route::post('achievement', 'UserController@updateAchievement');
+
+		Route::get('achievement/{id}', 'UserController@getAchievement');
+
+		Route::put('achievement/{id}', 'UserController@putAchievement');
+
+		Route::post('profile' , 'UserController@uploadImg');
+
+	});
+
+	Route::get('/users', 'UserController@availableUsers');
+
+	Route::get('home', 'HomeController@index')->name('home');
 
 	//Dashboard
-Route::get('dashboard','DashboardController@index');
-Route::get('profile-view/{id}','DashboardController@viewProfile');
-Route::post('user-rate/{id}','DashboardController@changeRate');
+	Route::get('dashboard','DashboardController@index');
+	Route::get('profile-view/{id}','DashboardController@viewProfile');
+	Route::post('user-rate','DashboardController@changeRate');
 
 
 	//Skills
-Route::get('skills-list','SkillsController@index');
-Route::get('skills-create','SkillsController@create');
-Route::post('skills-store','SkillsController@store');
-Route::get('skills-edit/{id}','SkillsController@edit');
-Route::put('skills-update/{id}','SkillsController@update');
-Route::delete('skills-delete/{id}','SkillsController@destroy');
+	Route::get('skills-list','SkillsController@index');
+	Route::get('skills-create','SkillsController@create');
+	Route::post('skills-store','SkillsController@store');
+	Route::get('skills-edit/{id}','SkillsController@edit');
+	Route::put('skills-update/{id}','SkillsController@update');
+	Route::delete('skills-delete/{id}','SkillsController@destroy');
 
 	//Profile
-Route::get('profile-show','UserController@show');
-Route::get('profile-data','UserController@dataProfile');
-Route::post('profile-upload-pic','UserController@uploadProfile');
-Route::post('profile-location','UserController@updateLocation');
-Route::post('profile-education','UserController@updateEducation');
-Route::post('profile-skill','UserController@updateSkill');
-Route::post('profile-skill-delete/{id}','UserController@deleteSkill');
-Route::post('profile-achievement','UserController@updateAchievement');
-Route::post('profile-achievement-delete/{id}','UserController@deleteAchievement');
+	Route::get('profile-show','UserController@show');
+	Route::get('profile-data','UserController@dataProfile');
+	Route::post('profile-upload-pic/{id}','UserController@uploadProfile');
+	Route::post('profile-location','UserController@updateLocation');
+	Route::post('profile-education','UserController@updateEducation');
+	Route::post('profile-skill','UserController@updateSkill');
+	Route::post('profile-skill-delete/{id}','UserController@deleteSkill');
+	Route::post('profile-achievement','UserController@updateAchievement');
+	Route::post('profile-achievement-delete/{id}','UserController@deleteAchievement');
+
+});
 
 //Rating Description
 Route::get('ratingdesc-list','RatingsdescController@index');

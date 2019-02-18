@@ -5,7 +5,7 @@
     <!-- Sidebar user panel -->
     <div class="user-panel">
       <div class="pull-left image">
-        <img src="{{ asset('lib/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+        <img src='{{ asset(auth()->user()->avatar_url) }}' class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
         <p>{{ auth()->user()->first_name }} {{ auth()->user()->middle_name }} {{ auth()->user()->last_name }}</p>
@@ -26,27 +26,21 @@
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu" data-widget="tree">
       <li class="">
-        <a href="{{ url('dashboard') }}">
-          <i class="glyphicon glyphicon-dashboard"></i> <span>Dashboard</span>
+        <a href="{{ url('user/profile') }}">
+          <i class="glyphicon glyphicon-dashboard"></i> <span>Profile</span>
           <span class="pull-right-container">
-            {{-- <i class="fa fa-angle-left pull-right"></i> --}}
           </span>
         </a>
       </li>
 
-      @hasanyrole('Client|Senior Developer|Developer')
-
-        <li class="">
-          <a href="{{ url('/todo-app/boards') }}">
-            <i class="glyphicon glyphicon-tasks"></i> <span>Todo Task</span>
-            <span class="pull-right-container">
-            </span>
-          </a>
-        </li>
-
-      @endhasanyrole
-
-      @hasanyrole('admin')
+      <li class="">
+        <a href="{{ url('/todo-app/boards') }}">
+          <i class="glyphicon glyphicon-tasks"></i> <span>Todo Task</span>
+          <span class="pull-right-container">
+          </span>
+        </a>
+      </li>
+      {{-- @hasanyrole('Senior Developer|Developer')
 
         <li class="">
           <a href="{{ url('skills-list') }}">
@@ -55,8 +49,7 @@
             </span>
           </a>
         </li>
-
-      @endhasanyrole
+      @endhasanyrole --}}
       
       <li class="">
           <a href="{{ url('ratingdesc-list') }}">
