@@ -43,9 +43,10 @@ class TaskController extends Controller
 
     public function endDate(Request $request) {
 
-    	Task::findOrFail($request->task_id)
-    			->update(['developer' => $request->dev]);
-
+    	$task 			= Task::findOrFail($request->task_id);
+		$task->end_date = $request->date;
+		$task->save();
+		
     	return response()->json(['status' => true , 'message' => 'Success']);
 
     }
