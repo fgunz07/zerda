@@ -34,6 +34,14 @@
       </li>
 
       <li class="">
+        <a href="{{ url('/messages/inbox') }}">
+          <i class="glyphicon glyphicon-envelope"></i> <span>Inbox</span>
+          <span class="pull-right-container">
+          </span>
+        </a>
+      </li>
+
+      <li class="">
         <a href="{{ url('/todo-app/boards') }}">
           <i class="glyphicon glyphicon-tasks"></i> <span>Projects</span>
           <span class="pull-right-container">
