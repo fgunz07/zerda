@@ -125,7 +125,16 @@
 						<hr>
 
 						<div id="">
-							<strong><i class="fa fa-pencil margin-r-5"></i>Portfolio</strong>
+							<strong>
+								<i class="fa fa-pencil margin-r-5"></i>
+								@hasanyrole('Senior Developer|Developer')
+									Portfolio
+								@endhasrole
+
+								@hasrole('Client')
+									Company
+								@endhasrole
+							</strong>
 							<a href="" class="editInlineSkills" data-toggle="modal" data-target="#portfolio">
 								<i class="glyphicon glyphicon-pencil"></i>
 							</a>
@@ -137,49 +146,53 @@
 
 						<hr>
 
-						<div id="">
-							<strong>
-								<i class="fa fa-trophy margin-r-5"></i>Achievements
-							</strong>
-							<a href="" class="editInlineAchievement" data-toggle="modal" data-target="#achievement">
-								<i class="glyphicon glyphicon-plus"></i>
-							</a>
+						@hasanyrole('Senior developer|Developer')
 
-							<div>
+							<div id="">
+								<strong>
+									<i class="fa fa-trophy margin-r-5"></i>Achievements
+								</strong>
+								<a href="" class="editInlineAchievement" data-toggle="modal" data-target="#achievement">
+									<i class="glyphicon glyphicon-plus"></i>
+								</a>
 
-								@foreach(auth()->user()->achievements as $ach)
+								<div>
 
-								<div class="panel box box-success">
-									<div class="box-header with-border">
-										<h4 class="box-title">
-											<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree-{{$ach->id}}" class="collapsed" aria-expanded="false">
-												{{ $ach->name }}
-											</a>
+									@foreach(auth()->user()->achievements as $ach)
 
-											<div>
-												<small class="text-muted">
-													from {{ $ach->year_start }} to {{ $ach->year_end }}
-													&nbsp;
-													<a href="#" id="achievement-{{ $ach->id }}" class="text-muted edit-achievement" data-toggle="modal" data-target="#achievement-edit">
-														<i class="glyphicon glyphicon-pencil"></i>
-													</a>
-												</small>
+									<div class="panel box box-success">
+										<div class="box-header with-border">
+											<h4 class="box-title">
+												<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree-{{$ach->id}}" class="collapsed" aria-expanded="false">
+													{{ $ach->name }}
+												</a>
+
+												<div>
+													<small class="text-muted">
+														from {{ $ach->year_start }} to {{ $ach->year_end }}
+														&nbsp;
+														<a href="#" id="achievement-{{ $ach->id }}" class="text-muted edit-achievement" data-toggle="modal" data-target="#achievement-edit">
+															<i class="glyphicon glyphicon-pencil"></i>
+														</a>
+													</small>
+												</div>
+											</h4>
+										</div>
+										<div id="collapseThree-{{$ach->id}}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+											<div class="box-body">
+												{{ $ach->description }}
 											</div>
-										</h4>
-									</div>
-									<div id="collapseThree-{{$ach->id}}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-										<div class="box-body">
-											{{ $ach->description }}
 										</div>
 									</div>
+
+									@endforeach
+
 								</div>
-
-								@endforeach
-
 							</div>
-						</div>
 
-						<hr>
+							<hr>
+
+						@endhasrole
 
 					</div>
 				</div>
