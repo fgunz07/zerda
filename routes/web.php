@@ -98,7 +98,11 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::get('inbox', 'MessageController@inbox');
 
-		Route::get('composer', 'MessageController@compose');
+		Route::get('inbox/{id}', 'MessageController@getMessage');
+
+		Route::get('compose', 'MessageController@compose');
+
+		Route::post('compose', 'MessageController@sendMessage');
 
 	});
 

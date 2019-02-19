@@ -8,7 +8,19 @@ class MessageNotificationController extends Controller
 {
     public function message() {
 
-        dd(auth()->user()->notifications);
+        $messageNotf = [];
+
+        foreach(auth()->user()->unreadNotifications as $notf) {
+
+            if($notf->type == 'App\Notifications\MessageNotification') {
+
+                array_push($messageNotf, $notf);
+
+            }
+
+        }
+
+        return response()->json($messageNotf);
 
     }
 }
