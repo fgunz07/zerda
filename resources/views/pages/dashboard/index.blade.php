@@ -8,20 +8,10 @@
 					<div class="col-md-12">
 						<div class="box box-primary">
 							<div class="box-header">
-
-								<form action="#" method="get" class="form">
-									<div class="input-group">
-									<input type="text" name="keyword" class="form-control" placeholder="Search...">
-										<span class="input-group-btn">
-											<button type="submit" name="search" id="search-dev" class="btn btn-flat primary"><i class="fa fa-search"></i>
-											</button>
-										</span>
+								<h4>Category By Skill</h4>
+								<div class="form-group" style="margin: 5px 0 0 0;">
+										{!! Form::select('skillsList', $skillsList->pluck('name', 'id'), old('skillsList'), ['class' => 'form-control', 'id' => 'skillsList']) !!}
 									</div>
-
-									<div class="form-group" style="margin: 5px 0 0 0;">
-										{!! Form::select('skill', ['1' => 'all'], old('skill'), ['class' => 'form-control', 'id' => 'skill']) !!}
-									</div>
-								</form>
 								<br>
 
 								<h2 class="box-title">List of Availabe Developers</h2>
@@ -30,8 +20,8 @@
 						
 							<div class="box-body" sytle="padding:20px">
 								
-								<table class="table table-hover">
-									<thead>
+								<table class="table table-hover" id="devlist">
+									<thead style="background-color:#7647ed; color:white">
 										<tr>
 											<th>Firstname</th>
 											<th>Lastname</th>
@@ -54,88 +44,7 @@
 												</div>	
 											</td>
 										</tr>
-										<tr class=information>
-											<td colspan="4" class="hiddentablerow">
-												<div class="box-group  accordian-body collapse dev-info">
-													<!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
-													<div class="panel box box-info">
-														<div class="box-header with-border">
-															<h4 class="box-title">
-																<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-																	Additional Information
-																</a>
-															</h4>
-
-															<div>
-																<select class="star-rating">
-																	
-																	<option value="$rate->rating"></option>
-																
-																</select>
-																
-															</div>	
-															
-															<input type="hidden" class="devID" value="{{$dev->id}}">
-														</div>
-														<div id="collapseOne" class="panel-collapse collapse in">
-															<div class="box-body">
-																<strong><i class="glyphicon glyphicon-envelope margin-r-5"></i> Email Address</strong>
-
-																<p class="text-muted">{{$dev->email}}</p>
-
-																<hr>
-
-																<strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
-																<p class="text-muted">{{$dev->street}},{{$dev->brgy}},{{$dev->city}},{{$dev->province}},{{$dev->country}}</p>													
-																
-															</div>
-														</div>
-													</div>
-													<div class="panel box box-danger">
-														<div class="box-header with-border">
-															<h4 class="box-title">
-																<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-																Skills
-																</a>
-															</h4>
-														</div>
-														<div id="collapseTwo" class="panel-collapse collapse">
-															<div class="box-body">
-
-															<strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
-
-															<p>
-																
-																<span class="label label-success"></span>
-																
-															</p>
-														</div>
-													</div>
-													<div class="panel box box-success">
-														<div class="box-header with-border">
-															<h4 class="box-title">
-																<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-																	Achievements
-																</a>
-															</h4>
-														</div>
-														<div id="collapseThree" class="panel-collapse collapse">
-															<div class="box-body">
-
-																<strong><i class="fa fa-file-text-o margin-r-5"></i> Achievements</strong>
-
-																<p>
-																	
-																	<span class="label label-success"></span>
-																
-																</p>
-
-															</div>
-														</div>
-													</div>
-												</div>
-											</td>
-										</tr>
+										
 										@endforeach
 									</tbody>
 								</table>

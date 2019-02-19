@@ -20,33 +20,34 @@ class DashboardController extends Controller
 		$users = User::with('skills')
 						->with('achievements')
 						->get();
-		$skills = Skill::get()->pluck('id','description');
+		$skillsList = Skill::all();
 
 
-    	// dd($users);
+		// dd($users);
+		// dd($skillsList);
 		return view('pages.dashboard.index')
 			->with('users', $users)
-			->with('skills', $skills);
+			->with('skillsList', $skillsList);
 	}
 
 	public function viewProfile($id){
         
-		$user = User::where('id', $id)->first();
-				// dd($users); 	
-		
-		return view('pages.dashboard.viewProfile')->with('user',$user);
+		$user = User::where('id', $id)
+					  ->with('skills')
+						->with('achievements')
+						->first();
+				// dd($user); 	
+		$ratedesc = Ratingdesc::all();
+		// dd($ratedesc);
+		return view('pages.dashboard.viewProfile')
+						->with('user',$user)
+						->with('ratedesc',$ratedesc);
 		}
-		
-	public function filterUser(Request $request, $skill){
-		
-
-		
-	}
 
 
-	public function changeRate(Request $request){
+	public function changeRate(Request $request, $id){
 		$rate = new Rating();
-		$rate->user_id = Auth::user()->id;
+		$rate->user_id = $id;
 		$rate->rating = $request->rating;
 		$rate->save();
 	}

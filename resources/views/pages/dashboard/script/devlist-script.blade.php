@@ -24,10 +24,11 @@
         $('#dev-rate').on('change', function() {
             
             var id = $('#devID').val();
+            console.log(id);
 
             Rate.rating = $('[name="rating"]').val();
 
-                    alert('click');
+                    // alert('click');
                     $.ajax({
                         type: 'POST',
                         url: `/user-rate/${id}`,
@@ -51,30 +52,9 @@
 
         //Search Developers
 
-        function searchDev(){
-            $('#search-dev').on('click',function (){
-
-                $.ajax({
-                        type: 'GET',
-                        url: `/search-like`,
-                        data: {
-                            _token: '{{ csrf_token() }}'
-                        },
-                            success: function(data){ 
-                                swal('Done!','Rate successfully saved.', 'success')
-                               
-                            }, 
-                            error: function(err){
-                                swal({
-                                title: "Oops!",
-                                text: `sorry for this will fixed this soon.`,
-                                icon: "error",
-                                });
-                            }       
-                    });
-
-            });
-        }
+        $(document).ready(function() {
+            $('#devlist').DataTable();
+        } );
 
         //FILTER DISPLAY BASED ON VALUE OF SELECT BOX
 
