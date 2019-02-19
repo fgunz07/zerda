@@ -34,8 +34,16 @@
       </li>
 
       <li class="">
+        <a href="{{ url('/messages/inbox') }}">
+          <i class="glyphicon glyphicon-envelope"></i> <span>Inbox</span>
+          <span class="pull-right-container">
+          </span>
+        </a>
+      </li>
+
+      <li class="">
         <a href="{{ url('/todo-app/boards') }}">
-          <i class="glyphicon glyphicon-tasks"></i> <span>Todo Task</span>
+          <i class="glyphicon glyphicon-tasks"></i> <span>Projects</span>
           <span class="pull-right-container">
           </span>
         </a>
@@ -59,7 +67,7 @@
           </a>
         </li>
 
-      @hasanyrole('Senior Developer|Developer') 
+      {{-- @hasanyrole('Senior Developer|Developer') 
       <li class="">
         <a href="{{ url('profile') }}">
           <i class="glyphicon glyphicon-user"></i> <span>Profile</span>
@@ -67,7 +75,7 @@
           </span>
         </a>
       </li>
-      @endhasanyrole
+      @endhasanyrole --}}
       
 
     </ul>

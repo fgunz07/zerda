@@ -61,6 +61,12 @@ class User extends Authenticatable {
 
 	}
 
+	public function getMessageFrom() {
+
+		return $this->hasMany('App\Message', 'from', 'id');
+
+	}
+
 	public function getStreetAttribute() {
 
 		if(!is_null($this->address)) {

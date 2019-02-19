@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Log;
 use Auth;
 use App\Skill;
 use App\Location;
@@ -15,6 +16,7 @@ use App\Profile;
 use App\Specialization;
 use App\User;  
 use App\Achievement; 
+use App\Board;
 use Image;
 
 class UserController extends Controller
@@ -222,8 +224,30 @@ class UserController extends Controller
     }
 
     public function availableUsers(Request $request) {
+
+        $board = Board::findOrFail($request->board);
+
         $users = User::where('status', 0)
                     ->role(['Senior Developer','Developer'])
+                    ->whereHas('skills', function($query) use ($board) {
+
+                        // if(!is_null($board->tags)) {
+
+                            
+
+                        // }
+
+                        $t = [];
+
+                        foreach ($board->tags as $tag) {
+
+                            $t[] = $tag->name;
+
+                        }
+
+                        $query->whereIn('name', $t);
+
+                    })
                     ->get();
     
         foreach($users as $user) {

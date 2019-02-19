@@ -94,6 +94,14 @@ Route::group(['middleware' => 'auth'], function () {
 
 	});
 
+	Route::group(['prefix' => 'messages'] , function () {
+
+		Route::get('inbox', 'MessageController@inbox');
+
+		Route::get('composer', 'MessageController@compose');
+
+	});
+
 	Route::group(['prefix' => 'user'], function () {
 
 		Route::get('profile', 'UserController@profile');

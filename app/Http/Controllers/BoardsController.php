@@ -28,6 +28,16 @@ class BoardsController extends Controller
                     'board_id'=> $board->id
                 ]);
 
+            foreach($request->tags as $tag) {
+
+                DB::table('board_skill')
+                    ->insert([
+                        'board_id' => $board->id,
+                        'skill_id' => $tag
+                    ]);
+
+            }
+
         } catch (Exception $e) {
 
             return response()->json(['status' => false , 'message' => $e->getMessage()], 500);

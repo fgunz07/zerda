@@ -2,12 +2,14 @@
 
 @section('custom_css')
     <link rel="stylesheet" href="{{ asset('lib/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-datepicker.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.min.css') }}">
 @endsection
 
 @section('content')
     <div class="box box-default">
         <div class="box-header with-border">
-          <h3 class="box-title">Your Boards</h3>
+          <h3 class="box-title">Projects</h3>
         </div>
         <div class="box-body">
             <div class="row">
@@ -67,15 +69,29 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span></button>
-            <h4 class="modal-title">New Board</h4>
+            <h4 class="modal-title">New Project</h4>
           </div>
           <div class="modal-body">
                 <div class="form-horizontal">
                     <div class="form-group">
-                    <label for="board-t" class="col-sm-2 control-label">Project:</label>
+                        <label for="board-t" class="col-sm-2 control-label">Project:</label>
     
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="title" id="board-t" placeholder="Project name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="board-t" class="col-sm-2 control-label">Budget:</label>
+    
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name="budget">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="board-t" class="col-sm-2 control-label">End Date:</label>
+    
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="end_date">
                         </div>
                     </div>
                     <div class="form-group">
@@ -83,6 +99,14 @@
                         
                         <div class="col-sm-10">
                             <textarea class="form-control" name="description" rows="3" placeholder="Enter board description ..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="board-t" class="col-sm-2 control-label">Tags:</label>
+    
+                        <div class="col-sm-10">
+                            {!! Form::select('tags[]', $skills->pluck('name', 'id'), old('tags[]'), ['class' => 'form-control', 'multiple' => 'multiple', 'name' => 'tags[]', 'style' => 'width: 100%;']) !!}
                         </div>
                     </div>
 
@@ -116,11 +140,20 @@
 @section('custom_script')
     <script type="text/javascript" src="{{ asset('lib/bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/select2.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/http.js') }}"></script>
     <script type="text/javascript">
         'use strict';
 
         (function() {
+
+            $('select[name="tags[]"]').select2()
+
+            $('input[name=end_date]').datepicker({
+                format: 'yyyy-mm-dd'
+            })
+
             const arrayRadioBTN     = document.querySelectorAll('.radio-class')
             const arrayRadioLabel   = document.querySelectorAll('.label')
             const deleteBoard       = null
@@ -169,8 +202,6 @@
 
             function renderDevs(users) {
 
-                console.log(users[0].skill)
-
                 if(users) {
 
                     users.forEach(item => {
@@ -211,11 +242,12 @@
 
             }
 
-            function loadAvailableUsers() {
+            function loadAvailableUsers(id) {
 
                 let options = {
                     url     : '/users',
-                    method  : 'GET'
+                    method  : 'GET',
+                    data    : { board : id }
                 }
 
                 http(options)
@@ -265,6 +297,8 @@
 
                     strId = e.target.id.split('-').pop()
 
+                    loadAvailableUsers(strId)
+
                 }
 
                 let targetId = null
@@ -304,7 +338,10 @@
                         let data = {
                             title       : document.querySelector('input[name=title]').value,
                             description : document.querySelector('textarea[name=description]').value,
-                            class_name  : document.querySelector('input[checked=checked]').value
+                            class_name  : document.querySelector('input[checked=checked]').value,
+                            budget      : document.querySelector('input[name=budget]').value,
+                            end_date    : document.querySelector('input[name=end_date]').value,
+                            tags        : $('select[name="tags[]"]').val()
                         }
 
                         let options = {
@@ -325,6 +362,8 @@
                             })
                             .fail(err => {
 
+                                console.log(err)
+
                                 swal('Error', err.message, 'error')
 
                             })
@@ -332,8 +371,6 @@
             
             // load boards
             loadBoard()
-            // load users
-            loadAvailableUsers()
 
             // add window event for event delegation on elements
             window.addEventListener('click', globalEvents)

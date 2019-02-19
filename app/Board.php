@@ -10,7 +10,9 @@ class Board extends Model
 
         'title',
         'description',
-        'class_name'
+        'class_name',
+        'budget',
+        'end_date'
 
     ];
 
@@ -28,7 +30,20 @@ class Board extends Model
 
     }
 
+    public function tags() {
+
+        return $this->belongsToMany('App\Skill', 'board_skill');
+    }
+
     function getHtmlCodeAttribute() {
+
+        $skills = null;
+
+        foreach($this->tags as $tag) {
+
+            $skills .= "<small class='{$tag->class}'>{$tag->name}</small>&nbsp;";
+
+        }
 
         $btnInvite = "<button class='btn btn-default btn-xs board-invite' data-toggle='modal' data-target='#devs-list' id='invite-board-{$this->id}'>Invite Devs</button>";
 
@@ -38,9 +53,15 @@ class Board extends Model
                     <div class='callout {$this->class_name}'>";
                         
         $html2 = "<h4><a href='/todo-app/boards/{$this->id}'>{$this->title}</a></h4>
-
-                        <p>{$this->description}</p>";
-
+                        <small>End Date: {$this->end_date}</small>
+                        <br>
+                        <small>Budget: {$this->budget}</small>
+                        <br>
+                        <br>
+                        <p>{$this->description}</p>
+                        <br/>
+                        <div>{$skills}</div>
+                        <br/>";
         $html3 =    "</div>
                 </div>";
                         
