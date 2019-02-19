@@ -98,6 +98,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::get('inbox', 'MessageController@inbox');
 
+		Route::get('history', 'MessageController@getUnreadMessages');
+
 		Route::get('inbox/{id}', 'MessageController@getMessage');
 
 		Route::get('compose', 'MessageController@compose');

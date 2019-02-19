@@ -81,4 +81,12 @@ class MessageController extends Controller
 
     }
 
+    public function getUnreadMessages() {
+
+        $messages = auth()->user()->getMessageFrom;
+
+        return response()->json($messages);
+
+    }
+
 }

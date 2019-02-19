@@ -14,4 +14,30 @@ class Message extends Model
     	'to',
     	'read'
     ];
+
+    protected $appends = ['email', 'created', 'message_url'];
+
+    public function user() {
+
+    	return $this->hasOne('App\User', 'id', 'from');
+
+    }
+
+    public function getEmailAttribute() {
+
+    	return $this->user->email;
+
+    }
+
+    public function getCreatedAttribute() {
+
+    	return $this->created_at->diffForHumans();
+
+    }
+
+    public function getMessageUrlAttribute() {
+
+    	return url('/messages/inbox/'.$this->id);
+
+    }
 }

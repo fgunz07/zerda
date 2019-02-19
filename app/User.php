@@ -63,7 +63,7 @@ class User extends Authenticatable {
 
 	public function getMessageFrom() {
 
-		return $this->hasMany('App\Message', 'from', 'id');
+		return $this->hasMany('App\Message', 'to', 'id');
 
 	}
 
