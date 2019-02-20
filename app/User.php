@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable {
 	use Notifiable, HasRoles;
@@ -125,5 +126,21 @@ class User extends Authenticatable {
 
 		return null;
 
+	}
+
+	public function rateDev(){
+		return $this->hasMany('App\Rating','user_id','id');
+	}
+
+	public static  function getRate($rate){
+		
+		$rateUser = DB::table('users')
+					->join('rating', 'users.id', '=', 'rating.user_id')
+					->select('users.*', DB::raw( 'AVG( rating.rating ) as ratings_average'))
+					->groupBy('id')
+					->orderBy('ratings_average', 'rating')
+					->get();
+		return $rateUser;			
+		// dd($rateUser);
 	}
 }

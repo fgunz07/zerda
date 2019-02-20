@@ -12,7 +12,7 @@
                    
                     <h3 class="profile-username text-center" id="nameDev">{{$user->last_name}},{{$user->first_name}},{{$user->middle_name}}</h3>
                     <input type="hidden" value="{{$user->id}}" id="devID">
-
+                    
                     <div class="pull-left">
                         <select class="star-rating" id="dev-rate" name="rating"  disabled>
                             <option value="">Select a rating</option>

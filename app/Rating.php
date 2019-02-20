@@ -14,7 +14,7 @@ class Rating extends Model
 
     public function parent_user_rating()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo('App\User', 'user_id', 'id');
         
     }
 
@@ -24,10 +24,4 @@ class Rating extends Model
         
     }
 
-    public function getRating()
-    {
-        return User::join('rating', 'rating.user_id', '=', 'user.id')
-            ->where('user.id', $this->attributes['id'])
-            ->select(DB::raw('SUM(rating.rating) / ((COUNT(rating.* * 5) / 100) as rating'))->pluck('rating');
-    }
 }

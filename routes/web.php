@@ -133,7 +133,7 @@ Route::group(['middleware' => 'auth'], function () {
 	//Dashboard
 	Route::get('dashboard','DashboardController@index');
 	Route::get('profile-view/{id}','DashboardController@viewProfile');
-	Route::post('user-rate{id}','DashboardController@changeRate');
+	Route::post('user-rate/{id}','DashboardController@changeRate');
 
 
 	//Skills

@@ -35,6 +35,9 @@
 											<td>
 												<input type="hidden" class="devID" value="{{$dev->id}}">
 												<strong>{{$dev->last_name}}</strong>
+												<div>
+													
+												</div>
 											</td>
 											<td><strong>{{$dev->first_name}}</strong></td>
 											<td> <strong>{{$dev->middle_name}}</strong></td>
