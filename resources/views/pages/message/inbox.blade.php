@@ -63,11 +63,18 @@
 
         function loadMessages(res) {
 
-          console.log(res)
+          document.querySelector('#inbox-count').innerHTML = res.unread
 
-          let html = ''
+          let html    = ''
+          let status  = ''
+          let style   = ''
 
-          res.forEach(item => {
+          res.messages.forEach(item => {
+
+            status = item.read > 0 ? '' : 'unread'
+            style  = item.read > 0 ? '' : 'label label-warning'
+
+            console.log(status)
 
             html += `
               <tr>
@@ -76,7 +83,10 @@
                 <td class="mailbox-subject"><b>${item.subject}</b> ${item.message_text}
                 </td>
                 <td class="mailbox-attachment"></td>
-                <td class="mailbox-date">${item.created}</td>
+                <td class="mailbox-date">
+                  ${item.created}
+                  <small class="${style}">${status}</small>
+                </td>
               </tr>
             `
 

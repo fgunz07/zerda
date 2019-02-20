@@ -71,7 +71,7 @@ function getMessageNotifications() {
 
 				html += `
 					<li>
-	                    <a href="${item.data.message_url}">
+	                    <a href="${item.data.message_url}?notf_msg=${item.id}">
 	                      <h4>
 	                        ${item.data.from}
 	                      </h4>

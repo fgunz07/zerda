@@ -106,6 +106,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::post('compose', 'MessageController@sendMessage');
 
+		Route::post('draft', 'MessageController@saveDraft');
+
 	});
 
 	Route::group(['prefix' => 'user'], function () {

@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Message extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
     	'message_html',
     	'message_text',
@@ -15,7 +18,9 @@ class Message extends Model
     	'read'
     ];
 
-    protected $appends = ['email', 'created', 'message_url'];
+    protected $appends  = ['email', 'created', 'message_url'];
+
+    protected $dates    = ['deleted_at'];
 
     public function user() {
 

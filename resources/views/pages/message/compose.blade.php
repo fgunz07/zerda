@@ -33,10 +33,23 @@
 @endsection
 
 @section('custom_js')
-    <script src="//cdn.ckeditor.com/4.11.2/standard/ckeditor.js"></script>
+    <script src="{{ asset('lib/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('js/http.js') }}"></script>
     <script type="text/javascript">
         const editor = CKEDITOR.replace('compose', { height: 300 })
+
+        window.onload = function() {
+
+          const options = {
+            url   : '/messages/history',
+            method  : 'GET'
+          }
+
+          http(options)
+            .done(res => document.querySelector('#inbox-count').innerHTML = res.unread)
+            .fail(err => swal('Error', err.responseJSON.message, 'error'))
+
+        }
 
         $('#send').on('click', function(e) {
 

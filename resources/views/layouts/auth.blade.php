@@ -23,6 +23,8 @@
 
     <link rel="stylesheet" href="{{ asset('lib/dist/css/skins/_all-skins.min.css') }}">
 
+    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
+
 </head>
 <body>
     <div id="app">
@@ -38,7 +40,7 @@
     <script type="text/javascript" src="{{ asset('lib/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 
     <!-- CDN script's -->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
 
     <!-- Script for modules -->
     @yield('custom_script')

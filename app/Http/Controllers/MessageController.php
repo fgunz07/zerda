@@ -20,6 +20,15 @@ class MessageController extends Controller
 
         view()->share('page_sub', 'Inbox');
 
+        $notifications = auth()->user()->unreadNotifications;
+
+        // mark all notifications as read
+        foreach($notifications as $notf) {
+
+            $notf->markAsRead();
+
+        }
+
         return view('pages.message.inbox');
 
     }
@@ -73,11 +82,21 @@ class MessageController extends Controller
 
     }
 
-    public function getMessage($id) {
+    public function getMessage(Request $request , $id) {
 
+        if($request->has('notf_msg')) {
+
+            auth()->user()->unreadNotifications->where('id', $request->notf_msg)->markAsRead();
+        
+        }
+
+        // get message and mark as read because it's already viewed
         $message = Message::find($id);
+        $message->read = 1;
+        $message->save();
 
-        return response()->json($message);
+        return view('pages.message.message')
+                    ->with('message' , $message);
 
     }
 
@@ -85,7 +104,49 @@ class MessageController extends Controller
 
         $messages = auth()->user()->getMessageFrom;
 
-        return response()->json($messages);
+        $unread    = null;
+
+        if(!is_null($messages)){
+            
+            // count all messages where not mark as read
+            foreach($messages as $msg) {
+
+                if($msg->read != 1) {
+                    $unread += 1;
+                }
+
+            }
+
+        }
+
+        return response()->json(['messages' => $messages , 'unread' => $unread]);
+
+    }
+
+    public function saveDraft(Request $request) {
+
+        if($request->has('to')) {
+
+            $user = User::where('email', $request->to)->first();
+
+            if(is_null($user)) {
+
+                return response()->json(['message' => 'This user does not exist'], 404);
+
+            }
+
+        }
+
+        $message                = new Message;
+        $message->message_html  = $request->html;
+        $message->message_text  = $request->text;
+        $message->subject       = $request->sub;
+        $message->to            = $user->id;
+        $message->draft         = 1;
+        $message->from          = auth()->user()->id;
+        $message->save();
+
+        return response()->json(['message' => 'Message save on draft.']);
 
     }
 
