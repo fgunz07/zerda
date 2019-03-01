@@ -42,7 +42,7 @@ class InviteNotificationController extends Controller
 
         foreach(auth()->user()->unreadNotifications as $notf) {
 
-            if($notf->type = 'App\Notifications\InviteDev') {
+            if($notf->type == 'App\Notifications\InviteDev') {
 
                 array_push($inviteNotf, $notf);
 

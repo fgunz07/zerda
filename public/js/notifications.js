@@ -13,10 +13,12 @@ const httpN = options => {
 
 }
 
-const notifCount = document.querySelectorAll('.notif-count')
-const notifLoop  = document.querySelector('#notf-loop')
+const notifInviteCount = document.querySelectorAll('.invite-count')
+const notifInviteLoop  = document.querySelector('#invite-loop')
+const notifMsgCount    = document.querySelectorAll('.message-count')
+const notifMsgLoop 	   = document.querySelector('#message-loop')
 
-function getNotifications(e) {
+function getInviteNotifications() {
 
 	const options = {
 		url		: '/notification/invite',
@@ -26,19 +28,21 @@ function getNotifications(e) {
 	httpN(options)
 		.done(res => {
 
-			notifCount.forEach(item => item.innerHTML = res.length)
+			let html = ''
+
+			notifInviteCount.forEach(item => item.innerHTML = res.length)
 
 			res.forEach(item => {
 
-				let html = `
+				html += `
 					<li>
 						<a href="${item.data.board_url}?notf_id=${item.id}">${item.data.message}</a>
 					</li>
 				`
 
-				notifLoop.innerHTML = html
-
 			})
+
+			notifInviteLoop.innerHTML = html
 
 		})
 		.fail(err => {
@@ -49,4 +53,44 @@ function getNotifications(e) {
 
 }
 
-window.addEventListener('load', getNotifications)
+function getMessageNotifications() {
+
+	const options = {
+		url 	: '/notification/message',
+		method 	: 'GET'
+	}
+
+	httpN(options)
+		.done(res => {
+
+			let html =''
+
+			notifMsgCount.forEach(item => item.innerHTML = res.length)
+
+			res.forEach(item => {
+
+				html += `
+					<li>
+	                    <a href="${item.data.message_url}?notf_msg=${item.id}">
+	                      <h4>
+	                        ${item.data.from}
+	                      </h4>
+	                      <p>${item.data.notif}</p>
+	                    </a>
+	                 </li>
+
+				`
+
+			})
+
+			notifMsgLoop.innerHTML = html
+
+		})
+		.fail(err => swal('Error', err.responseJSON.message, 'error'))
+
+}
+
+window.addEventListener('load', function() {
+	getInviteNotifications()
+	getMessageNotifications()
+})

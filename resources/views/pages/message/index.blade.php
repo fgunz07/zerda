@@ -4,11 +4,11 @@
 <div class="row">
 
     <div class="col-md-3">
-        <a href="{{ url('messages/composer') }}" class="btn btn-primary btn-block margin-bottom">Compose</a>
+        <a href="{{ url('messages/compose') }}" class="btn btn-primary btn-block margin-bottom">Compose</a>
 
         <div class="box box-solid">
             <div class="box-header with-border">
-                <h3 class="box-title">Messages</h3>
+                <h3 class="box-title">Folder</h3>
 
                 <div class="box-tools">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -19,8 +19,13 @@
                 <ul class="nav nav-pills nav-stacked">
                     <li class="">
                         <a href="{{ url('messages/inbox') }}"><i class="fa fa-inbox"></i> Inbox
-                        <span class="label label-primary pull-right">0</span></a>
+                            <span class="label label-primary pull-right" id="inbox-count"></span>
+                        </a>
                     </li>
+                    <li><a href="#"><i class="fa fa-envelope-o"></i> Sent<span class="label label-success pull-right" id="sent-count"></span></a></li>
+                    <li><a href="#"><i class="fa fa-file-text-o"></i> Drafts <span class="label label-warning pull-right" id="draft-count"></span></a></li>
+                    <li><a href="#"><i class="fa fa-trash-o"></i> Trash <span class="label label-danger pull-right" id="trash-count"></span></a></li>
+
                     {{-- <li><a href="#"><i class="fa fa-envelope-o"></i> Sent</a></li>
                     <li><a href="#"><i class="fa fa-file-text-o"></i> Drafts</a></li>
                     <li><a href="#"><i class="fa fa-filter"></i> Junk <span class="label label-warning pull-right">65</span></a>
