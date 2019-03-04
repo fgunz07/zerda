@@ -37,8 +37,10 @@
                             _token: '{{ csrf_token() }}'
                         },
                             success: function(data){ 
+
+                                console.log(data);
                                 swal('Done!','Rate successfully saved.', 'success')
-                                starRatingControls.rebuild();
+                                // starRatingControls.rebuild();
                             }, 
                             error: function(err){
                                 swal({

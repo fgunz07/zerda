@@ -8,6 +8,8 @@ use App\User;
 
 class Rating extends Model
 {
+    protected $primary = 'id';
+
     protected $table = 'rating';
 
     protected $fillable = ['user_id','rating'];

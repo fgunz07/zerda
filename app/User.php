@@ -16,6 +16,8 @@ class User extends Authenticatable {
 	 *
 	 * @var array
 	 */
+
+	protected $primary = 'id';
 	protected $fillable = [
 		'first_name',
 		'last_name',
@@ -133,15 +135,5 @@ class User extends Authenticatable {
 		return $this->hasMany('App\Rating','user_id','id');
 	}
 
-	public static  function getRate($rate){
-		
-		$rateUser = DB::table('users')
-					->join('rating', 'users.id', '=', 'rating.user_id')
-					->select('users.*', DB::raw( 'AVG( rating.rating ) as ratings_average'))
-					->groupBy('id')
-					->orderBy('ratings_average', 'rating')
-					->get();
-		return $rateUser;			
-		// dd($rateUser);
-	}
+
 }

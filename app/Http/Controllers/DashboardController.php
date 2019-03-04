@@ -22,16 +22,17 @@ class DashboardController extends Controller
 	}
 		
     public function index(){
-			// $users = User::all();
-			$rateUser ='';
 			$users = User::with('skills')
 							->with('achievements')
-							->with('rateDev')
+							->leftJoin('rating', 'users.id', '=', 'rating.user_id')
+							->select(array('users.*',
+								DB::raw('AVG(rating) as ratings_average')
+								))
+							->groupBy('id')
+							->orderBy('ratings_average')
 							->get();
-							
+			// dd($users);
 			$skillsList = Skill::all();
-
-			$rateUser = $this->user->getRate($rateUser);
 
 
 		
@@ -39,7 +40,6 @@ class DashboardController extends Controller
 	
 		return view('pages.dashboard.index')
 			->with('users', $users)
-			->with('rateUser',$rateUser)
 			->with('skillsList', $skillsList);
 	}
 
@@ -63,12 +63,6 @@ class DashboardController extends Controller
 		$rate->user_id = $id;
 		$rate->rating = $request->rating;
 		$rate->save();
-
-	
-		// dd($rateUser);
-		// $rate = User::updateOrCreate(
-		// 	['id' => $rateUser[0]->id],
-		// 	['rating_id' => $rateUser[0]->ratings_average]);
 	}
 	
 	public function scopeSearchByKeyword(Request $request){
