@@ -25,21 +25,14 @@ class DashboardController extends Controller
 			$users = User::with('skills')
 							->with('achievements')
 							->with('rateDev')
-							->leftJoin('rating', function($query) {
-								$query->on('users.id', '=', 'rating.user_id')
-									->select(array('users.*',
-										DB::raw('AVG(rating) as ratings_average')
-									))
-									->groupBy('id')
-									->orderBy('ratings_average');
-							})
-							//->select(array('users.*',
-							//	DB::raw('AVG(rating) as ratings_average')
-							//))
-							//->groupBy('id')
-							//->orderBy('ratings_average')
+							->leftJoin('rating', 'users.id', '=', 'rating.user_id')
+							->select(array('users.*',
+								DB::raw('AVG(rating) as ratings_average')
+								))
+							->groupBy('id')
+							->orderBy('ratings_average')
 							->get();
-			//dd($users);
+			// dd($users);
 			$skillsList = Skill::all();
 
 

@@ -36,7 +36,7 @@
 												<input type="hidden" class="devID" value="{{$dev->id}}">
 												<strong>{{$dev->last_name}}</strong>
 												<div>
-												<strong style="color:red">Rate:{{!is_null($dev->ratings_average) ? $dev->ratings_average : '0'}}</strong>
+												<strong style="color:red">Rate:{{isset($dev->ratings_average) ? $dev->ratings_average : '0'}}</strong>
 												</div>
 											</td>
 											<td><strong>{{$dev->first_name}}</strong></td>
