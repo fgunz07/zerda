@@ -3,24 +3,22 @@
 <div class="row">
 
     <div class="col-md-12">
-        @foreach($users as $user)
+         
         <div class="col-md-4">
             <div class="box box-primary">
                 <div class="box-body box-profile">
 
-                     <img class="profile-user-img img-responsive img-circle " src="/uploads/avatars/{{ $user->avatar }}" alt="User profile picture">
+                     <img class="profile-user-img img-responsive img-circle" id="profile-photo" src="{{ is_null($user->avatar_url) ? asset('images/user4-128x128.jpg') : asset($user->avatar_url) }}" alt="User profile picture">
                    
                     <h3 class="profile-username text-center" id="nameDev">{{$user->last_name}},{{$user->first_name}},{{$user->middle_name}}</h3>
                     <input type="hidden" value="{{$user->id}}" id="devID">
+                    
                     <div class="pull-left">
-                        <select class="star-rating" id="dev-rate" name="rating"  >
+                        <select class="star-rating" id="dev-rate" name="rating"  disabled>
                             <option value="">Select a rating</option>
-                            <option value="5">Excellent</option>
-                            <option value="4">Very Good</option>
-                            <option value="3">Average</option>
-                            <option value="2">Poor</option>
-                            <option value="1">Terrible</option>
-                            
+                            @foreach($ratedesc as $rate)
+                            <option value="{{$rate->id}}">{{$rate->description}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -41,9 +39,9 @@
                     </div>
                     
                    
-                    <span><strong>Tertiary:</strong> <p class="text-muted" id="tertiaryDev"></p>{{$user->child_user_education[0]->tertiary}}</span>
-                    <span><strong>Secondary:</strong> <p class="text-muted" id="secondaryDev">{{$user->child_user_education[0]->secondary}}</p></span>
-                    <span><strong>Primary:</strong> <p class="text-muted" id="primaryDev"></p>{{$user->child_user_education[0]->primary}}</span>
+                    <span><strong>Tertiary:</strong> <p class="text-muted" id="tertiaryDev"></p>{{$user->primary_edication_full_details}}</span>
+                    <span><strong>Secondary:</strong> <p class="text-muted" id="secondaryDev">{{$user->secondary_edication_full_details}}</p></span>
+                    <span><strong>Primary:</strong> <p class="text-muted" id="primaryDev"></p>{{$user->teriary_edication_full_details}}</span>
 
                     <hr>
 
@@ -51,7 +49,7 @@
                         <strong><i class="fa fa-map-marker margin-r-5"></i>Location</strong>
                     </div>
 
-                    <p class="text-muted" id="locationDev">{{$user->child_user_location[0]->street}},{{$user->child_user_location[0]->brgy}},{{$user->child_user_location[0]->city}},{{$user->child_user_location[0]->province}},{{$user->child_user_location[0]->country}}</p>
+                    <p class="text-muted" id="locationDev">{{$user->street ? $user->street : 'Not Set'}},{{$user->brgy? $user->brgy : 'Not Set'}},{{$user->city ? $user->city : 'Not Set'}},{{$user->province ? $user->province : 'Not Set'}},{{$user->country ? $user->country : 'Not Set'}}</p>
 
                     <hr>
 
@@ -59,11 +57,11 @@
                         <strong><i class="fa fa-pencil margin-r-5"></i>Skills</strong>
                     </div>
 
+                    @foreach($user->skills as $skill)
                     <p>
-                        @foreach($user->child_user_specilization as $skill)
                         <span class="label label-success">{{$skill->sklill_desc->description}}</span>
-                        @endforeach
                     </p>
+                    @endforeach
 
                     <hr>
 
@@ -73,7 +71,7 @@
 
                     
                         <p id="achievementListDev">
-                            @foreach($user->child_user_achievement as $achievement)
+                            @foreach($user->achievements as $achievement)
                             <span class="label label-success">{{$achievement->name}}</span>
                             @endforeach
                         </p>
@@ -86,7 +84,7 @@
                 
             </div>
 	    </div>
-        @endforeach
+        
     </div>
 
     <div>

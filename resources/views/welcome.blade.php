@@ -11,7 +11,7 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/material-kit.min.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset('lib/bower_components/font-awesome/css/font-awesome.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('lib/font-awesome/css/font-awesome.min.css') }}">
       
     </head>
     <body>

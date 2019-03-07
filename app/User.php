@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable {
 	use Notifiable, HasRoles;
@@ -15,6 +16,8 @@ class User extends Authenticatable {
 	 *
 	 * @var array
 	 */
+
+	protected $primary = 'id';
 	protected $fillable = [
 		'first_name',
 		'last_name',
@@ -127,4 +130,9 @@ class User extends Authenticatable {
 		return null;
 
 	}
+
+	public function rateDev(){
+		return $this->hasMany('App\Rating','user_id','id');
+	}
+
 }

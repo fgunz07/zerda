@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Skill;
 use App\Education;
@@ -15,41 +16,52 @@ use App\Events\InviteDeveloper;
 
 class DashboardController extends Controller
 {
+	public function __construct(User $user)
+	{
+			$this->user = $user;
+	}
+		
     public function index(){
-		// $users = User::all();
-		$skills = Skill::get()->pluck('id','description');
+			$users = User::with('skills')
+							->with('achievements')
+							->with('rateDev')
+							->leftJoin('rating', 'users.id', '=', 'rating.user_id')
+							->select(array('users.*',
+								DB::raw('AVG(rating) as ratings_average')
+								))
+							->groupBy('id')
+							->orderBy('ratings_average')
+							->get();
+			// dd($users);
+			$skillsList = Skill::all();
 
 
-    	// dd($users);
+		
+		// dd($rateUser);
+	
 		return view('pages.dashboard.index')
-			->with('skills', $skills);
+			->with('users', $users)
+			->with('skillsList', $skillsList);
 	}
 
 	public function viewProfile($id){
         
-		$users = User::where('id', $id)
-				->with('child_user_education')
-				->with('child_user_location')
-				->with('child_user_specilization')
-				->with('child_user_achievement')
-				->get();
-		return view('pages.dashboard.viewProfile')->with('users',$users);
+		$user = User::where('id', $id)
+					  ->with('skills')
+						->with('achievements')
+						->first();
+		// dd($data); 	
+		$ratedesc = Ratingdesc::all();
+		// dd($ratedesc);
+		return view('pages.dashboard.viewProfile')
+						->with('user',$user)
+						->with('ratedesc',$ratedesc);
 		}
-		
-	public function filterUser(){
-		$users = User::with('child_user_location')
-				->with('child_user_specilization')
-				->with('child_user_achievement')
-				->with('child_user_rating')
-				->get();
-
-		
-	}
 
 
-	public function changeRate(Request $request){
+	public function changeRate(Request $request, $id){
 		$rate = new Rating();
-		$rate->user_id = Auth::user()->id;
+		$rate->user_id = $id;
 		$rate->rating = $request->rating;
 		$rate->save();
 	}
@@ -57,5 +69,6 @@ class DashboardController extends Controller
 	public function scopeSearchByKeyword(Request $request){
 		return response()->json('request',$request);
 	}
+	
 	
 }
