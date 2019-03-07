@@ -135,5 +135,4 @@ class User extends Authenticatable {
 		return $this->hasMany('App\Rating','user_id','id');
 	}
 
-
 }
