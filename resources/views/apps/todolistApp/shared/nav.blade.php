@@ -2,7 +2,7 @@
     <nav class="navbar navbar-static-top">
       <div class="container">
         <div class="navbar-header">
-          <a href="{{ route('todoboards') }}" class="navbar-brand"><b>{{ env('APP_NAME') }}</b> TASK</a>
+          <a href="{{ url('dashboard') }}" class="navbar-brand"><b>{{ env('APP_NAME') }}</b> TASK</a>
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
             <i class="fa fa-bars"></i>
           </button>
@@ -15,57 +15,36 @@
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
-            <!-- Notifications Menu -->
+            <!-- Notifications: style can be found in dropdown.less -->
             <li class="dropdown notifications-menu">
-              <!-- Menu toggle button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-bell-o"></i>
-                <span class="label label-warning notif-count"></span>
+                <span class="label label-warning invite-count"></span>
               </a>
               <ul class="dropdown-menu">
-                <li class="header">You have <span class="notif-count"></span> notifications</li>
+                <li class="header">You have <span class="invite-count"></span> notification</li>
                 <li>
-                  <!-- Inner Menu: contains the notifications -->
-                  <ul class="menu" id="notf-loop">
-                      <!-- Content go here -->
-                  </ul>
+                    <ul class="menu" id="invite-loop">
+                        <!-- Content go here -->
+                    </ul>
                 </li>
-                <li class="footer"><a href="#">View all</a></li>
               </ul>
             </li>
 
-            <!-- Messages: style can be found in dropdown.less-->
             <li class="dropdown messages-menu">
-              <!-- Menu toggle button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-envelope-o"></i>
-                <span class="label label-success">4</span>
+                <span class="label label-success message-count"></span>
               </a>
               <ul class="dropdown-menu">
-                <li class="header">You have 4 messages</li>
+                <li class="header">You have <span class="message-count"></span> messages</li>
                 <li>
-                  <!-- inner menu: contains the messages -->
-                  <ul class="menu">
-                    <li><!-- start message -->
-                      <a href="#">
-                        <div class="pull-left">
-                          <!-- User Image -->
-                          <img src="{{ asset('lib/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
-                        </div>
-                        <!-- Message title and timestamp -->
-                        <h4>
-                          Support Team
-                          <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                        </h4>
-                        <!-- The message -->
-                        <p>Why not buy a new awesome theme?</p>
-                      </a>
-                    </li>
-                    <!-- end message -->
+                  <!-- inner menu: contains the actual data -->
+                  <ul class="menu" id="message-loop">
+                      <!-- Content go here -->
                   </ul>
-                  <!-- /.menu -->
                 </li>
-                <li class="footer"><a href="#">See All Messages</a></li>
+                <li class="footer"><a href="#"></a></li>
               </ul>
             </li>
             <!-- /.messages-menu -->
@@ -74,14 +53,14 @@
               <!-- Menu Toggle Button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <!-- The user image in the navbar-->
-                <img src="{{ asset('lib/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
+                <img src="{{ asset(auth()->user()->avatar_url) }}" class="user-image" alt="User Image">
                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                 <span class="hidden-xs">{{ auth()->user()->first_name }} {{ auth()->user()->middle_name }} {{ auth()->user()->last_name }}</span>
               </a>
               <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
                 <li class="user-header">
-                  <img src="{{ asset('lib/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+                  <img src="{{ asset(auth()->user()->avatar_url) }}" class="img-circle" alt="User Image">
 
                   <p>
                     {{ auth()->user()->first_name }} {{ auth()->user()->middle_name }} {{ auth()->user()->last_name }} -
@@ -90,20 +69,31 @@
                       {{ $role }}
                     @endforeach
 
-                    <small>Member since Nov. 2012</small>
+                    <small>Member since {{ auth()->user()->created_at->diffForHumans() }}</small>
                   </p>
                 </li>
                 <!-- Menu Body -->
                 <li class="user-body">
                   <div class="row">
                     <div class="col-xs-4 text-center">
-                      <a href="#">Followers</a>
+                      <a href="javascript:void(0);">
+                        Projects
+                        <span class="label label-warning invite-count">{{ count(auth()->user()->boards) }}</span>
+                      </a>
                     </div>
+                    @if(auth()->user()->hasRole(['Developer','Sinior Developer']))
+                      <div class="col-xs-4 text-center">
+                        <a href="#">
+                            # Skills <br />
+                            <span class="label label-warning invite-count">{{ count(auth()->user()->skills) }}</span>
+                        </a>
+                      </div>
+                    @endif
                     <div class="col-xs-4 text-center">
-                      <a href="#">Sales</a>
-                    </div>
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Friends</a>
+                      <a href="#">
+                        Budget <br />
+                        $ {{ auth()->user()->total_budget }}
+                      </a>
                     </div>
                   </div>
                   <!-- /.row -->
@@ -111,7 +101,7 @@
                 <!-- Menu Footer-->
                 <li class="user-footer">
                   <div class="pull-left">
-                    <a href="javascript:void(0);" class="btn btn-default btn-flat">Profile</a>
+                    <a href="{{ url('user/profile') }}" class="btn btn-default btn-flat">Profile</a>
                   </div>
                   <div class="pull-right">
                       <form action="{{ route('logout') }}" method="POST" id="logout">

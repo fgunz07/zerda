@@ -229,6 +229,7 @@ class UserController extends Controller
 
         $users = User::where('status', 0)
                     ->role(['Senior Developer','Developer'])
+                    ->with('roles')
                     ->whereHas('skills', function($query) use ($board) {
 
                         // if(!is_null($board->tags)) {

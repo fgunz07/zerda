@@ -26,8 +26,16 @@
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu" data-widget="tree">
       <li class="">
+        <a href="{{ url('dashboard') }}">
+          <i class="glyphicon glyphicon-dashboard"></i> <span>Dashboard</span>
+          <span class="pull-right-container">
+          </span>
+        </a>
+      </li>
+
+      <li class="">
         <a href="{{ url('user/profile') }}">
-          <i class="glyphicon glyphicon-dashboard"></i> <span>Profile</span>
+          <i class="glyphicon glyphicon-user"></i> <span>Profile</span>
           <span class="pull-right-container">
           </span>
         </a>

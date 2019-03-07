@@ -54,6 +54,10 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::post('boards', 'BoardsController@store');
 
+		Route::get('board/sinior-devs/{id}', 'BoardsController@getSiniorDevs');
+
+		Route::post('board/senior-devs', 'BoardsController@saveSeniorDevs');
+
 		Route::delete('boards/{id}', 'BoardsController@delete');
 
 		Route::get('boards/{id}', 'BoardsController@show');
@@ -105,6 +109,10 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('compose', 'MessageController@compose');
 
 		Route::post('compose', 'MessageController@sendMessage');
+
+		Route::get('sent', 'MessageController@sent');
+
+		Route::get('sent-messages', 'MessageController@sentMessages');
 
 		Route::post('draft', 'MessageController@saveDraft');
 

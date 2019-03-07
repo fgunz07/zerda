@@ -150,4 +150,29 @@ class MessageController extends Controller
 
     }
 
+    public function sent() {
+        return view('pages.message.sent');
+    }
+
+    public function sentMessages() {
+        $messages = auth()->user()->getSentMessages;
+
+        $unread    = null;
+
+        if(!is_null($messages)){
+            
+            // count all messages where not mark as read
+            foreach($messages as $msg) {
+
+                if($msg->read != 1) {
+                    $unread += 1;
+                }
+
+            }
+
+        }
+
+        return response()->json(['messages' => $messages , 'unread' => $unread]);
+    }
+
 }

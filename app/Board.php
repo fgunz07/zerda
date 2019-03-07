@@ -45,7 +45,8 @@ class Board extends Model
 
         }
 
-        $btnInvite = "<button class='btn btn-default btn-xs board-invite' data-toggle='modal' data-target='#devs-list' id='invite-board-{$this->id}'>Invite Devs</button>";
+        $btnInvite = "<button class='btn btn-default btn-xs board-invite' data-toggle='modal' data-target='#devs-list' id='invite-board-{$this->id}'>Invite Devs</button>
+            <button class='btn btn-default btn-xs select_senior_dev' data-toggle='modal' data-target='#sinior-dev' id='invite-siniordev-{$this->id}'>Senior Dev</button>";
 
         $btnDelete = "<button type='button' class='close' data-dismiss='alert' aria-hidden='true' id='btn-delete-{$this->id}'>×</button>";
 
@@ -56,6 +57,8 @@ class Board extends Model
                         <small>End Date: {$this->end_date}</small>
                         <br>
                         <small>Budget: {$this->budget}</small>
+                        <br>
+                        <small>Senior Developer: {$this->senior_developer}</small>
                         <br>
                         <br>
                         <p>{$this->description}</p>

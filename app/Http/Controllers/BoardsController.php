@@ -76,4 +76,24 @@ class BoardsController extends Controller
                 ->with('notf_id', $request->notf_id);
 
     }
+
+    public function getSiniorDevs($id) {
+        $board = Board::findOrFail($id);
+        $users = [];
+        foreach($board->users as $user) {
+            if($user->hasRole(['Senior Developer'])) {
+                $users[] = ['id' => $user->id , 'name' => $user->first_name.' '.$user->last_name];
+            }
+        }
+
+        return response()->json($users);
+    }
+
+    public function saveSeniorDevs(Request $request) {
+        $board = Board::findOrFail($request->board_id);
+        $board->senior_developer = implode(',',$request->name);
+        $board->save();
+
+        return response()->json(['message' => 'Success']);
+    }
 }

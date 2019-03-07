@@ -92,16 +92,18 @@
                     </thead>
                     <tbody id="table-display-devs">
                     	@foreach($board->users as $dev)
-                    		<tr>
-	                        	<td>
-	                        		<input type="radio" name="dev" class="radio-devs" id="dev-{{ $dev->id }}" value="{{ $dev->first_name }} {{ $dev->middle_name }} {{ $dev->last_name }}">
-	                        	</td>
-	                        	<td>
-	                        		<label for="dev-{{ $dev->id }}">
-	                        			{{ $dev->first_name }} {{ $dev->middle_name }} {{ $dev->last_name }}
-	                        		</label>
-				                </td>
-	                        </tr>
+                    		@if(!$dev->hasRole('Client'))
+	                    		<tr>
+	                    			<td>
+	                    				<input type="radio" name="dev" class="radio-devs" id="dev-{{ $dev->id }}" value="{{ $dev->first_name }} {{ $dev->middle_name }} {{ $dev->last_name }}">
+	                    			</td>
+	                    			<td>
+	                    				<label for="dev-{{ $dev->id }}">
+	                    					{{ $dev->first_name }} {{ $dev->middle_name }} {{ $dev->last_name }}
+	                    				</label>
+	                    			</td>
+	                    		</tr>
+                    		@endif
                     	@endforeach
                     </tbody>
                 </table>

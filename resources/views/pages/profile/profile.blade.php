@@ -71,6 +71,17 @@
 
 					</div>
 				@endhasrole
+				<!-- small box -->
+				<div class="small-box bg-green">
+					<div class="inner">
+						<h3>53<sup style="font-size: 20px">%</sup></h3>
+
+						<p>Pay Rate</p>
+					</div>
+					<div class="icon">
+						<i class="ion ion-stats-bars"></i>
+					</div>
+				</div>
 
 			</div>
 			<div class="col-md-8">

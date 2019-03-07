@@ -42,10 +42,9 @@
                     <thead>
                     <tr role="row">
                         <th>Dev Name</th>
+                        <th>Role</th>
                         <th>Skills</th>
                         <th>Option</th>
-                        {{--  <th>Engine version</th>
-                        <th>CSS grade</th>  --}}
                     </tr>
                     </thead>
                     <tbody id="table-display-devs">
@@ -61,7 +60,27 @@
           <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
-      </div>
+    </div>
+
+    <div class="modal fade in" id="sinior-dev">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Select Sinior Dev</h4>
+            </div>
+            <div class="modal-body">
+                <select name="sinior[]" multiple style="width: 100%" id="select-sinior"></select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary pull-left" id="save-seniors">Save</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 
     <div class="modal fade in" id="new-board">
       <div class="modal-dialog">
@@ -149,6 +168,7 @@
         (function() {
 
             $('select[name="tags[]"]').select2()
+            $('select[name="sinior[]"]').select2()
 
             $('input[name=end_date]').datepicker({
                 format: 'yyyy-mm-dd'
@@ -202,14 +222,22 @@
 
             function renderDevs(users) {
 
+                document.querySelector('#table-display-devs').innerHTML = ''
+
                 if(users) {
 
                     users.forEach(item => {
+                        let roles = ''
+
+                        item.roles.forEach(function(role) {
+                            roles += `<small class='label label-primary'>${role.name}</small>&nbsp;`    
+                        });
 
                         document.querySelector('#table-display-devs')
                                 .innerHTML += `
                                 <tr>
                                     <td>${item.first_name} ${item.middle_name} ${item.last_name}</td>
+                                    <td>${roles}</td>
                                     <td>
                                         ${item.skill}
                                     </td>
@@ -265,6 +293,31 @@
             let strId;
 
             function globalEvents(e) {
+
+                if(e.target.classList.contains('select_senior_dev')) {
+                    boardId = e.target.id.split('-').pop()
+                    //let usersId = $('select[name="sinior[]"]').val()
+
+                    const options = {
+                        url     : `/todo-app/board/sinior-devs/${boardId}`,
+                        method  : 'GET',
+                    }
+
+                    http(options)
+                        .done(function(res) {
+                            res.forEach(function(item) {
+                                $('select[name="sinior[]"]').append(`
+                                    <option value="${item.name}">${item.name}</option>
+                                `)
+                            })
+                        })
+                        .fail(err => {
+
+                            swal('Error', err.responseText, 'error')
+
+                        })
+
+                }
 
                 if(e.target.classList.contains('invite')) {
 
@@ -369,6 +422,28 @@
                             })
                     })
             
+            let boardId = null;
+            document.querySelector('#save-seniors')
+                    .addEventListener('click', function(e) {
+                        let users = $('select[name="sinior[]"]').val()
+
+                        const options = {
+                            url     : `/todo-app/board/senior-devs`,
+                            method  : 'POST',
+                            data    : { board_id: boardId, name: users } 
+                        }
+                        http(options)
+                            .done(function(res) {
+                                swal('Success', 'Senior Developers assinged', 'success')
+
+                                setTimeout(function() {
+                                    window.location.reload()
+                                }, 1000)
+                            })
+                            .fail(function(err) {
+                                swal('Error', err.responseText, 'error')
+                            })
+                    })
             // load boards
             loadBoard()
 

@@ -44,7 +44,7 @@ class User extends Authenticatable {
 		'password', 'remember_token',
 	];
 
-	protected $appends = ['street', 'brgy', 'city', 'province', 'country'];
+	protected $appends = ['street', 'brgy', 'city', 'province', 'country', 'total_budget'];
 
 	public function boards() {
 
@@ -69,6 +69,11 @@ class User extends Authenticatable {
 		return $this->hasMany('App\Message', 'to', 'id')
 					->where('draft', 0);
 
+	}
+
+	public function getSentMessages() {
+		return $this->hasMany('App\Message', 'from', 'id')
+					->where('draft', 0);
 	}
 
 	public function getStreetAttribute() {
@@ -133,6 +138,15 @@ class User extends Authenticatable {
 
 	public function rateDev(){
 		return $this->hasMany('App\Rating','user_id','id');
+	}
+
+	public function getTotalBudgetAttribute(){
+		$totalBudget = 0;
+		foreach ($this->boards as $bbudget) {
+			$totalBudget += $bbudget->budget;
+		}
+
+		return $totalBudget;
 	}
 
 }
