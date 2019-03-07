@@ -35,46 +35,12 @@
                               <div>
                                   <img src="{{url('/images/zerda2.png')}}" alt="Image"/>
                               </div>
-                              <div class="social-line">
-                                <a href="#pablo" class="btn btn-just-icon btn-link">
-                                  <i class="fa fa-facebook-square"></i>
-                                </a>
-                                <a href="#pablo" class="btn btn-just-icon btn-link">
-                                  <i class="fa fa-twitter"></i>
-                                  
-                                </a>
-                                <a href="#pablo" class="btn btn-just-icon btn-link">
-                                  <i class="fa fa-google-plus"></i>
-                                </a>
-                              </div>
                             </div>
-                            <p class="description text-center">Or Be Classical</p>
                             <div class="card-body">
-                             
-                              <div class="input-group">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">
-                                    <i class="fa fa-envelope"></i>
-                                   
-                                  </span>
-                                </div>
-                                <input type="email" class="form-control" placeholder="Email...">
-                              </div>
-                              <div class="input-group">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">
-                                    <i class="fa fa-key"></i>
-                                  </span>
-                                </div>
-                                <input type="password" class="form-control" placeholder="Password...">
-                              </div>
                               <div class=" text-center">
                                 <a class="btn btn-primary" href="{{ route('login') }}">Login</a>
+                                <a href="{{ route('register') }}" class="btn btn-primary btn-link btn-wd btn-lg">Register</a>
                               </div>
-                            </div>
-                            <div class="footer text-center">
-
-                              <a href="{{ route('register') }}" class="btn btn-primary btn-link btn-wd btn-lg">Register</a>
                             </div>
                           </form>
                         </div>
