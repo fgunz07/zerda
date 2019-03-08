@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Board;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class BoardsController extends Controller
 {
@@ -17,6 +18,18 @@ class BoardsController extends Controller
     }
 
     public function store(Request $request) {
+
+        $data = $request->toArray();
+        $rules= [
+            'title' => 'unique:boards'
+        ];
+        $messages = [
+            'title.unique' => 'Board name already exist.'
+        ];
+        $validate = Validator::make($data , $rules, $messages);
+        if($validate->fails()) {
+            return response()->json(['status' => false , 'message' => $validate->errors()] ,422);
+        }
 
         try {
 

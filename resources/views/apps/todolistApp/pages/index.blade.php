@@ -163,6 +163,9 @@
     <script type="text/javascript" src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/select2.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/http.js') }}"></script>
+    <!-- CDN script's -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-ui-Slider-Pips/1.11.4/jquery-ui-slider-pips.min.js"></script>
+    
     <script type="text/javascript">
         'use strict';
 
@@ -229,7 +232,7 @@
 
                     users.forEach(item => {
                         let roles = ''
-                        let count = 1;
+                        let count = 0;
 
                         item.roles.forEach(function(role) {
                             roles += `<small class='label label-primary'>${role.name}</small>&nbsp;`    
@@ -240,7 +243,7 @@
                                 <tr>
                                     <td>
                                         <h4 class="text-muted text-center">
-                                            <small class='label label-default'>${count}</small>
+                                            <small class='label label-default'>${count += 1}</small>
                                         </h4>
                                     </td>
                                     <td>${item.first_name} ${item.middle_name} ${item.last_name}</td>
@@ -253,8 +256,6 @@
                                     </td>
                                 </tr>
                                 `;
-                        
-                        count++;
 
                     })
 
@@ -444,6 +445,10 @@
                                 if(res.status) {
                                     swal('Success', res.message, 'success')
 
+                                    setTimeout(function() {
+                                        window.location.reload()
+                                    }, 1000)
+
                                     loadBoard()
 
                                     return
@@ -453,7 +458,7 @@
 
                                 console.log(err)
 
-                                swal('Error', err.message, 'error')
+                                swal('Error', err.responseJSON.message.title[0], 'error')
 
                             })
                     })

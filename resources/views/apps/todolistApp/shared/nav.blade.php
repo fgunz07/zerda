@@ -78,7 +78,7 @@
                     <div class="col-xs-4 text-center">
                       <a href="javascript:void(0);">
                         Projects
-                        <span class="label label-warning invite-count">{{ count(auth()->user()->boards) }}</span>
+                        <span class="label label-warning ">{{ count(auth()->user()->boards) }}</span>
                       </a>
                     </div>
                     @if(auth()->user()->hasRole(['Developer','Sinior Developer']))

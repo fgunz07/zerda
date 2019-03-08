@@ -264,6 +264,16 @@ class UserController extends Controller
             };
         }
 
+        $users->sortBy(function($items) {
+            return $items->boards->count();
+        })
+        ->sortBy(function($items) {
+            return $items->skills->count();
+        })
+        ->sortBy(function($items) {
+            return $items->achievements->count();
+        });
+
         return response()->json($users);
     }
 }
