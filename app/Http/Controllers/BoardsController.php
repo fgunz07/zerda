@@ -96,4 +96,14 @@ class BoardsController extends Controller
 
         return response()->json(['message' => 'Success']);
     }
+
+    public function markCompleted($id) {
+
+        $board = Board::findOrFail($id);
+        $board->completed = 1;
+        $board->save();
+
+        return response()->json(['message' => 'Success']);
+
+    }
 }

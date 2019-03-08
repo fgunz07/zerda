@@ -62,6 +62,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::get('boards/{id}', 'BoardsController@show');
 
+		Route::post('board/{id}/completed', 'BoardsController@markCompleted');
+
 		Route::get('todos', 'TodoController@listTodo');
 
 		Route::post('todos', 'TodoController@store');

@@ -14,10 +14,10 @@
         <!-- /.timeline-label -->
         <!-- timeline item -->
         <li>
-          <i class="fa fa-envelope bg-blue"></i>
+          <i class="fa fa-users bg-blue"></i>
 
           <div class="timeline-item">
-            <span class="time"><i class="fa fa-clock-o"></i> {{ \Carbon\Carbon::now()->diffInHours() }}</span>
+            <span class="time"><i class="fa fa-clock-o"></i> {{ \Carbon\Carbon::now()->format('H:m:s') }}</span>
 
             <h3 class="timeline-header"><a href="#">Recommended Developers</a></h3>
 
@@ -45,7 +45,20 @@
                                     <div class="box-footer no-padding">
                                     <ul class="nav nav-stacked">
                                         <li><a href="#">Projects <span class="pull-right badge bg-blue">{{ count($user->boards) }}</span></a></li>
-                                        <li><a href="#">Tasks Completed <span class="pull-right badge bg-aqua">0</span></a></li>
+                                        <li>
+                                          <a href="#">
+                                            Tasks Completed 
+                                            <span class="pull-right badge bg-aqua">
+                                              <?php $boardCompleted = 0; ?>
+
+                                              @foreach($user->boards as $board)
+                                                <?php ($board->completed == 1) ? $boardCompleted += 1 : 0; ?>
+                                              @endforeach
+
+                                              {{ $boardCompleted }}
+                                            </span>
+                                          </a>
+                                        </li>
                                         <li><a href="#"> Skills<span class="pull-right badge bg-green">{{ count($user->skills) }}</span></a></li>
                                         <li><a href="#">Portfolio </a></li>
                                     </ul>
@@ -58,8 +71,8 @@
                 </div>
             </div>
             <div class="timeline-footer">
-              <a class="btn btn-primary btn-xs">Read more</a>
-              <a class="btn btn-danger btn-xs">Delete</a>
+              {{--  <a class="btn btn-primary btn-xs">Read more</a>
+              <a class="btn btn-danger btn-xs">Delete</a>  --}}
             </div>
           </div>
         </li>

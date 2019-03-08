@@ -12,6 +12,8 @@ class Board extends Model
         'description',
         'class_name',
         'budget',
+        'senior_developer',
+        'completed',
         'end_date'
 
     ];
@@ -38,6 +40,7 @@ class Board extends Model
     function getHtmlCodeAttribute() {
 
         $skills = null;
+        $mark   = ($this->completed == 1) ? 'Completed' : 'Inprocess';
 
         foreach($this->tags as $tag) {
 
@@ -46,14 +49,15 @@ class Board extends Model
         }
 
         $btnInvite = "<button class='btn btn-default btn-xs board-invite' data-toggle='modal' data-target='#devs-list' id='invite-board-{$this->id}'>Invite Devs</button>
-            <button class='btn btn-default btn-xs select_senior_dev' data-toggle='modal' data-target='#sinior-dev' id='invite-siniordev-{$this->id}'>Senior Dev</button>";
+            <button class='btn btn-default btn-xs select_senior_dev' data-toggle='modal' data-target='#sinior-dev' id='invite-siniordev-{$this->id}'>Senior Dev</button>
+            <button class='btn btn-default btn-xs mask_complete' id='mask-complete-{$this->id}'>Complete</button>";
 
         $btnDelete = "<button type='button' class='close' data-dismiss='alert' aria-hidden='true' id='btn-delete-{$this->id}'>×</button>";
 
         $html1 = "<div class='col-sm-3'>
                     <div class='callout {$this->class_name}'>";
                         
-        $html2 = "<h4><a href='/todo-app/boards/{$this->id}'>{$this->title}</a></h4>
+        $html2 = "<h4><a href='/todo-app/boards/{$this->id}'>{$this->title}</a> &nbsp; <span class='badge badge-sm bg-red'>{$mark}</span></h4>
                         <small>End Date: {$this->end_date}</small>
                         <br>
                         <small>Budget: {$this->budget}</small>
@@ -86,6 +90,14 @@ class Board extends Model
 
         $btnDelete = "<button type='button' class='close' data-dismiss='alert' aria-hidden='true' id='btn-delete-{$this->id}'>×</button>";
 
+        $skills = null;
+
+        foreach($this->tags as $tag) {
+
+            $skills .= "<small class='{$tag->class}'>{$tag->name}</small>&nbsp;";
+
+        }
+
         $html = "<div class='col-sm-3'>
                     <div class='callout {$this->class_name}'>
                         ";
@@ -93,7 +105,16 @@ class Board extends Model
 
         $html2 =            "<h4><a href='/todo-app/boards/{$this->id}'>{$this->title}</a></h4>
 
-                        <p>{$this->description}</p>
+                            <small>End Date: {$this->end_date}</small>
+                            <br>
+                            <small>Budget: {$this->budget}</small>
+                            <br>
+                            <small>Senior Developer: {$this->senior_developer}</small>
+                            <br>
+                            <br>
+                            <p>{$this->description}</p>
+                            <br/>
+                            <div>{$skills}</div>
 
                         <button class='btn btn-default btn-xs board-invite-accept' data-toggle='modal' data-target='#devs-list' id='invite-accept-{$this->id}'>Accept</button>
                         <button class='btn btn-default btn-xs board-invite-reject' data-toggle='modal' data-target='#devs-list' id='invite-cancel-{$this->id}'>Reject</button>

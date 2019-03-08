@@ -304,6 +304,32 @@
 
             function globalEvents(e) {
 
+                if(e.target.classList.contains('mask_complete')) {
+                    boardId = e.target.id.split('-').pop()
+
+                    const options = {
+                        url     : `/todo-app/board/${boardId}/completed`,
+                        method  : 'POST'
+                    }
+
+                    http(options)
+                        .done(function(res) {
+                            swal('Success', 'Mark as completed.', 'success')
+
+                            setTimeout(function(){
+
+                                window.location.reload()
+                            
+                            }, 1000)
+                        })
+                        .fail(err => {
+
+                            swal('Error', err.responseText, 'error')
+
+                        })
+
+                }
+
                 if(e.target.classList.contains('select_senior_dev')) {
                     boardId = e.target.id.split('-').pop()
                     //let usersId = $('select[name="sinior[]"]').val()
