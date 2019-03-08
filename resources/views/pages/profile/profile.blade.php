@@ -157,7 +157,7 @@
 
 						<hr>
 
-						@hasanyrole('Senior developer|Developer')
+						@hasanyrole('Senior Developer|Developer')
 
 							<div id="">
 								<strong>

@@ -246,7 +246,9 @@ class UserController extends Controller
 
                         }
 
-                        $query->whereIn('name', $t);
+                        $query->whereIn('name', $t)
+                                ->groupBy('name')
+                                ->orderBy('name');
 
                     })
                     ->get();

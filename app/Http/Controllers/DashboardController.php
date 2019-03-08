@@ -22,26 +22,42 @@ class DashboardController extends Controller
 	}
 		
     public function index(){
+			// $users = User::with('skills')
+			// 				->with('achievements')
+			// 				->with('rateDev')
+			// 				->leftJoin('rating', 'users.id', '=', 'rating.user_id')
+			// 				->select(array('users.*',
+			// 					DB::raw('AVG(rating) as ratings_average')
+			// 					))
+			// 				->groupBy('id')
+			// 				->orderBy('ratings_average')
+			// 				->get();
+			// dd($users);
+
 			$users = User::with('skills')
 							->with('achievements')
-							->with('rateDev')
-							->leftJoin('rating', 'users.id', '=', 'rating.user_id')
-							->select(array('users.*',
-								DB::raw('AVG(rating) as ratings_average')
-								))
-							->groupBy('id')
-							->orderBy('ratings_average')
+							->with('boards')
+							->whereHas('roles',function($query) {
+								
+								$query->whereIn('name', ['Senior Developer', 'Developer']);
+
+							})
 							->get();
-			// dd($users);
-			$skillsList = Skill::all();
-
-
-		
-		// dd($rateUser);
+			
+			
+			$users->sortBy(function($items) {
+				return $items->boards->count();
+			})
+			->sortBy(function($items) {
+				return $items->skills->count();
+			})
+			->sortBy(function($items) {
+				return $items->achievements->count();
+			});
 	
-		return view('pages.dashboard.index')
-			->with('users', $users)
-			->with('skillsList', $skillsList);
+		return view('pages.dashboard.dashboard')
+				->with('users', $users->take(3));
+			// ->with('skillsList', $skillsList);
 	}
 
 	public function viewProfile($id){

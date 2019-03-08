@@ -41,6 +41,7 @@
                 <table class="table table-bordered table-striped dataTable">
                     <thead>
                     <tr role="row">
+                        <th>Rank</th>
                         <th>Dev Name</th>
                         <th>Role</th>
                         <th>Skills</th>
@@ -228,6 +229,7 @@
 
                     users.forEach(item => {
                         let roles = ''
+                        let count = 1;
 
                         item.roles.forEach(function(role) {
                             roles += `<small class='label label-primary'>${role.name}</small>&nbsp;`    
@@ -236,6 +238,11 @@
                         document.querySelector('#table-display-devs')
                                 .innerHTML += `
                                 <tr>
+                                    <td>
+                                        <h4 class="text-muted text-center">
+                                            <small class='label label-default'>${count}</small>
+                                        </h4>
+                                    </td>
                                     <td>${item.first_name} ${item.middle_name} ${item.last_name}</td>
                                     <td>${roles}</td>
                                     <td>
@@ -246,6 +253,8 @@
                                     </td>
                                 </tr>
                                 `;
+                        
+                        count++;
 
                     })
 
@@ -280,6 +289,7 @@
 
                 http(options)
                     .done(res => {
+                        console.log(res)
                         renderDevs(res)
 
                         $('.dataTable').dataTable()
