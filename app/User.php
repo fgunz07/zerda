@@ -19,6 +19,8 @@ class User extends Authenticatable {
 
 	protected $primary = 'id';
 	protected $fillable = [
+		'number_rate',
+		'total_rate',
 		'first_name',
 		'last_name',
 		'middle_name',

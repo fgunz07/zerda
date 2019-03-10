@@ -142,9 +142,15 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::post('profile' , 'UserController@uploadImg');
 
+		Route::get('profile/{id}', 'UserController@showProfile');
+
+		Route::put('{id}/rate', 'UserController@rate');
+
 	});
 
 	Route::get('/users', 'UserController@availableUsers');
+
+	Route::get('search', 'SearchController@results');
 
 	Route::get('home', 'HomeController@index')->name('home');
 

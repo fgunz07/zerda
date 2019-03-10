@@ -53,14 +53,14 @@
               <!-- Menu Toggle Button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <!-- The user image in the navbar-->
-                <img src="{{ asset(auth()->user()->avatar_url) }}" class="user-image" alt="User Image">
+                <img src="{{ is_null(auth()->user()->avatar_url) ? asset('images/user4-128x128.jpg') : asset(auth()->user()->avatar_url) }}" class="user-image" alt="User Image">
                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                 <span class="hidden-xs">{{ auth()->user()->first_name }} {{ auth()->user()->middle_name }} {{ auth()->user()->last_name }}</span>
               </a>
               <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
                 <li class="user-header">
-                  <img src="{{ asset(auth()->user()->avatar_url) }}" class="img-circle" alt="User Image">
+                  <img src="{{ is_null(auth()->user()->avatar_url) ? asset('images/user4-128x128.jpg') : asset(auth()->user()->avatar_url) }}" class="img-circle" alt="User Image">
 
                   <p>
                     {{ auth()->user()->first_name }} {{ auth()->user()->middle_name }} {{ auth()->user()->last_name }} -

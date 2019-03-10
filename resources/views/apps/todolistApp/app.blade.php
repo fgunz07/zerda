@@ -16,6 +16,8 @@
 
     <link rel="stylesheet" href="{{ asset('lib/dist/css/skins/_all-skins.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
+    <!--Plugin CSS file with desired skin-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css"/>
 
 
     @yield('custom_css')

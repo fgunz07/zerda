@@ -1,430 +1,274 @@
 @extends('layouts.app')
+@section('custom_css')
+    <!--Plugin CSS file with desired skin-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css"/>
+@endsection
 @section('content')
 <div class="row">
 
-    <div class="col-md-12">
-        <div class="col-md-4">
-            <div class="box box-primary">
-                <div class="box-body box-profile" id="profile">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <div class="box box-primary">
+                    <div class="box-body box-profile" id="profile">
 
-                    <div class="pull-right">
-                        <a href="" class="editInline"  data-toggle="modal" data-target="#change-profile"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <label for="select-file" class="profile-user-img img-responsive img-circle" style="cursor: pointer;">
+                            <img class="profile-user-img img-responsive img-circle" id="profile-photo" src="{{ is_null($user->avatar_url) ? asset('images/user4-128x128.jpg') : asset($user->avatar_url) }}" alt="User profile picture">
+
+                            <input type="file" name="img" style="display: none;" id="select-file">
+                        </label>
+
+                        <h4 class="profile-username text-center">{{ $user->first_name }} {{ $user->middle_name }} {{ $user->last_name }}</h4>
                     </div>
-                    
-                    <img class="profile-user-img img-responsive img-circle " src="/uploads/avatars/{{ $user->avatar }}" alt="User profile picture">
-                    @foreach($userName as $user)
-                    <h3 class="profile-username text-center">{{$user->last_name}},{{$user->first_name}},{{$user->middle_name}}</h3>
-                    @endforeach
                 </div>
+
+                <div class="box box-primary">
+
+                    <div class="box-header" id="">
+                        <strong>
+                            <i class="glyphicon glyphicon-user"></i>
+                            Current Role
+                        </strong>
+                        &nbsp;
+                        <span class="label label-primary">
+                            {{ $user->getRoleNames()[0] }}
+                        </span>
+                    </div>
+
+                </div>
+
+                @if($user->hasRole(['Senior Developer','Developer']))
+                    <div class="box box-primary">
+
+                        <div class="box-header" id="">
+
+                            <div id="skills">
+                                <strong>
+                                    <i class="glyphicon glyphicon-list"></i>&nbsp;Skills
+                                </strong>
+                            </div>
+
+                        </div>
+                        
+                        <div class="box-body" id="skills-view">
+                            @foreach($user->skills as $skill)
+                                <span class="{{ $skill->class }}">{{ $skill->name }}</span>
+                            @endforeach
+                        </div>
+
+                    </div>
+                @endif
+                @if($user->hasRole('Client'))
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                            <p>Paying Rate</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                    </div>
+                @else
+                    <!-- small box -->
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                          <h3>{{ ($user->total_rate > 0 && $user->number_rate > 0) ? round(($user->total_rate / ($user->number_rate * 10)) * 100) : 0 }}%</h3>
+
+                          <p>Rating</p>
+                        </div>
+                        <div class="icon">
+                          <i class="ion ion-pie-graph"></i>
+                        </div>
+                      </div>
+                @endif
+
             </div>
-        </div>
-        <div class="col-md-8">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <div class="pull-left">
-                        <h3 class="box-title">About Me</h3>
+            <div class="col-md-8">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <div class="pull-left">
+                            <h3 class="box-title">About Me</h3>
+                        </div>
                     </div>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body" >
+                    <!-- /.box-header -->
+                    <div class="box-body" >
 
-                    <div id="education">
-                        <strong><i class="fa fa-book margin-r-5"></i>Education</strong>
-                        <a href="" class="editInlineEdu" data-toggle="modal" data-target="#change-education"><i class="glyphicon glyphicon-pencil"></i></a>     
-                    </div>
-                    
-                   
-                    <span><strong>Tertiary:</strong> <p class="text-muted" id="tertiary"></p></span>
-                    <span><strong>Secondary:</strong> <p class="text-muted" id="secondary"></p></span>
-                    <span><strong>Primary:</strong> <p class="text-muted" id="primary"></p></span>
+                        <div id="education">
+                            <strong><i class="fa fa-book margin-r-5"></i>Education</strong>  
+                        </div>
 
-                    <hr>
 
-                    <div id="location">
-                        <strong><i class="fa fa-map-marker margin-r-5"></i>Location</strong>
-                        <a href="" class="editInlineLocation" data-toggle="modal" data-target="#change-location"><i class="glyphicon glyphicon-pencil"></i></a>
-                    </div>
+                        <span>
+                            <strong>Tertiary:</strong>
+                            <p class="text-muted" id="tertiary">
+                                {{$user->primary_edication_full_details}}
+                            </p>
+                        </span>
 
-                    <p class="text-muted" id="location-ni"></p>
+                        <span>
+                            <strong>Secondary:</strong>
+                            <p class="text-muted" id="secondary">
+                                {{$user->secondary_edication_full_details}}
+                            </p>
+                        </span>
+                        <span>
+                            <strong>Primary:</strong>
+                            <p class="text-muted" id="primary">
+                                {{$user->teriary_edication_full_details}}
+                            </p>
+                        </span>
 
-                    <hr>
+                        <hr>
 
-                    <div id="skills">
-                        <strong><i class="fa fa-pencil margin-r-5"></i>Skills</strong>
-                        <a href="" class="editInlineSkills" data-toggle="modal" data-target="#change-skills"><i class="glyphicon glyphicon-pencil"></i></a>
-                    </div>
+                        <div id="location">
+                            <strong>
+                                <i class="fa fa-map-marker margin-r-5"></i>Location
+                            </strong>
+                        </div>
 
-    
-                        <p id="skill"></p>
-                  
-                    <hr>
+                        <p class="text-muted" id="location-ni">
+                            {{$user->address}}
+                        </p>
 
-                    <div id="achievement">
-                        <strong><i class="fa fa-trophy margin-r-5"></i>Achievemet</strong>
-                        <a href="" class="editInlineAchievement" data-toggle="modal" data-target="#change-achievement"><i class="glyphicon glyphicon-pencil"></i></a>
-                    </div>
+                        <hr>
 
-    
-                        <p id="achievementList"></p>
-                  
-                    <hr>
+                        <div id="">
+                            <strong>
+                                <i class="fa fa-pencil margin-r-5"></i>
+                                @if($user->hasRole(['Senior Developer','Developer']))
+                                    Portfolio
+                                @endif
 
-                </div>
-            </div>
-	    </div>
-    </div>
+                                @if($user->hasRole('Client'))
+                                    Company
+                                @endif
+                            </strong>
 
-    <div>
-        <!-- Change Profile Modal -->
-        <div class="modal fade" id="change-profile" role="dialog" style=" overflow-y:scroll;">
-            <div class="modal-dialog" style="width:500px">
-                <!-- Modal content-->
-                <div class="modal-content" >
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"><b>Profile Settings</b></h4>
-                    </div>
-                    <div class="modal-body">
-                   
-                        <div class="an-content-body">
-                            <form action="{{ url('profile-upload-pic') }}" method="POST" enctype="multipart/form-data">
+                            <div>
+                                <a href="{{ auth()->user()->portfolio }}" target="_blank">{{ $user->portfolio }}</a>
+                            </div>
+                        </div>
 
-                                @csrf
-                                <div class="row">
-                                    <div class="col-md-12" align="center">
-                                        <div class="form-inline">
-                                            <div class="form-group">
-                                                <img  class="profile-user-img img-responsive img-circle "  src="{{url('/images/avatar.png')}}" alt="User profile picture"/>
-                                                <br>
-                                                <input type="file" name="avatar" id="file" class="form-control pull-left">
-                                                <button type="submit" class="btn btn-primary pull-right" id="save-profile"><i class="glyphicon glyphicon-upload">Upload</i></button>
+                        <hr>
+
+                        @if($user->hasRole(['Senior Developer','Developer']))
+
+                            <div id="">
+                                <strong>
+                                    <i class="fa fa-trophy margin-r-5"></i>Achievements
+                                </strong>
+
+                                <div>
+
+                                    @foreach($user->achievements as $ach)
+
+                                    <div class="panel box box-success">
+                                        <div class="box-header with-border">
+                                            <h4 class="box-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree-{{$ach->id}}" class="collapsed" aria-expanded="false">
+                                                    {{ $ach->name }}
+                                                </a>
+
+                                                <div>
+                                                    <small class="text-muted">
+                                                        from {{ $ach->year_start }} to {{ $ach->year_end }}
+                                                        &nbsp;
+                                                    </small>
+                                                </div>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseThree-{{$ach->id}}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                            <div class="box-body">
+                                                {{ $ach->description }}
                                             </div>
                                         </div>
                                     </div>
 
-                                </div>
-                            </form>
-                        </div> <!-- end .AN-COMPONENT-BODY -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                                    @endforeach
 
-    <div>
-        <!-- Change Education Modal -->
-        <div class="modal fade" id="change-education" role="dialog" style=" overflow-y:scroll;">
-            <div class="modal-dialog" style="width:500px">
-                <!-- Modal content-->
-                <div class="modal-content" >
-                    
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"><b>Education Settings</b></h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="an-content-body">
-                            <div class="row">
-
-                                <label for="tertiary" class="col-sm-2 control-label">Tertiary:</label>
-
-                                <div class="col-sm-10">
-                                    {!!Form::text('tertiary',old('tertiary'),['class'=>'form-control','id'=>'tertiary'])!!}
-                                </div>
-
-                                <br><br>
-
-                                <label for="secondary" class="col-sm-2 control-label">Secondary:</label>
-
-                                <div class="col-sm-10">
-                                    {!!Form::text('secondary',old('secondary'),['class'=>'form-control','id'=>'secondary'])!!}
-                                </div>
-
-                                <br><br>
-
-                                <label for="primary" class="col-sm-2 control-label">Primary:</label>
-
-                                <div class="col-sm-10">
-                                    {!!Form::text('primary',old('primary'),['class'=>'form-control','id'=>'primary'])!!}
-                                </div>
-
-                            </div>
-                        </div> <!-- end .AN-COMPONENT-BODY -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary pull-left" data-dismiss="modal" id="educ-save">Submit</button> 
-                        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div>
-        <!-- Change Location Modal -->
-        <div class="modal fade" id="change-location" role="dialog" style=" overflow-y:scroll;">
-            <div class="modal-dialog" style="width:500px">
-   
-                <!-- Modal content-->
-                <div class="modal-content" >
-                    
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"><b>Location Settings</b></h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="an-content-body">
-                            <div class="row">
-
-                                <label for="street" class="col-sm-2 control-label">Street:</label>
-
-                                <div class="col-sm-10">
-                                    {!!Form::text('street',old('street'),['class'=>'form-control','id'=>'street'])!!}
-                                </div>
-
-                                <br><br>
-
-                                <label for="brgy" class="col-sm-2 control-label">Barangay:</label>
-
-                                <div class="col-sm-10">
-                                    {!!Form::text('brgy',old('brgy'),['class'=>'form-control','id'=>'brgy'])!!}
-                                </div>
-
-                                <br><br>
-
-                                <label for="city" class="col-sm-2 control-label">City:</label>
-
-                                <div class="col-sm-10">
-                                    {!!Form::text('city',old('city'),['class'=>'form-control','id'=>'city'])!!}
-                                </div>
-
-                                <br><br>
-
-                                <label for="province" class="col-sm-2 control-label">Province:</label>
-
-                                <div class="col-sm-10">
-                                    {!!Form::text('province',old('province'),['class'=>'form-control','id'=>'province'])!!}
-                                </div>
-
-                                <br><br>
-
-                                <label for="country" class="col-sm-2 control-label">Country:</label>
-
-                                <div class="col-sm-10">
-                                    {!!Form::text('country',old('country'),['class'=>'form-control','id'=>'country'])!!}
-                                </div>
-
-                            </div>
-                        </div> <!-- end .AN-COMPONENT-BODY -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary pull-left" id="location-save" >Submit</button> 
-                        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div>
-        <!-- Change Skills Modal -->
-        <div class="modal fade" id="change-skills" role="dialog" style=" overflow-y:scroll;">
-            <div class="modal-dialog" style="width:500px">
-                {{$errors}}
-                <!-- Modal content-->
-                <div class="modal-content" >
-                   
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"><b>Skill Settings</b></h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="an-content-body">
-                            <div class="row">
-                                <div style="padding:10px">
-                                     <button type="button" class="btn btn-primary pull-right"  data-toggle="modal" data-target="#add-skills"><i class="glyphicon glyphicon-plus">Skill</i></button>
-                                </div>
-                                <div class="col-md-offset-2">
-                                    <div class="col-md-8">
-                                        <table class="table table-hover" style="border:1px gray" id="SkillTable">
-                                                <thead>
-                                                    <tr>
-                                                        <th>List of Skills</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="skillList">
-                                                
-                                                </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div> <!-- end .AN-COMPONENT-BODY -->
-                    </div>
-                    <div class="modal-footer">
-                        
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div>
-        <!-- Add Skills Modal -->
-        <div class="modal fade" id="add-skills" role="dialog" style=" overflow-y:scroll;">
-            <div class="modal-dialog" style="width:400px">
-                <!-- Modal content-->
-                <div class="modal-content" >
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"><b>Add New Skill</b></h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="an-content-body">
-                            <div class="row">
-                                <label for="description" class="col-sm-2 control-label">Skill:</label>
-
-                                <div class="col-sm-10">
-                                    <span>
-                                        <select class="form-control"  id="" data-parsley-required="true" name="skill" style="width: 100%;" required="required">
-                                        @foreach($skills as $key => $val)
-                                            <option value="{{ $val->id }}">{{$val->description}}</option>
-                                        @endforeach
-                                        </select>
-                                    </span>
                                 </div>
                             </div>
-                        </div> <!-- end .AN-COMPONENT-BODY -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary pull-left" id="skill-save">Submit</button>
-                        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div>
-        <!-- Change Achievement Modal -->
-        <div class="modal fade" id="change-achievement" role="dialog" style=" overflow-y:scroll;">
-            <div class="modal-dialog" style="width:500px">
-                {{$errors}}
-                <!-- Modal content-->
-                <div class="modal-content" >
-                    
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"><b>Achievement Settings</b></h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="an-content-body">
-                            <div class="row">
-                                <div style="padding:10px">
-                                     <button type="button" class="btn btn-primary pull-right"  data-toggle="modal" data-target="#add-achievement"><i class="glyphicon glyphicon-plus">Achievement</i></button>
-                                </div>
-                                <div class="col-md-offset-2">
-                                    <div class="col-md-8">
-                                        <!-- <p id="achievementChange"></p> -->
-                                        <table id="achivementTable"class="table table-hover" style="border:1px gray">
-                                                <thead>
-                                                    <tr>
-                                                        <th>List of Achievement</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="achievementChange">
-                                                
-                                                </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div> <!-- end .AN-COMPONENT-BODY -->
-                    </div>
-                    <div class="modal-footer">
-                        
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div>
-        <!-- Add Achievement Modal -->
-        <div class="modal fade" id="add-achievement" role="dialog" style=" overflow-y:scroll;">
-            <div class="modal-dialog" style="width:500px">
-                {{$errors}}
-                <!-- Modal content-->
-                <div class="modal-content" >
-                    
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"><b>Add Achievement</b></h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="an-content-body">
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="col-sm-3">
-                                        <label for="achievement" class="col-sm-2 control-label">Achivement:</label>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="name" class="form-control" id="achievement" placeholder="Achievement">
-                                    </div>
-                                </div>
-                                <br><br>
-                                <div class="form-group">
-                                    <div class="col-sm-3">
-                                        <label for="description" class="col-sm-2 control-label">Description:</label>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="description" class="form-control" id="description" placeholder="Description">
-                                    </div>
-                                </div>
-                                <br><br>
-                                <div class="form-group">
-                                    <div class="col-sm-3">
-                                        <label for="year_started" class="col-sm-2 control-label">Year Started:</label>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <input type="date" name="year_start" class="form-control" id="year_started" placeholder="Year Started">
-                                    </div>
-                                </div>
-                                <br><br>
-                                <div class="form-group">
-                                    <div class="col-sm-3">
-                                        <label for="year_end" class="col-sm-2 control-label">Year End:</label>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <input type="date" name="year_end" class="form-control" id="year_end" placeholder="Year End">
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- end .AN-COMPONENT-BODY -->
-                    </div>
-                    <div class="modal-footer">
-                        
-                        <button type="button" class="btn btn-primary pull-left" id="achievement-save" >Submit</button> 
-                        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+
+                            <hr>
+
+                        @endif
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-</div>
+    @if($user->hasRole(['Senior Developer','Developer']) && auth()->user()->hasRole('Client'))
+        <div style="position: absolute;bottom: 10%;right: 3%;">
+            <button type="button" class="btn bg-purple margin toggle-rate" data-toggle="modal" data-target="#modal-rate"><i class="fa fa-star"></i> Rate</button>
+        </div>
 
+        <div class="modal fade in" id="modal-rate">
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Rate</h4>
+              </div>
+              <div class="modal-body">
+                <input type="text" class="js-range-slider" name="rate_value" value="" />
+                <input type="hidden" name="target_user_id" value="{{ $user->id }}">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="save-rate">Save</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+    @endif
 
 @endsection
 
-@section('custom_js')
-  @include('pages.profile.script.profile-script')
+@section('custom_script')
+    <!--Plugin JavaScript file-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
+    <script src="{{ asset('js/http.js') }}"></script>
+
+    @if($user->hasRole(['Senior Developer','Developer']) && auth()->user()->hasRole('Client'))
+        <script type="text/javascript">
+            'use strict';
+
+            $(".js-range-slider").ionRangeSlider({
+                type: "single",
+                min: 1,
+                max: 10,
+                from: 1
+            });
+
+            document.querySelector('#save-rate')
+            .addEventListener('click', function(e) {
+                let id = document.querySelector('input[name=target_user_id]').value
+
+                let options = {
+                    url     : `/user/${id}/rate`,
+                    method  : 'PUT',
+                    data    : {
+                        rate: document.querySelector('input[name=rate_value]').value
+                    }  
+                }
+
+                http(options)
+                .done(function(res) {
+                    swal('Success', 'Rate success.', 'success')
+
+                    setTimeout(function() {
+                        window.location.reload()
+                    }, 1000)
+                })
+                .fail(function(err) {
+                    swal('Error', e.responseJSON.message, 'error')
+                })
+            })
+        </script>
+    @endif
 @endsection

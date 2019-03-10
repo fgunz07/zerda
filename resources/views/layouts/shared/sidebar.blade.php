@@ -5,7 +5,7 @@
     <!-- Sidebar user panel -->
     <div class="user-panel">
       <div class="pull-left image">
-        <img src='{{ asset(auth()->user()->avatar_url) }}' class="img-circle" alt="User Image">
+        <img src="{{ is_null(auth()->user()->avatar_url) ? asset('images/user4-128x128.jpg') : asset(auth()->user()->avatar_url) }}" class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
         <p>{{ auth()->user()->first_name }} {{ auth()->user()->middle_name }} {{ auth()->user()->last_name }}</p>
@@ -13,11 +13,11 @@
       </div>
     </div>
     <!-- search form -->
-    <form action="#" method="get" class="sidebar-form">
+    <form action="{{ url('search') }}" method="get" class="sidebar-form">
       <div class="input-group">
-        <input type="text" name="q" class="form-control" placeholder="Search...">
+        <input type="text" name="search" class="form-control" placeholder="Search...">
         <span class="input-group-btn">
-          <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+          <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
           </button>
         </span>
       </div>

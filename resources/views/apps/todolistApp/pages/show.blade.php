@@ -11,10 +11,6 @@
 		<i class="glyphicon glyphicon-menu-left"></i>
 		Back
 	</a>
-	<a href="#" class="btn btn-success btn-xs pull-righ" data-toggle="modal" data-target="#rate-devs">
-		<i class="glyphicon glyphicon-star-empty"></i>
-		Rate
-	</a>
 
 	<div class="modal fade in" id="rate-devs">
 		<div class="modal-dialog modal-lg">

@@ -42,18 +42,19 @@ class DashboardController extends Controller
 								$query->whereIn('name', ['Senior Developer', 'Developer']);
 
 							})
+							->orderBy('total_rate','desc')
 							->get();
 			
 			
-			$users->sortBy(function($items) {
-				return $items->boards->count();
-			})
-			->sortBy(function($items) {
-				return $items->skills->count();
-			})
-			->sortBy(function($items) {
-				return $items->achievements->count();
-			});
+			// $users->sortBy(function($items) {
+			// 	return $items->boards->count();
+			// })
+			// ->sortBy(function($items) {
+			// 	return $items->skills->count();
+			// })
+			// ->sortBy(function($items) {
+			// 	return $items->achievements->count();
+			// });
 	
 		return view('pages.dashboard.dashboard')
 				->with('users', $users->take(3));

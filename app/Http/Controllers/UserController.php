@@ -34,6 +34,25 @@ class UserController extends Controller
 
     }
 
+    public function showProfile($id) 
+    {
+        $user = User::findOrFail($id);
+
+        return view('pages.profile.show')
+                ->with('user', $user);
+    }
+
+    public function rate(request $request, $id) 
+    {
+        $user               = User::findOrFail($id);
+        // calculate percentage
+        $user->number_rate  = $user->number_rate + 1; 
+        $user->total_rate   = ($user->total_rate + $request->rate);
+        $user->save();
+
+        return response()->json(['messages' => 'success']);
+    }
+
     public function addSkill(Request $request) 
     {
 
@@ -223,7 +242,8 @@ class UserController extends Controller
 
     }
 
-    public function availableUsers(Request $request) {
+    public function availableUsers(Request $request) 
+    {
 
         $board = Board::findOrFail($request->board);
 
