@@ -19,7 +19,18 @@
   <div class="table-responsive mailbox-messages">
       <table class="table table-hover table-striped">
         <tbody id="inbox">
-            
+            @foreach(auth()->user()->getDraft as $d)
+	            <tr>
+	            	<td><input type="checkbox" class=""></td>
+	            	<td class="mailbox-name"><a href="#">{{$d->user->email}}</a></td>
+	            	<td class="mailbox-subject"><b>{{$d->subject}}</b> {{$d->message_text}}
+	            	</td>
+	            	<td class="mailbox-attachment"></td>
+	            	<td class="mailbox-date">
+	            		{{$d->created_at}}
+	            	</td>
+	            </tr>
+            @endforeach
         </tbody>
       </table>
   <!-- /.table -->
@@ -63,25 +74,21 @@
 
         function loadMessages(res) {
 
-          console.log(res)
-
-          // document.querySelector('#inbox-count').innerHTML = res.unread
+          document.querySelector('#inbox-count').innerHTML = res.unread
 
           let html    = ''
+          let status  = ''
+          let style   = ''
 
           res.messages.forEach(item => {
 
+            status = item.read > 0 ? '' : 'unread'
+            style  = item.read > 0 ? '' : 'label label-warning'
+
+            console.log(status)
+
             html += `
-              <tr>
-                <td><input type="checkbox" class=""></td>
-                <td class="mailbox-name"><a href="${item.message_url}">${item.email}</a></td>
-                <td class="mailbox-subject"><b>${item.subject}</b> ${item.message_text}
-                </td>
-                <td class="mailbox-attachment"></td>
-                <td class="mailbox-date">
-                  ${item.created}
-                </td>
-              </tr>
+              
             `
 
           })
@@ -93,7 +100,7 @@
         window.onload = function() {
 
           const options = {
-            url   : '/messages/sent-messages',
+            url   : '/messages/history',
             method  : 'GET'
           }
 

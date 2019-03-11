@@ -151,4 +151,11 @@ class User extends Authenticatable {
 		return $totalBudget;
 	}
 
+	public function getDraft() {
+
+		return $this->hasMany('App\Message', 'from', 'id')
+					->where('draft', 1);
+
+	}
+
 }

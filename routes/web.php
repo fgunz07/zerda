@@ -118,6 +118,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::post('draft', 'MessageController@saveDraft');
 
+		Route::get('draft', 'MessageController@showDraft');
+
 	});
 
 	Route::group(['prefix' => 'user'], function () {

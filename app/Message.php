@@ -15,7 +15,9 @@ class Message extends Model
     	'subject',
     	'from',
     	'to',
-    	'read'
+    	'read',
+        'draft',
+        'sent'
     ];
 
     protected $appends  = ['email', 'created', 'message_url'];

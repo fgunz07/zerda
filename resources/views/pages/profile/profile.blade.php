@@ -20,6 +20,7 @@
 						</label>
 
 						<h4 class="profile-username text-center">{{ auth()->user()->first_name }} {{ auth()->user()->middle_name }} {{ auth()->user()->last_name }}</h4>
+						<h6 class="text-muted text-small text-center">{{ auth()->user()->email }}</h6>
 					</div>
 				</div>
 
@@ -104,6 +105,11 @@
 						<div class="pull-left">
 							<h3 class="box-title">About Me</h3>
 						</div>
+						<!-- <div class="checkbox iCheck pull-right">
+							<label>
+								<input type="checkbox" class="av"> Availability
+							</label>
+						</div> -->
 					</div>
 					<!-- /.box-header -->
 					<div class="box-body" >
@@ -601,7 +607,14 @@
 	<script type="text/javascript" src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/select2.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/http.js') }}"></script>
+	<!-- include lib script for this module only -->
+    <script type="text/javascript" src="{{ asset('lib/plugins/iCheck/icheck.min.js') }}"></script>
 	<script type="text/javascript">
+		// $('.av').iCheck({
+  //           checkboxClass   : 'icheckbox_square-blue',
+  //           radioClass      : 'iradio_square-blue',
+  //           increaseArea    : '20%' /* optional */
+  //       })
 		$('.date').datepicker({
 			format: 'yyyy-mm-dd'
 		})

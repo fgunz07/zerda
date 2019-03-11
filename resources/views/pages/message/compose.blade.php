@@ -21,7 +21,7 @@
             <!-- /.box-body -->
             <div class="box-footer">
                 <div class="pull-right">
-                    <button type="button" class="btn btn-default" id="discard"><i class="fa fa-pencil"></i> Draft</button>
+                    <button type="button" class="btn btn-default" id="draft"><i class="fa fa-pencil"></i> Draft</button>
                     <button type="button" class="btn btn-primary" id="send"><i class="fa fa-envelope-o"></i> Send</button>
                 </div>
                 <button type="reset" class="btn btn-default"><i class="fa fa-times"></i> Discard</button>
@@ -69,5 +69,27 @@
                 .fail(err => swal('Error', err.responseJSON.message, 'error'))
 
         })
+        $('#draft').on('click', function(e) {
+            let options = {
+                url     : '/messages/draft',
+                method  : 'POST',
+                data    : {
+                    to      : $('input[name=to]').val(),
+                    sub     : $('input[name=subject]').val(),
+                    html    : editor.getData(),
+                    text    : editor.editable().getText()
+                }
+            }
+
+            http(options)
+                .done(res => {
+                    swal('Success', res.message, 'success')
+
+                    setTimeout(function() {
+                        window.location.reload()
+                    }, 1000)
+                })
+                .fail(err => swal('Error', err.responseJSON.message, 'error'))
+        }) 
     </script>
 @endsection

@@ -125,9 +125,11 @@ class MessageController extends Controller
 
     public function saveDraft(Request $request) {
 
+        $user = User::where('email', $request->to)->first();
+
         if($request->has('to')) {
 
-            $user = User::where('email', $request->to)->first();
+        //     $user = User::where('email', $request->to)->first();
 
             if(is_null($user)) {
 
@@ -143,6 +145,7 @@ class MessageController extends Controller
         $message->subject       = $request->sub;
         $message->to            = $user->id;
         $message->draft         = 1;
+        $message->read          = 0;
         $message->from          = auth()->user()->id;
         $message->save();
 
@@ -164,7 +167,7 @@ class MessageController extends Controller
             // count all messages where not mark as read
             foreach($messages as $msg) {
 
-                if($msg->read != 1) {
+                if($msg->read !== 1) {
                     $unread += 1;
                 }
 
@@ -173,6 +176,13 @@ class MessageController extends Controller
         }
 
         return response()->json(['messages' => $messages , 'unread' => $unread]);
+    }
+
+    public function showDraft() 
+    {
+
+        return view('pages.message.draft');
+
     }
 
 }

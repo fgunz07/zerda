@@ -23,11 +23,11 @@
                         </a>
                     </li>
                     <li><a href="{{ url('messages/sent') }}"><i class="fa fa-envelope-o"></i> Sent<span class="label label-success pull-right" id="sent-count"></span></a></li>
-                    <li><a href="#"><i class="fa fa-file-text-o"></i> Drafts <span class="label label-warning pull-right" id="draft-count"></span></a></li>
+                    <li><a href="{{ url('messages/draft') }}"><i class="fa fa-file-text-o"></i> Drafts <span class="label label-warning pull-right" id="draft-count"></span></a></li>
                     <li><a href="#"><i class="fa fa-trash-o"></i> Trash <span class="label label-danger pull-right" id="trash-count"></span></a></li>
 
                     {{-- <li><a href="#"><i class="fa fa-envelope-o"></i> Sent</a></li>
-                    <li><a href="#"><i class="fa fa-file-text-o"></i> Drafts</a></li>
+                    <li><a href="{{ url('messages/draft') }}"><i class="fa fa-file-text-o"></i> Drafts</a></li>
                     <li><a href="#"><i class="fa fa-filter"></i> Junk <span class="label label-warning pull-right">65</span></a>
                     </li>
                     <li><a href="#"><i class="fa fa-trash-o"></i> Trash</a></li> --}}

@@ -50,15 +50,15 @@
                                           <li><a href="#">Projects <span class="pull-right badge bg-blue">{{ count($user->boards) }}</span></a></li>
                                           <li>
                                             <a href="#">
-                                              Tasks Completed 
+                                              Price range
                                               <span class="pull-right badge bg-aqua">
-                                                <?php $boardCompleted = 0; ?>
-
-                                                @foreach($user->boards as $board)
-                                                  <?php ($board->completed == 1) ? $boardCompleted += 1 : 0; ?>
-                                                @endforeach
-
-                                                {{ $boardCompleted }}
+                                                @if(count($user->boards) > 0)
+                                                  @foreach($user->boards as $board)
+                                                    {{ ($board->budget === null || $board->budget !== 0) ? $board->budget : '0' }}
+                                                  @endforeach
+                                                @else
+                                                  0
+                                                @endif
                                               </span>
                                             </a>
                                           </li>
