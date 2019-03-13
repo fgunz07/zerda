@@ -54,6 +54,11 @@ class User extends Authenticatable {
 
 	}
 
+	public function completed() {
+		return $this->belongsToMany('App\Board', 'user_board')
+					->where('completed', 1);
+	}
+
 	public function skills(){
 
 		return $this->belongsToMany('App\Skill','user_skill');

@@ -34,30 +34,34 @@ class DashboardController extends Controller
 			// 				->get();
 			// dd($users);
 
-			$users = User::with('skills')
+			$users = User::withCount('skills')
 							->with('achievements')
 							->with('boards')
+							->withCount('completed')
 							->whereHas('roles',function($query) {
 								
 								$query->whereIn('name', ['Senior Developer', 'Developer']);
 
 							})
+							// ->orderBy('skills_count','desc')
+							// ->orderBy('completed_count', 'desc')
 							->orderBy('total_rate','desc')
+							->take(3)
 							->get();
 			
 			
-			// $users->sortBy(function($items) {
-			// 	return $items->boards->count();
-			// })
-			// ->sortBy(function($items) {
-			// 	return $items->skills->count();
-			// })
-			// ->sortBy(function($items) {
-			// 	return $items->achievements->count();
-			// });
+			$users->sortBy(function($items) {
+				return $items->completed->count();
+			})
+			->sortBy(function($items) {
+				return $items->skills->count();
+			})
+			->sortBy(function($items) {
+				return $items->achievements->count();
+			});
 	
 		return view('pages.dashboard.dashboard')
-				->with('users', $users->take(3));
+				->with('users', $users);
 			// ->with('skillsList', $skillsList);
 	}
 
