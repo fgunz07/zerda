@@ -148,6 +148,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::put('{id}/rate', 'UserController@rate');
 
+		Route::post('hourly', 'UserController@saveHourly');
+
 	});
 
 	Route::get('/users', 'UserController@availableUsers');

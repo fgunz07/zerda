@@ -13,6 +13,7 @@ use App\Specialization;
 use App\Rating;
 use App\Ratingdesc;
 use App\Events\InviteDeveloper;
+use App\Services\RatingService;
 
 class DashboardController extends Controller
 {
@@ -21,7 +22,8 @@ class DashboardController extends Controller
 			$this->user = $user;
 	}
 		
-    public function index(){
+    public function index()
+    {
 			// $users = User::with('skills')
 			// 				->with('achievements')
 			// 				->with('rateDev')
@@ -45,7 +47,7 @@ class DashboardController extends Controller
 							})
 							// ->orderBy('skills_count','desc')
 							// ->orderBy('completed_count', 'desc')
-							->orderBy('total_rate','desc')
+							->orderBy('rate','desc')
 							->take(3)
 							->get();
 			
@@ -59,6 +61,8 @@ class DashboardController extends Controller
 			->sortBy(function($items) {
 				return $items->achievements->count();
 			});
+
+		(new RatingService)->totalAvg();
 	
 		return view('pages.dashboard.dashboard')
 				->with('users', $users);

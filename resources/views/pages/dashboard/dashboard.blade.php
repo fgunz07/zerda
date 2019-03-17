@@ -50,20 +50,19 @@
                                           <li><a href="#">Projects <span class="pull-right badge bg-blue">{{ count($user->boards) }}</span></a></li>
                                           <li>
                                             <a href="#">
-                                              Price range
+                                              Hourly rate
                                               <span class="pull-right badge bg-aqua">
-                                                @if(count($user->boards) > 0)
-                                                  @foreach($user->boards as $board)
-                                                    {{ ($board->budget === null || $board->budget !== 0) ? $board->budget : '0' }}
-                                                  @endforeach
-                                                @else
-                                                  0
-                                                @endif
+                                                $ {{ $user->hourly }}.00
                                               </span>
                                             </a>
                                           </li>
                                           <li><a href="#"> Skills<span class="pull-right badge bg-green">{{ count($user->skills) }}</span></a></li>
-                                          <li><a href="#">Portfolio </a></li>
+                                          <li>
+                                            <a href="#">
+                                              Total Rating  
+                                              <span class="pull-right badge bg-default">{{ $user->rate }}%</span>
+                                            </a>
+                                          </li>
                                       </ul>
                                       </div>
                                   </div>
@@ -87,9 +86,9 @@
           <div class="col-md-4">
             <div class="small-box bg-red">
               <div class="inner">
-                <h3>{{ (auth()->user()->total_rate > 0 && auth()->user()->number_rate > 0) ? round((auth()->user()->total_rate / (auth()->user()->number_rate * 10)) * 100) : 0 }}%</h3>
+                <h3>{{ auth()->user()->rate > 0 ? auth()->user()->rate : 0 }}%</h3>
 
-                <p>Rating</p>
+                <p>Total Rating</p>
               </div>
               <div class="icon">
                 <i class="ion ion-pie-graph"></i>

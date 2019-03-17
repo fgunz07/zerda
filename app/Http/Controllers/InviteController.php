@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 use Illuminate\Support\Facades\DB;
+use App\Services\RatingService;
 
 class InviteController extends Controller
 {
@@ -16,6 +18,10 @@ class InviteController extends Controller
 	    		->insert(['user_id' => auth()->user()->id , 'board_id' => $request->board_id]);
 
 	    	auth()->user()->unreadNotifications()->find($request->notf_id)->markAsRead();
+
+            (new RatingService)->projectRate();
+
+            (new RatingService)->totalAvg();
 
     	} catch(Exception $e) {
 
@@ -30,7 +36,15 @@ class InviteController extends Controller
     public function reject(Request $request) 
     {
 
-    	auth()->user()->unreadNotifications()->find($request->notf_id);
+    	auth()->user()->unreadNotifications()->find($request->notf_id)->markAsRead();
+
+        $user = User::findOrFail(auth()->user()->id);
+        $user->rl = $user->rl + 1;
+        $user->save();
+
+        (new RatingService)->projectRate();
+
+        (new RatingService)->totalAvg();
 
     	return response()->json(['status' => true , 'message' => 'Invitation rejected.']);
 

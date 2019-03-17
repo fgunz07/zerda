@@ -59,7 +59,7 @@
                 @endif
                 @if($user->hasRole('Client'))
                     <!-- small box -->
-                    <div class="small-box bg-green">
+                    <!-- <div class="small-box bg-green">
                         <div class="inner">
                             <h3>53<sup style="font-size: 20px">%</sup></h3>
 
@@ -68,12 +68,12 @@
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
                         </div>
-                    </div>
+                    </div> -->
                 @else
                     <!-- small box -->
                     <div class="small-box bg-red">
                         <div class="inner">
-                          <h3>{{ ($user->total_rate > 0 && $user->number_rate > 0) ? round(($user->total_rate / ($user->number_rate * 10)) * 100) : 0 }}%</h3>
+                          <h3>{{ ($user->rate > 0 ? $user->rate : 0  }}%</h3>
 
                           <p>Rating</p>
                         </div>

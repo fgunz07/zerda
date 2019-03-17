@@ -32,6 +32,12 @@ class User extends Authenticatable {
 		'avatar_url',
 		'password',
 		'provider',
+		'hourly',
+		'avg_projects',
+		'avg_user_rate',
+		'avg_skills',
+		'avg_ongoing',
+		'avg_hr',
 		'primary_edication_full_details',
 		'secondary_edication_full_details',
 		'teriary_edication_full_details'
@@ -51,6 +57,13 @@ class User extends Authenticatable {
 	public function boards() {
 
 		return $this->belongsToMany('App\Board', 'user_board');
+
+	}
+
+	public function ongoing() {
+
+		return $this->belongsToMany('App\Board', 'user_board')
+					->where('completed', 0);
 
 	}
 

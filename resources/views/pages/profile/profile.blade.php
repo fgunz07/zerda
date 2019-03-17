@@ -55,6 +55,26 @@
 
 							<div id="skills">
 								<strong>
+									<i class="glyphicon glyphicon-list"></i>&nbsp;Hourly Rate
+								</strong>
+								<a href="" class="editInlineSkills" data-toggle="modal" data-target="#add-hourly">
+									<i class="glyphicon glyphicon-pencil"></i>
+								</a>
+							</div>
+
+						</div>
+						
+						<div class="box-body">
+							<span class="text-success">$ {{ auth()->user()->hourly }}.00</span>
+						</div>
+					</div>
+
+					<div class="box box-primary">
+
+						<div class="box-header" id="">
+
+							<div id="skills">
+								<strong>
 									<i class="glyphicon glyphicon-list"></i>&nbsp;Skills
 								</strong>
 								<a href="" class="editInlineSkills" data-toggle="modal" data-target="#add-skills">
@@ -88,9 +108,9 @@
 					<!-- small box -->
 					<div class="small-box bg-red">
 			            <div class="inner">
-			              <h3>{{ (auth()->user()->total_rate > 0 && auth()->user()->number_rate > 0) ? round((auth()->user()->total_rate / (auth()->user()->number_rate * 10)) * 100) : 0 }}%</h3>
+			              <h3>{{ auth()->user()->rate > 0 ? auth()->user()->rate : 0 }}%</h3>
 
-			              <p>Rating</p>
+			              <p>Total Rating</p>
 			            </div>
 			            <div class="icon">
 			              <i class="ion ion-pie-graph"></i>
@@ -264,6 +284,34 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div>
+			<!-- Change Profile Modal -->
+			<div class="modal fade" id="add-hourly" role="dialog" style=" overflow-y:scroll;">
+				<div class="modal-dialog modal-sm">
+					<!-- Modal content-->
+					<div class="modal-content" >
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title"><b>Add Hourly Rate</b></h4>
+						</div>
+						<div class="modal-body">
+
+							<div class="an-content-body">
+								<div class="input-group">
+					                <span class="input-group-addon">$</span>
+					                <input type="number" class="form-control" name="hourly">
+					                <span class="input-group-addon">.00</span>
+					            </div>
+							</div> <!-- end .AN-COMPONENT-BODY -->
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success" id="save-hourly">Save</button>
 						</div>
 					</div>
 				</div>
@@ -622,6 +670,28 @@
 			format: 'yyyy-mm-dd'
 		})
 		$('#select-skills').select2()
+
+		$('#save-hourly').on('click', function(e) {
+			const options = {
+				url 		: '/user/hourly',
+				method		: 'POST',
+				data 		: {
+					hourly : $('input[name=hourly]').val()
+				}
+			}
+
+			http(options)
+				.done(function(res) {
+					swal('Success', 'Save!', 'success')
+
+					setTimeout(function() {
+						window.location.reload()
+					}, 1000)
+				})
+				.fail(function(err) {
+					console.log(err)
+				})
+		})
 
 		$('#skill-save').on('click', function(e) {
 

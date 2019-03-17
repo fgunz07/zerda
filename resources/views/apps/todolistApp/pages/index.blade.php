@@ -226,13 +226,14 @@
 
             function renderDevs(users) {
 
+                let count = 0;
+
                 document.querySelector('#table-display-devs').innerHTML = ''
 
                 if(users) {
 
                     users.forEach(item => {
                         let roles = ''
-                        let count = 0;
 
                         item.roles.forEach(function(role) {
                             roles += `<small class='label label-primary'>${role.name}</small>&nbsp;`    

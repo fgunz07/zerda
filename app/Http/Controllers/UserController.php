@@ -18,6 +18,7 @@ use App\User;
 use App\Achievement; 
 use App\Board;
 use Image;
+use App\Services\RatingService;
 
 class UserController extends Controller
 {
@@ -50,6 +51,8 @@ class UserController extends Controller
         $user->total_rate   = ($user->total_rate + $request->rate);
         $user->save();
 
+        (new RatingService)->userRate($id);
+
         return response()->json(['messages' => 'success']);
     }
 
@@ -78,6 +81,10 @@ class UserController extends Controller
                 }
 
             }
+
+            (new RatingService)->skillRate();
+
+            (new RatingService)->totalAvg();
 
         } catch (Exception $e) {
 
@@ -258,19 +265,26 @@ class UserController extends Controller
 
                         // }
 
-                        $t = [];
+                        // $t = [];
 
-                        foreach ($board->tags as $tag) {
+                        // foreach ($board->tags as $tag) {
 
-                            $t[] = $tag->name;
+                        //     $t[] = $tag->name;
+
+                        // }
+
+                        // $query->orWhereIn('name', $t)
+                        //         ->groupBy('name')
+                        //         ->orderBy('name');
+
+                        foreach($board->tags as $tag) {
+
+                            $query->orWhere('name', 'Like', '%'.$tag->name.'%');
 
                         }
 
-                        $query->whereIn('name', $t)
-                                ->groupBy('name')
-                                ->orderBy('name');
-
                     })
+                    ->orderBy('rate', 'desc')
                     ->get();
     
         foreach($users as $user) {
@@ -284,16 +298,29 @@ class UserController extends Controller
             };
         }
 
-        $users->sortBy(function($items) {
-            return $items->boards->count();
-        })
-        ->sortBy(function($items) {
-            return $items->skills->count();
-        })
-        ->sortBy(function($items) {
-            return $items->achievements->count();
-        });
+        // $users->sortBy(function($items) {
+        //     return $items->boards->count();
+        // })
+        // ->sortBy(function($items) {
+        //     return $items->skills->count();
+        // })
+        // ->sortBy(function($items) {
+        //     return $items->achievements->count();
+        // });
 
         return response()->json($users);
+    }
+
+    public function saveHourly(Request $request) 
+    {
+        $user           = User::findOrFail(auth()->user()->id);
+        $user->hourly   = $request->hourly;
+        $user->save();
+
+        (new RatingService)->hrRate();
+
+        (new RatingService)->totalAvg();
+
+        return response()->json(['message' => 'save']);
     }
 }
