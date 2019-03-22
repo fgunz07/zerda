@@ -185,4 +185,40 @@ class MessageController extends Controller
 
     }
 
+    public function getDraft($id) 
+    {
+
+        $message = Message::find($id);
+
+        return view('pages.message.compose')
+                ->with('data', $message);
+    }
+
+    public function delete(Request $data) {
+        try {
+            foreach($data->ids as $id) {
+                Message::find($id)->delete();
+            }
+        } catch(Exception $e) {
+            return response()->json($e->getMessage(), 500);
+        }
+        return response()->json([], 200);
+    }
+
+    public function trash() {
+        return view('pages.message.trash')
+                ->with('trash', auth()->user()->getTrash);
+    }
+
+    public function clearTrash(Request $data) {
+        try {
+            foreach($data->ids as $id) {
+                Message::withTrashed()->where('id', $id)->forceDelete();
+            }
+        } catch(Exception $e) {
+            return response()->json($e->getMessage(), 500);
+        }
+        return response()->json([], 200);
+    }
+
 }

@@ -9,13 +9,15 @@
             <!-- /.box-header -->
             <div class="box-body">
                 <div class="form-group">
-                    <input class="form-control" placeholder="To:" name="to">
+                    <input class="form-control" placeholder="To:" value="{{ isset($data) ? $data->getDraftToUser->email : '' }}" name="to">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" placeholder="Subject:" name="subject">
+                    <input class="form-control" placeholder="Subject:" value="{{ isset($data) ? $data->subject : '' }}" name="subject">
                 </div>
                 <div class="form-group">
-                    <textarea id="compose" class="form-control"></textarea>
+                    <textarea id="compose" class="form-control">
+                        {{ isset($data) ? $data->message_text : '' }}
+                    </textarea>
                 </div>
             </div>
             <!-- /.box-body -->
@@ -86,7 +88,7 @@
                     swal('Success', res.message, 'success')
 
                     setTimeout(function() {
-                        window.location.reload()
+                        window.location.href = '/messages/draft'
                     }, 1000)
                 })
                 .fail(err => swal('Error', err.responseJSON.message, 'error'))

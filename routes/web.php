@@ -120,6 +120,14 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::get('draft', 'MessageController@showDraft');
 
+		Route::get('draft/{id}', 'MessageController@getDraft');
+
+		Route::delete('/', 'MessageController@delete');
+
+		Route::delete('trash', 'MessageController@clearTrash');
+
+		Route::get('trash', 'MessageController@trash');
+
 	});
 
 	Route::group(['prefix' => 'user'], function () {

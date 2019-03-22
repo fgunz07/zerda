@@ -121,7 +121,45 @@
                 .done(res => swal('Success' , 'Message sent.', 'success'))
                 .fail(err => swal('Error', err.responseJSON.message, 'error'))
 
+            })
+
+        let messagesId = [];
+
+        document.addEventListener('change', function(e) {
+            let index = null;
+
+            if(e.target.classList.contains('delete')) {
+                index = messagesId.indexOf(e.target.value);
+                e.target.checked ? messagesId.push(e.target.value) : messagesId.splice(index, 1)
+            }
         })
+
+        document.querySelector('#delete').addEventListener('click', function(e) {
+            Swal.fire({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes!'
+          }).then((result) => {
+              if (result.value) {
+                http({
+                    url: '/messages',
+                    method: 'DELETE',
+                    data:{ ids : messagesId }
+                })
+                .done(function(res) {
+                    Swal.fire('Success', 'Records deleted succesfully.', 'success');
+
+                    setTimeout(function() {
+                        window.location.reload()
+                    }, 1000)
+                })
+            }
+        })
+      })
     </script>
 
 @endsection

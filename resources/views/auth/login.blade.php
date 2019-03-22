@@ -111,7 +111,7 @@
 
               setTimeout(function() {
 
-                window.location.href = '/home'
+                window.location.href = '/dashboard'
 
               }, 1000)
             })

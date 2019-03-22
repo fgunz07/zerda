@@ -30,20 +30,19 @@
 <div class="box-footer no-padding">
   <div class="mailbox-controls">
     <div class="btn-group">
-      <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-      <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
-      <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+      <button type="button" class="btn btn-default btn-sm" id="delete"><i class="fa fa-trash-o"></i></button>
+      <!-- <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
+      <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button> -->
   </div>
   <!-- /.btn-group -->
   <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
-  <div class="pull-right">
+  <!-- <div class="pull-right">
       1-50/200
       <div class="btn-group">
         <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
         <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
     </div>
-    <!-- /.btn-group -->
-</div>
+</div> -->
 <!-- /.pull-right -->
 </div>
 </div>
@@ -63,8 +62,6 @@
 
         function loadMessages(res) {
 
-          console.log(res)
-
           // document.querySelector('#inbox-count').innerHTML = res.unread
 
           let html    = ''
@@ -73,7 +70,7 @@
 
             html += `
               <tr>
-                <td><input type="checkbox" class=""></td>
+                <td><input type="checkbox" value="${item.id}" class="delete"></td>
                 <td class="mailbox-name"><a href="${item.message_url}">${item.email}</a></td>
                 <td class="mailbox-subject"><b>${item.subject}</b> ${item.message_text}
                 </td>
@@ -101,6 +98,43 @@
             .done(res => loadMessages(res))
             .fail(err => swal('Error', err.responseJSON.message, 'error'))
 
-        }
+          }
+          let messagesId = [];
+
+          document.addEventListener('change', function(e) {
+            let index = null;
+
+            if(e.target.classList.contains('delete')) {
+              index = messagesId.indexOf(e.target.value);
+              e.target.checked ? messagesId.push(e.target.value) : messagesId.splice(index, 1)
+            }
+          })
+
+          document.querySelector('#delete').addEventListener('click', function(e) {
+            Swal.fire({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes!'
+            }).then((result) => {
+              if (result.value) {
+                http({
+                  url: '/messages',
+                  method: 'DELETE',
+                  data:{ ids : messagesId }
+                })
+                .done(function(res) {
+                  Swal.fire('Success', 'Records deleted succesfully.', 'success');
+
+                  setTimeout(function() {
+                    window.location.reload()
+                  }, 1000)
+                })
+              }
+            })
+          })
     </script>
 @endsection

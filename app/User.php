@@ -91,6 +91,11 @@ class User extends Authenticatable {
 
 	}
 
+	public function getTrash() {
+		return $this->hasMany('App\Message', 'from', 'id')
+					->onlyTrashed();
+	}
+
 	public function getSentMessages() {
 		return $this->hasMany('App\Message', 'from', 'id')
 					->where('draft', 0);

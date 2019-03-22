@@ -19,17 +19,17 @@
   <div class="table-responsive mailbox-messages">
       <table class="table table-hover table-striped">
         <tbody id="inbox">
-            @foreach(auth()->user()->getDraft as $d)
-	            <tr>
-	            	<td><input type="checkbox" value="{{ $d->id }}" class="delete"></td>
-	            	<td class="mailbox-name"><a href="{{$d->message_draft_url}}">{{$d->user->email}}</a></td>
-	            	<td class="mailbox-subject"><b>{{$d->subject}}</b> {{$d->message_text}}
-	            	</td>
-	            	<td class="mailbox-attachment"></td>
-	            	<td class="mailbox-date">
-	            		{{$d->created_at}}
-	            	</td>
-	            </tr>
+            @foreach($trash as $t)
+              <tr>
+                <td><input type="checkbox" value="{{$t->id}}" class="delete"></td>
+                <td class="mailbox-name"><a href="#">{{ $t->email }}</a></td>
+                <td class="mailbox-subject"><b>{{ $t->subject }}</b> {{ $t->message_text }}
+                </td>
+                <td class="mailbox-attachment"></td>
+                <td class="mailbox-date">
+                  {{ $t->created }}
+                </td>
+              </tr>
             @endforeach
         </tbody>
       </table>
@@ -87,7 +87,17 @@
           //   console.log(status)
 
           //   html += `
-              
+          //     <tr>
+          //       <td><input type="checkbox" value="${item.id}" class="delete"></td>
+          //       <td class="mailbox-name"><a href="${item.message_url}">${item.email}</a></td>
+          //       <td class="mailbox-subject"><b>${item.subject}</b> ${item.message_text}
+          //       </td>
+          //       <td class="mailbox-attachment"></td>
+          //       <td class="mailbox-date">
+          //         ${item.created}
+          //         <small class="${style}">${status}</small>
+          //       </td>
+          //     </tr>
           //   `
 
           // })
@@ -104,10 +114,10 @@
           }
 
           http(options)
-            .done(res => console.log(res)/*loadMessages(res)*/)
+            .done(res => loadMessages(res))
             .fail(err => swal('Error', err.responseJSON.message, 'error'))
 
-          }
+        }
 
           let messagesId = [];
 
@@ -132,7 +142,7 @@
             }).then((result) => {
               if (result.value) {
                 http({
-                  url: '/messages',
+                  url: '/messages/trash',
                   method: 'DELETE',
                   data:{ ids : messagesId }
                 })
@@ -142,6 +152,9 @@
                   setTimeout(function() {
                     window.location.reload()
                   }, 1000)
+                })
+                .fail(function(err) {
+                  swal('Error', err.responseJSON.message , 'error')
                 })
               }
             })

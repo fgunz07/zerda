@@ -67,13 +67,13 @@
         </li>
       @endhasanyrole --}}
       
-      <li class="">
+      <!-- <li class="">
           <a href="{{ url('ratingdesc-list') }}">
             <i class="glyphicon glyphicon-list"></i> <span>Ratings</span>
             <span class="pull-right-container">
             </span>
           </a>
-        </li>
+        </li> -->
 
       {{-- @hasanyrole('Senior Developer|Developer') 
       <li class="">

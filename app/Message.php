@@ -20,13 +20,19 @@ class Message extends Model
         'sent'
     ];
 
-    protected $appends  = ['email', 'created', 'message_url'];
+    protected $appends  = ['email', 'created', 'message_url','message_draft_url'];
 
     protected $dates    = ['deleted_at'];
 
     public function user() {
 
     	return $this->hasOne('App\User', 'id', 'from');
+
+    }
+
+    public function getDraftToUser() {
+
+        return $this->hasOne('App\User', 'id', 'to');
 
     }
 
@@ -46,5 +52,9 @@ class Message extends Model
 
     	return url('/messages/inbox/'.$this->id);
 
+    }
+
+    public function getMessageDraftUrlAttribute() {
+        return url('/messages/draft/'.$this->id);
     }
 }
