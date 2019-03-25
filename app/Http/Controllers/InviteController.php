@@ -19,6 +19,8 @@ class InviteController extends Controller
 
 	    	auth()->user()->unreadNotifications()->find($request->notf_id)->markAsRead();
 
+            (new RatingService)->ongoingRate();
+
             (new RatingService)->projectRate();
 
             (new RatingService)->totalAvg();

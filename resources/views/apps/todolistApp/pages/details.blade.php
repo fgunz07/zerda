@@ -49,7 +49,7 @@
                             window.location.href = '/todo-app/boards'
 
                         })
-                        .fail(err => swal('Error', res.message , 'error'))
+                        .fail(err => swal('Error', err.responseJSON.message , 'error'))
 
                 }
 
@@ -71,7 +71,7 @@
                             window.location.href = '/todo-app/boards'
 
                         })
-                        .fail(err => swal('Error', res.message , 'error'))
+                        .fail(err => swal('Error', err.responseJSON.message , 'error'))
 
                 }
 

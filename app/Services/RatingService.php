@@ -9,15 +9,19 @@ class RatingService
     {
         $totalPoints = (count(auth()->user()->completed) + auth()->user()->rl) * 10;
 
-        $totalPercentage = ((count(auth()->user()->completed) + auth()->user()->rl) / $totalPoints * 30) * 10;
+        if($totalPoints > 0) {
 
-        $totalCurrentPoints = $totalPoints - (auth()->user()->rl * 10);
+            $totalPercentage = ((count(auth()->user()->completed) + auth()->user()->rl) / $totalPoints * 30) * 10;
 
-        $total = ($totalCurrentPoints / $totalPoints) * $totalPercentage;
+            $totalCurrentPoints = $totalPoints - (auth()->user()->rl * 10);
 
-        $user = User::findOrFail(auth()->user()->id);
-        $user->avg_projects = $total;
-        $user->save();
+            $total = ($totalCurrentPoints / $totalPoints) * $totalPercentage;
+
+            $user = User::findOrFail(auth()->user()->id);
+            $user->avg_projects = $total;
+            $user->save();
+        
+        }
     }
 
     public function userRate($id) 
@@ -48,7 +52,9 @@ class RatingService
     public function ongoingRate() {
 
         $total = count(auth()->user()->ongoing) * 10;
+        
         $totalPercentage = 5 * 10;
+
         $user = User::findOrFail(auth()->user()->id);
 
         $percentage =  count(auth()->user()->ongoing) / $totalPercentage * 10;
